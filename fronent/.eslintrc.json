@@ -1,0 +1,13 @@
+
+{
+    "extends": ["next/core-web-vitals", "next/typescript"],
+    "root": true,
+    "ignorePatterns": ["**/*"],
+    "plugins": ["@nx"],
+    "settings": {
+      "tailwindcss": {
+        "config": "./tailwind.config.js"
+      }
+    }
+  }
+  
