@@ -1,18 +1,19 @@
-package com.example.mertsecurity.model;
+package com.example.EcoTrack.model;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public enum Role {
 
-    ADMIN(
-            "ADMIN",
-            List.of("admin:write", "admin:put")
+    WORKER(
+            "WORKER",
+            List.of("worker:write", "worker:put","worker:get","worker:delete")
             ),
-    USER("USER", List.of());
+    SUPERVISOR("SUPERVİSOR",
+            List.of("supervisor:write", "supervisor:put","supervisor:get","supervisor:delete")
+    ),
+    MANAGER("MANAGER",
+               List.of("manager:write", "manager:put","manager:get","manager:delete")
+    );
 
     private final String displayName;
     private final List<String> permissions;

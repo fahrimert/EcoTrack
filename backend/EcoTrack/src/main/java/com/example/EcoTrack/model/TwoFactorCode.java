@@ -1,10 +1,9 @@
-package com.example.mertsecurity.model;
+package com.example.EcoTrack.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.*;
 
 import java.util.Date;
 
@@ -22,5 +21,5 @@ public class TwoFactorCode {
 
     @OneToOne(mappedBy = "twoFactorCode")
     @JoinColumn(name = "user_id")
-    private Usera user;
+    private User user;
 }

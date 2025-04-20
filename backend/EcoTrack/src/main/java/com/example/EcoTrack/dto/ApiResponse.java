@@ -20,7 +20,6 @@ public class ApiResponse<T> {
         return new ApiResponse<>(false, message, null, errors, status.value());
     }
 
-    // Constructor (private yapıp builder kullanılmasını sağlıyoruz)
     private ApiResponse(boolean success, String message, T data, List<String> errors, int status) {
         this.success = success;
         this.message = message;
@@ -29,5 +28,23 @@ public class ApiResponse<T> {
         this.status = status;
     }
 
-    // Getter'lar
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public int getStatus() {
+        return status;
+    }
 }

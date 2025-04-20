@@ -1,10 +1,9 @@
-package com.example.mertsecurity.Service;
+package com.example.EcoTrack.service;
 
-import com.example.mertsecurity.model.RefreshToken;
-import com.example.mertsecurity.model.Usera;
-import com.example.mertsecurity.repository.RefreshTokenRepository;
-import com.example.mertsecurity.repository.UserRepository;
-import com.example.mertsecurity.security.Principal.JwtService;
+import com.example.EcoTrack.model.RefreshToken;
+import com.example.EcoTrack.model.User;
+import com.example.EcoTrack.repository.RefreshTokenRepository;
+import com.example.EcoTrack.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -29,28 +28,38 @@ public class RefreshTokenService  {
     private static final long EXPIRATION_MS = 7 * 24 * 60 * 1000; // 7 gün
 
     Date expiryDate = new Date(now.getTime() + EXPIRATION_MS);
-    public  String  createRefreshToken(String username, Usera dbUser, UserRepository userRepository){
+    public  String  createRefreshToken(String username, User dbUser, UserRepository userRepository){
 
 
-        RefreshToken refreshToken =new RefreshToken(
-        ) ;
-        refreshToken.setUser(dbUser);
-        refreshToken.setExpiresAt(expiryDate);
-        refreshToken.setDevice_info("a");
-        refreshToken.setToken(UUID.randomUUID().toString());
-        dbUser.setRefreshToken(refreshToken);
 
-        RefreshToken refreshToken1 = refreshTokenRepository.save(refreshToken);
-        return  refreshToken1.getToken();
+        RefreshToken existingRefreshToken = refreshTokenRepository.findByUser(dbUser);
+
+        if (existingRefreshToken == null ){
+            RefreshToken refreshToken =new RefreshToken(
+            ) ;
+            refreshToken.setUser(dbUser);
+            refreshToken.setExpiresAt(expiryDate);
+            refreshToken.setToken(UUID.randomUUID().toString());
+            dbUser.setRefreshToken(refreshToken);
+            RefreshToken createRefreshToken = refreshTokenRepository.save(refreshToken);
+            return  createRefreshToken.getToken();
+        }
+        else {
+            existingRefreshToken.setExpiresAt(expiryDate);
+            existingRefreshToken.setToken(UUID.randomUUID().toString());
+            RefreshToken updateRefreshToken = refreshTokenRepository.save(existingRefreshToken);
+            return  updateRefreshToken.getToken();
+        }
+
     }
     public String findByToken(String token, HttpServletRequest request, HttpServletResponse response){
         RefreshToken tokenn = refreshTokenRepository.findBytoken(token);
 
-        Usera usera = tokenn.getUser();
+        User usera = tokenn.getUser();
         RefreshToken prevToken = expiredVerify(tokenn);
 
         if (prevToken != null){
-            return  jwtService.generateToken(usera.getUsername());
+            return  jwtService.generateToken(usera.getFirstName());
             //access token döndürmemiz lazım yeni
         }
         else {

@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 9292",
+    "dev": "next dev -p 9595",
     "build": "next build",
-    "start": "next start -p 9292",
+    "start": "next start -p 9595",
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-separator": "^1.1.4",
     "@radix-ui/react-slot": "^1.2.0",
     "@tailwindcss/vite": "^4.0.0",
+    "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.488.0",

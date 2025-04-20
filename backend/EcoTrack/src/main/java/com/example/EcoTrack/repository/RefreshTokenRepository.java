@@ -1,11 +1,11 @@
-package com.example.mertsecurity.repository;
+package com.example.EcoTrack.repository;
 
-import com.example.mertsecurity.model.RefreshToken;
-import lombok.Value;
+import com.example.EcoTrack.model.RefreshToken;
+import com.example.EcoTrack.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-public interface RefreshTokenRepository  extends JpaRepository<RefreshToken,Long> {
+public interface RefreshTokenRepository extends JpaRepository<RefreshToken,Long> {
     RefreshToken  findBytoken(String token);
 
+    RefreshToken findByUser(User dbUser);
 }

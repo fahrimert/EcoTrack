@@ -5,23 +5,55 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e3eb0bd-d057-4c1b-b69e-863abc37bb95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/.gitattributes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/EcoTrackApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/EcoTrackApplicationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/ecotrack" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/ecotrack" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ApiResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/RefreshToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/TwoFactorCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/RefreshTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/twoFactorRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/customUserDetail/CustomUserDetailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/filters/JwtFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/principal/UserPrincipal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/JwtService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/OTPService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/RefreshTokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TwoFactorTokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/.eslintrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/app/actions/authActions/signin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/app/authentication/components/LoginComponent.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/app/authentication/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/app/components/Providers.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/app/globals.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/components/ui/button.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/eslint.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/lib/definitions.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/lib/utils.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/next.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/postcss.config.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/public/file.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/public/globe.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/public/next.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/public/vercel.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/public/window.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/schema.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/tailwind.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fronent/tsconfig.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,24 +70,40 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2vuGXE1Q6EPlm4spo08fS9v1ia4" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.EcoTrackApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.EcoTrackApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;authentication&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/EcoTrack/backend/EcoTrack/src/main/java/com/example/EcoTrack/service&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\service" />
+      <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\model" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.EcoTrack.controller" />
+      <recent name="com.example.EcoTrack.security.filters" />
+      <recent name="com.example.EcoTrack.repository" />
+      <recent name="com.example.EcoTrack.service" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -66,5 +114,12 @@
       <updated>1744987583133</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((RequestFacade)((StrictFirewalledRequest)((HeaderWriterRequest)((Servlet3SecurityContextHolderAwareRequestWrapper)request).request).request).request).request" custom="org.apache.catalina.connector.RequestFacade,org.springframework.security.web.servletapi.HttpServlet3RequestFactory.Servlet3SecurityContextHolderAwareRequestWrapper,org.springframework.security.web.firewall.StrictHttpFirewall.StrictFirewalledRequest,org.springframework.security.web.header.HeaderWriterFilter.HeaderWriterRequest" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
