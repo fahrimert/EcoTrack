@@ -47,6 +47,13 @@ public class AuthController {
     public Claims accessTokenController(HttpServletRequest request , HttpServletResponse response , @PathVariable String accessToken){
         return  jwtService.extractAllClaims(accessToken);
     }
+    @GetMapping("/user/profile/{accessToken}")
+    public User profileController(HttpServletRequest request , HttpServletResponse response , @PathVariable String accessToken){
+        Claims claims =  jwtService.extractAllClaims(accessToken);
+        User user = userService.findByUsername(claims.getSubject());
+        return user;
+
+    }
 
     @PostMapping("/refreshToken/{refreshToken}")
     public String refreshTokenController(HttpServletRequest request, HttpServletResponse response, @PathVariable String refreshToken ){

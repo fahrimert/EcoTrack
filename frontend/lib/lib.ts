@@ -21,32 +21,42 @@ const key = new TextEncoder().encode(secretKey);
   }
   
   export async function updateSession(request: NextRequest) {
-
-    const res = NextResponse.next(); // Create a new response
-    
-    const refreshToken = cookies().get("refreshToken")?.value;
-    const session = cookies().get("session")?.value;
-    
-    const config = {
-      headers:{Authorization:`Bearer ${session}`}
+    const refreshToken = request.cookies.get('refresh')?.value;
+    const session = request.cookies.get('session')?.value;
+  
+    if (!refreshToken || !session) {
+      return NextResponse.next();
     }
-    if (session && refreshToken) {
-      const newAccessToken = await axios.post(`http://localhost:8080/refreshToken/${refreshToken}`,config) as string
-      const parsedNewAccess = await getSessionData()  as {
-        sub:string
-        authorities: string[],
-        iat: number,
-        exp: number
-      }
-      res.cookies.set({
-        name: "session",
-        value: newAccessToken , // Encrypt and set the updated session data
-        httpOnly: true,
-        expires: parsedNewAccess.exp, // Set the expiration time
+  
+    try {
+      const response = await fetch(`http://localhost:8080/refreshToken/${refreshToken}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session}`,
+          'Content-Type': 'application/json'
+        }
       });
+  
+      if (!response.ok) {
+        throw new Error('Token refresh failed');
+      }
+  
+      const newAccessToken = await response.text();
+      const res = NextResponse.next();
+      
+      res.cookies.set({
+        name: 'session',
+        value: newAccessToken,
+        httpOnly: true,
+          maxAge: 15 * 60 // 15 dakika
+      });
+  
       return res;
-    }
-    else{
-      return null
+    } catch (error) {
+      console.error('Token refresh error:', error);
+      const res = NextResponse.redirect(new URL('/authentication', request.url));
+      res.cookies.delete('session');
+      res.cookies.delete('refresh');
+      return res;
     }
   }

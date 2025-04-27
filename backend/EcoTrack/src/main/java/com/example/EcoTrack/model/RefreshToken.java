@@ -1,5 +1,6 @@
 package com.example.EcoTrack.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,10 @@ public class RefreshToken {
     private String token;
     private Date expiresAt;
 
+
     @OneToOne(mappedBy = "refreshToken")
     @JoinColumn(name = "user_id")
+    @JsonIgnore
+
     private User user;
 }

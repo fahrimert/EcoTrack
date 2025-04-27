@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.SqlTypes;
 import org.locationtech.jts.geom.Point;
 
 import java.util.Date;
@@ -16,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLocation {
+public class SensorLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,9 +23,9 @@ public class UserLocation {
     private Point location;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "userLocation")
-    @JoinColumn(name = "user_location_code_id")
-    private User user;
+    @OneToOne(mappedBy = "sensorLocation")
+    @JoinColumn(name = "sensor_location_code_id")
+    private Sensor sensor;
 
     private Date createdAt;
 }

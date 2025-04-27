@@ -16,17 +16,18 @@ spring:
             clientId: Iv23liNxyANmCWGR3DOO
             clientSecret: 15f037dad7348da2e22fcaa06c5019992d425ac3
 
-  dataSource:
-    url: jdbc:mysql://localhost:3308/ecotrack
-    username: ecotrackadmin
-    password: ecotrackpassword1330
-    driver-class-name: com.mysql.jdbc.Driver
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecotrack
+    username: root
+    password: mert2004
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         format_sql: true
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+
 

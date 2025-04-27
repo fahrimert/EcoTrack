@@ -1,6 +1,8 @@
 package com.example.EcoTrack.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -41,7 +43,13 @@ public class User {
 
     private TwoFactorCode twoFactorCode;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_location_code_id",referencedColumnName = "id")
+    private UserLocation userLocation;
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "solvedBy",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Sensor> solvedSensors;
 
 }

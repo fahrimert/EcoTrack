@@ -1,21 +1,26 @@
-import type { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { updateSession } from "./lib/lib";
 
 export async function middleware(request: NextRequest, res: NextResponse) {
   const session = cookies().get("session")?.value;
+  const refreshToken = cookies().get("refresh")?.value;
 
   /* şöyle bi mantık olması lazım  */
 
   if (!session && !request.nextUrl.pathname.startsWith("/authentication") ) {
   return Response.redirect(new URL("/authentication", request.url));
 } 
-if (session && request.nextUrl.pathname.startsWith("/authentication")) {
-  return Response.error()
- }
 
-   
-return await updateSession(request);
+    
+    if ( refreshToken == null) {
+      const response =  await updateSession(request);
+      if (request.method === 'POST') {
+        return response;
+      }
+    }
+    
+
 }
 
 export const config = {

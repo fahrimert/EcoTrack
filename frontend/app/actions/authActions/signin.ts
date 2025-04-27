@@ -17,9 +17,7 @@ export async function signin(state: FormState, formData: FormData) {
         errors: validatedFields.error.flatten().fieldErrors,
       };
     }
-try {
   if(validatedFields.success){
-    try {
       const data = await axios.post("http://localhost:8080/login",{
         "email":validatedFields.data.email,
         "firstName":validatedFields.data.name,
@@ -35,33 +33,22 @@ try {
       const config = {
         headers:{Authorization:`Bearer ${session}`}
       }
-
-      const accessTokenExtract = await axios.get(`http://localhost:8080/user/${session}`,config)
-      console.log(accessTokenExtract.data);
+      
       return {
         serverSuccess: 'Başarıyla giriş yapıldı',
       };
-    } catch (error : any) {
-      return {
-        serverError: error.response.data.errors,
-      };
-    }
-  }
-} catch (error : any) {
-
-  return {
-    serverError: 'Sunucuya ulaşılamıyor',
-  };
-}
+      
     
+  }
+  
 
-
-  } catch (error) {
+}
+ catch (error) {
     console.log((error as Error).message)
     return {
       serverError: "Bir Sorun Oluştu   ",
     };
   }
-  redirect("/");
+  redirect("/dashboard");
 
 }

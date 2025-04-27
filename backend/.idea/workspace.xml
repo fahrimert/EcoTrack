@@ -5,55 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e3eb0bd-d057-4c1b-b69e-863abc37bb95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/TestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ApiResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/RefreshToken.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/TwoFactorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/RefreshTokenRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/twoFactorRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/config/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/customUserDetail/CustomUserDetailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/filters/JwtFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/principal/UserPrincipal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/JwtService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/OTPService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/RefreshTokenService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TwoFactorTokenService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/LocationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserLocationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Sensor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/UserLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/LocationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SpatialConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserLocationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/EcoTrackApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/EcoTrackApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/RefreshToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/RefreshToken.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/JwtService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/.eslintrc.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/app/actions/authActions/signin.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/app/authentication/components/LoginComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/app/authentication/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/app/components/Providers.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/app/globals.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/app/layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/app/page.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/components/ui/button.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/eslint.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/lib/definitions.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/lib/utils.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/next.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/postcss.config.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/public/file.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/public/globe.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/public/next.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/public/vercel.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/public/window.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/schema.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/tailwind.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fronent/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/authActions/signin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/authActions/signin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/components/Providers.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/lib/definitions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/lib/definitions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/lib/lib.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/lib/lib.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,12 +42,21 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.jdks/openjdk-23.0.1/lib/src.zip!/java.base/java/lang/String.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/locationtech/jts/jts-core/1.18.2/jts-core-1.18.2.jar!/org/locationtech/jts/geom/Coordinate.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/6.4.4/spring-security-config-6.4.4.jar!/org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.4.4/spring-security-core-6.4.4.jar!/org/springframework/security/authentication/AuthenticationManager.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.4.4/spring-security-core-6.4.4.jar!/org/springframework/security/authentication/UsernamePasswordAuthenticationToken.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -89,7 +77,11 @@
     &quot;git-widget-placeholder&quot;: &quot;authentication&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/EcoTrack/backend/EcoTrack/src/main/java/com/example/EcoTrack/service&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/EcoTrack/backend/EcoTrack/src/main/java/com/example/EcoTrack/service&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -98,6 +90,7 @@
       <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\model" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.EcoTrack.model" />
       <recent name="com.example.EcoTrack.controller" />
       <recent name="com.example.EcoTrack.security.filters" />
       <recent name="com.example.EcoTrack.repository" />

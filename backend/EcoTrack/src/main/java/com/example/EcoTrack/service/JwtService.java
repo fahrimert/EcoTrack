@@ -37,7 +37,7 @@ public class JwtService {
             throw new RuntimeException(e);
         }
     }
-    private static final long EXPIRATION_MS = 10 * 60 * 60 ; // 2 SAAT (test için)
+    private static final long EXPIRATION_MS = 2 * 60 * 60 * 1000 ; // 2 SAAT (test için)
 
 
     //ezberlemek gerekebilir
