@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface LocationRepository extends JpaRepository<UserLocation,Long> {
 
-    @Query(value = "SELECT ST_asText(location) FROM user_location WHERE id=202 ", nativeQuery = true)
-    UserLocation getUserLocation(Long id);
+
 
 }

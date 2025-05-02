@@ -1,6 +1,7 @@
 package com.example.EcoTrack.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,17 +27,18 @@ public class Sensor {
 
     //bi user birden fazla sensor çözebilir bi sensor birden fazla user tarafından çözülebilir
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sensor_location_id",referencedColumnName = "id")
     private SensorLocation sensorLocation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "sensor_id"
-    )
-    @JsonBackReference
-    private  User solvedBy;
-
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(
+//            name = "sensor_id"
+//    )
+//    @JsonBackReference
+//    private  User solvedBy;
+//
 
 
     private Date installationDate;

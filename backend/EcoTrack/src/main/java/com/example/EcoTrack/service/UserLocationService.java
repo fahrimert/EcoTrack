@@ -49,7 +49,7 @@ public class UserLocationService {
     public UserLocationDTO getLocation(String username) {
         User user = userRepository.findByFirstName(username);
 
-        Point point = user.getUserLocation().getLocation();
+        Point point =   user.getUserLocation().getLocation();
 
         return new UserLocationDTO(point.getY(), point.getX());
     }

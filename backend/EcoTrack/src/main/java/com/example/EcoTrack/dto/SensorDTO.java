@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class List<SensorDTO> {
+public class SensorDTO {
     private  String sensorName;
     private SensorStatus status;
     private double latitude;

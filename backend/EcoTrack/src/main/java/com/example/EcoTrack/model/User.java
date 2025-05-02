@@ -47,9 +47,9 @@ public class User {
     @JoinColumn(name = "user_location_code_id",referencedColumnName = "id")
     private UserLocation userLocation;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "solvedBy",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Sensor> solvedSensors;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "solvedBy",cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private List<Sensor> solvedSensors;
 
 }
