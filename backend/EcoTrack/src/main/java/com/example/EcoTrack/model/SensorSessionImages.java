@@ -1,5 +1,6 @@
-package com.example.dreamshops.model;
+package com.example.EcoTrack.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,24 +12,26 @@ import java.sql.Blob;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "images")
+@Table(name = "sensorsessionimages")
 @Getter
 @Setter
-public class Images {
+public class SensorSessionImages {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
-    private String fileType; // bu filename
-    private String filePath; //bu filetype normalde
+    private String name;
+    private String type; //bu filetype normalde
 
     @Lob
-    private Blob image;
-    //burda ilk kez karşılaştığımız mevzu ise @lob ve blob mevzuları.
-    private  String downloadUrl;
-    @ManyToOne
-    @JoinColumn(name = "product_ıd")
-    private Product product;
+    @Column(name = "imageData",length = 1000)
+    private byte[] image;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sensor_session_id")
+    private SensorFix sensorSessions;
 
 
 

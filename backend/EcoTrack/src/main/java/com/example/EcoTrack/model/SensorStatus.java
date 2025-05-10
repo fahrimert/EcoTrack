@@ -28,4 +28,8 @@ public enum SensorStatus {
 
     public String getDisplayName() { return statusName; }
     public String  getColorCode() { return colorCode; }
+
+    public static List<SensorStatus> getAll() {
+        return List.of(SensorStatus.values());
+    }
 }

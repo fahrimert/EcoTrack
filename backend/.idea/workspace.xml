@@ -5,63 +5,78 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e3eb0bd-d057-4c1b-b69e-863abc37bb95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SensorController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/actions/userActions/createUserLocation.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/authentication/globals.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/authentication/layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/components/GoogleMapComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/components/InputItem.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/components/SearchUserLocation.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/components/Sensor.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/components/SensorList.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/components/SensorsAndMap.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/components/Sidebar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/dashboard/globals.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/dashboard/layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/dashboard/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/app/test/TestComponent.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/components/ui/form.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/components/ui/input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/components/ui/label.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/components/ui/sheet.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/context/DestinationContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/context/SourceContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/public/images.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/public/indir.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/public/zeynelkitap.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/config/WebSocketConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ImageDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ImageMetadata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ImageResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorFixDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorSessionDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserAndSessionSensor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorIconImage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorImageIconRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/util/ImageUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/app/dashboard/sensors/[id]/components/AssignedSensorAndMap.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/app/dashboard/sensors/[id]/components/AssignedSensorForm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/app/dashboard/sensors/[id]/components/Heading.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/app/dashboard/sensors/[id]/components/MapOfSingleSensor.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/app/dashboard/sensors/[id]/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/components/ui/scroll-area.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/components/ui/select.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/components/ui/textarea.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/context/HoverContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/EcoTrackApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/EcoTrackApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/LocationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/TestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SensorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SensorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ApiResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorSessionRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorStatusDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorStatusDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SessionImageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SessionImageDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserLocationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserLocationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/RefreshToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/RefreshToken.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Sensor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorFix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorSessionImages.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorSessionImages.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/UserLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/UserLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/LocationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/LocationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/RefreshTokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/RefreshTokenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorSessionImagesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorSessionImagesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorSessionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorSessionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SpatialConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SpatialConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/seedcommands" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/seedcommands" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensorseedcommands" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensorseedcommands" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/RefreshTokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/RefreshTokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorSessionImageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorSessionImageService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserLocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserLocationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/actions/authActions/signin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/authActions/signin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/Providers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/providers/Providers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/userActions/createUserLocation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/userActions/createUserLocation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/authentication/components/LoginComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/authentication/components/LoginComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/authentication/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/authentication/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/components/GoogleMapComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/components/GoogleMapComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/components/InputItem.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SearchUserLocation.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/components/Sensor.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SensorList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SensorsAndMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/components/SensorsAndMap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/components/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/components/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/dashboard/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/dashboard/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/lib/definitions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/lib/definitions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/lib/lib.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/lib/lib.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/context/DestinationContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/context/DestinationContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/context/SourceContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/context/SourceContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/zeynelkitap.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +121,7 @@
     &quot;git-widget-placeholder&quot;: &quot;authentication&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/EcoTrack/backend/EcoTrack/src/main/java/com/example/EcoTrack/service&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/EcoTrack/backend/EcoTrack/src/main/java/com/example/EcoTrack/model&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -115,15 +130,15 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\service" />
       <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\model" />
+      <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\service" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.EcoTrack.repository" />
       <recent name="com.example.EcoTrack.dto" />
       <recent name="com.example.EcoTrack.model" />
       <recent name="com.example.EcoTrack.controller" />
       <recent name="com.example.EcoTrack.security.filters" />
-      <recent name="com.example.EcoTrack.repository" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -137,7 +152,26 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.data.mapping.PropertyReferenceException" package="org.springframework.data.mapping" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="((RequestFacade)((StrictFirewalledRequest)((HeaderWriterRequest)((Servlet3SecurityContextHolderAwareRequestWrapper)request).request).request).request).request" custom="org.apache.catalina.connector.RequestFacade,org.springframework.security.web.servletapi.HttpServlet3RequestFactory.Servlet3SecurityContextHolderAwareRequestWrapper,org.springframework.security.web.firewall.StrictHttpFirewall.StrictFirewalledRequest,org.springframework.security.web.header.HeaderWriterFilter.HeaderWriterRequest" />

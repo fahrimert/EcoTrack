@@ -42,10 +42,13 @@ public class User {
     @JoinColumn(name = "two_factor_code_id",referencedColumnName = "id")
 
     private TwoFactorCode twoFactorCode;
-
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_location_code_id",referencedColumnName = "id")
     private UserLocation userLocation;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<SensorFix> sensorSessions;
 
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "solvedBy",cascade = CascadeType.ALL)

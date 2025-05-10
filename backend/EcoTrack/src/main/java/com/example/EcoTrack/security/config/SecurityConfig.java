@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -59,8 +60,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // << Bunu EKLE
 
                 .csrf(csrf -> csrf.disable())
+                .logout(customizer-> customizer.logoutUrl("/logout") )
                 .authorizeHttpRequests(
-                        authorize -> authorize.requestMatchers( "/login","/twofactorToken","/oauth2","/refreshToken/**").permitAll()
+                        authorize -> authorize.requestMatchers( "/login","/twofactorToken","/oauth2","/refreshToken/**","/ws/**").permitAll()
 
                                 //hem rol hem authority mevzusunu yapıyor authority yapınca admini korumuş oluyor
                                 //authorities kısmında ise

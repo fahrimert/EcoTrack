@@ -20,7 +20,7 @@ public class ApiResponse<T> {
         return new ApiResponse<>(false, message, null, errors, status.value());
     }
 
-    private ApiResponse(boolean success, String message, T data, List<String> errors, int status) {
+    public ApiResponse(boolean success, String message, T data, List<String> errors, int status) {
         this.success = success;
         this.message = message;
         this.data = data;

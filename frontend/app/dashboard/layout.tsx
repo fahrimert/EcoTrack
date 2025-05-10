@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { cookies, headers } from "next/headers";
 import "../globals.css";
-import axios from "axios";
 import Providers from "../providers/Providers";
 import Sidebar from "../components/Sidebar";
+import SidebarProvider from "../components/SidebarProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,46 +17,15 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-/*  const accessToken = cookies().get("session")?.value;
- 
- const config = {
-    headers:{Authorization:`Bearer ${accessToken}`}
-  }
-
-  const session = await axios.get(`http://localhost:8080/user/profile/${accessToken}`,config) as {
-	id: number,
-	email: string,
-	firstName: string,
-	surName: string,
-	password: string,
-	refreshToken: {
-		token: string,
-		expiresAt: string,
-		id: number
-	},
-	role: string,
-	twoFactorCode: any,
-	twoFactorAuthbeenverified: boolean
-} */
-
- 
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="relative w-full h-full flex flex-row max-xl:flex-col max-xl:p-0  justify-between  items-start  bg-[#14213f] min-h-screen">
-          <Providers >
-
-
-       
-    <Sidebar >
-
-            {children}
-    </Sidebar>
-
-          </Providers>
-
-        </div>
+        <Providers>
+          <div className="relative w-full h-fit flex flex-row max-xl:flex-col max-xl:p-0  justify-between  items-start  bg-[#14213f] min-h-screen">
+            <SidebarProvider >{children}</SidebarProvider>
+          </div>
+        </Providers>
       </body>
     </html>
   );

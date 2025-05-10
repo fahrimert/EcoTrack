@@ -1,19 +1,20 @@
-package com.example.dreamshops.repo;
+package com.example.EcoTrack.repository;
 
-import com.example.dreamshops.model.Images;
-import com.example.dreamshops.model.Product;
+import com.example.EcoTrack.model.SensorSessionImages;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-import java.awt.*;
 import java.util.List;
+import java.util.Optional;
 
-public interface ImagesRepository extends JpaRepository<Images,Long> {
-    @Override
-    List<Images> findAll();
-    List<Images> findByProductId(Long id);
-    //hiçbişe yok bunlarda normalde db ile ilgili fonksiyonlar olması lazımdı db ile ilgili fonksiyonların hepsi service tarafındaki
-    //interfacelerde.
+@Repository
+public interface SensorSessionImagesRepository extends JpaRepository<SensorSessionImages,Long> {
+    List<SensorSessionImages> findAllBySensorSessions_Id(Long id);
 
 
+    Optional<SensorSessionImages> findByName(String name);
 
+    List<SensorSessionImages> findBySensorSessionsId(Long sessionId);
 }

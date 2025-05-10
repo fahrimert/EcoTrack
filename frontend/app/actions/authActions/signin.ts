@@ -23,6 +23,7 @@ export async function signin(state: FormState, formData: FormData) {
         "firstName":validatedFields.data.name,
         "password":validatedFields.data.password
       })
+
       const session = data.data.data.accessToken
       const refresh = data.data.data.refreshToken
 
@@ -33,22 +34,18 @@ export async function signin(state: FormState, formData: FormData) {
       const config = {
         headers:{Authorization:`Bearer ${session}`}
       }
-      
-      return {
-        serverSuccess: 'Başarıyla giriş yapıldı',
-      };
-      
     
   }
   
 
 }
- catch (error) {
-    console.log((error as Error).message)
+ catch (error : any) {
     return {
-      serverError: "Bir Sorun Oluştu   ",
+      serverError: error.response.data.errors,
     };
   }
-  redirect("/dashboard");
+ 
+ 
+  redirect('/dashboard')
 
 }

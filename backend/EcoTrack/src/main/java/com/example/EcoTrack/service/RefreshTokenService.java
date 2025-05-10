@@ -82,4 +82,13 @@ public class RefreshTokenService  {
             return  refreshToken;
         }
     }
+
+    public RefreshToken findByUser(User user) {
+        return  refreshTokenRepository.findByUser(user);
+    }
+
+    public RefreshToken findByUserId(Long id) {
+        return  refreshTokenRepository.findByUserId(id);
+
+    }
 }

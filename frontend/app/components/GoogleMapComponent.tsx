@@ -1,93 +1,118 @@
 "use client"
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { GoogleMap, MarkerF, OverlayView, useJsApiLoader } from '@react-google-maps/api'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { DirectionsRenderer, GoogleMap, MarkerF, OverlayView, OverlayViewF} from '@react-google-maps/api'
 import axios from 'axios'
-import { cookies } from 'next/headers'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { SourceContext } from '@/context/SourceContext'
 import { DestinationContext } from '@/context/DestinationContext'
 import { Wrapper } from '@googlemaps/react-wrapper'
-import { AdvancedMarker, ControlPosition, MapControl, useAdvancedMarkerRef, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
-import InputItem from './InputItem'
+import { MdOutlineSensors } from 'react-icons/md'
+import { cn } from '@/lib/utils'
+import { SensorList, UserProfile } from './SensorComponents/SensorList'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 
 
 
-const GoogleMapComponent = ({session} : {session : RequestCookie}) => {
-  const [data, setData] = useState<google.maps.places.PlaceResult | null>({ latitude: 39.9334, longitude: 32.8597 });
-  const { source } = useContext(SourceContext);
-  const { destination } = useContext(DestinationContext);
-  const [mapKey, setMapKey] = useState(0);
+const GoogleMapComponent = ({session,sensorListData,userProfile} : {session : RequestCookie, sensorListData:SensorList[] | undefined,userProfile : UserProfile | undefined}) => {
+  const [centerStateData, setCenterStateData] = useState({ latitude: 39.9334, longitude: 32.8597 });
+  
+  //source and destination context states
+  const { source ,setSource} = useContext(SourceContext);
+  const { destination ,setDestination} = useContext(DestinationContext);
+  const [directionRoutePoints,setDirectionRoutePoints] = useState([])
 
-
-  console.log("Source information " + source.lat + "lng"  + source.lng);
-
-
+  //useeffect for putting the current user location on map center and setting the source value users location 
   useEffect(() => {
     axios.get("http://localhost:8080/getUserLocation", {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })
-    .then((res) => setData(res.data))
+    .then((res) => {setSource({lat:res.data.latitude, lng: res.data.longitude} )  
+    setCenterStateData(res.data)}
+  )
     .catch((err) => console.log(err));
   }, []);
+
+  /* centerState data for */
+  const [centerData, setCenterData] = useState({ latitude: destination.lat, longitude: destination.lng });
+  useEffect(() => {
+    if (source) {
+      setCenterData({latitude:source.lat, longitude:source.lng})
+      setMapKey(prev => prev + 1); // Key'i değiştirerek bileşeni yeniden yükle
+
+    }
+  
+  },[source])
+
+  const [mapKey, setMapKey] = useState(0);
+
+
+
+
+
   const ref = React.useRef(null)
 
-  const center = useMemo(() => ({
-    lat: data?.latitude,
-    lng: data?.longitude,
-  }), [data]);
 
 
  
 
       
-  
+  //centeri source datası yap 
+  //bizim marker f ve overliev userin datası 
     
-      useEffect(() => {
-        if (source) {
-          setData({latitude:source.lat, longitude:source.lng})
-          setMapKey(prev => prev + 1); // Key'i değiştirerek bileşeni yeniden yükle
+  
 
-        }
-        console.log(source);
-      
-      },[source])
       const onUnmount = useCallback(() => setMap(null), []);
       const [map, setMap] = useState<google.maps.Map | null>(null);
+      
+      
 
-const onLoad = useCallback((mapInstance: google.maps.Map) => {
-  setMap(mapInstance);
-}, []);
+      const directionRoute= () => {
+        const DirectionService= new google.maps.DirectionsService()
 
+
+        DirectionService.route({
+          origin:{lat:source.lat,lng:source.lng},
+          destination:{lat:destination.lat,lng:destination.lng},
+          travelMode:google.maps.TravelMode.DRIVING
+        },(result,status) => {
+          if (status=== google.maps.DirectionsStatus.OK) {
+            {
+              setDirectionRoutePoints(result)
+            }
+           
+          } else{
+            console.log('Error');
+          }
+          
+        })
+      }
       useEffect(() => {
-        if (map && source.lat && source.lng) {
-          // Haritayı yeni konuma animasyonla kaydır
-          map.panTo({ lat: source.lat, lng: source.lng });
-          
-          // Veya direkt merkezi değiştir
-          map.setCenter({ lat: source.lat, lng: source.lng });
-          
-          // Zoom seviyesini de güncelleyebilirsiniz
-          map.setZoom(12);
+        if (source.lat !== null && source.lng !== null && destination.lat !== null && destination.lng !== null) {
+          {
+            directionRoute()
+          }
+    
         }
-      }, [source, map]);
+      
+      },[source,destination])
+
       return (
         <div>
       <Wrapper apiKey="AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E" key={mapKey}>
         <GoogleMap
-        mapContainerStyle={{ width: '50%', height: '600px', position: 'absolute' }}
-        center={center}
-          zoom={10}
+        mapContainerStyle={{ width: '100%', height: '700px', position: 'relative' }}
+        center={ {lat:centerData.latitude,lng:centerData.longitude}}
+          zoom={11}
           key={mapKey} // Key değiştiğinde bileşen yeniden yüklenir
 
           onUnmount={onUnmount}
         >
          
-
       
                 {/* burada sessiondaki userin datasını alıp onu */}
                 <MarkerF 
-                position={{lat:data.latitude, lng:data.longitude}}
+                position={{lat:centerStateData.latitude, lng:centerStateData.longitude}}
               icon={{url:'/images.png',scaledSize:{
                 width:30,
                 height:30
@@ -95,23 +120,54 @@ const onLoad = useCallback((mapInstance: google.maps.Map) => {
             
           />
           <OverlayView 
-                position={{lat:data.latitude, lng:data.longitude}}
+                position={{lat:centerStateData.latitude, lng:centerStateData.longitude}}
                 mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
               >
-                          <div className=' w-fit h-fit bg-white '>
 
-             <p className=' text-[16px] text-black'> Ahmet</p>
-             </div>
+             <Avatar className=' w-fit h-fit text-nowrap p-[5px] rounded-[15px]  bg-white '>
+
+             <AvatarFallback>{userProfile?.firstName} {userProfile?.surName} adlı işçi </AvatarFallback>
+             </Avatar>
             </OverlayView>
        
           {/* buralarda sensörleri listeleyip tek tek onların locasyonlarını koyucam  */}
+          {sensorListData?.map((a,b) => (
+
+              <>
        <MarkerF 
-            position={{lat:36.9914, lng:35.3308}}
-       
+       key={b}
+            position={{lat:a.latitude, lng:a.longitude}}
+        
+            
           />
+          <OverlayViewF 
+          position={{lat:a.latitude, lng:a.longitude}}
+          mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+        >
+                    <div className={cn(`w-fit h-fit  text-nowrap inline-block p-[5px] rounded-[3px]`)}
+                      style={{ backgroundColor: a.color_code }}
+
+                    >
+
+                     <MdOutlineSensors  color={a.color_code}/>
+       <h2 className=' w-fit h-fit text-[12px] text-white '> {a.sensorName}</h2>
+       </div>
+      </OverlayViewF>
+      </>
+
+          ))}
      
 
           {/* Child components, such as markers, info windows, etc. */}
+        <DirectionsRenderer
+         directions={directionRoutePoints}
+         options={{
+          suppressMarkers:true
+         }}
+        >
+
+
+        </DirectionsRenderer>
         </GoogleMap>
       
               </Wrapper>

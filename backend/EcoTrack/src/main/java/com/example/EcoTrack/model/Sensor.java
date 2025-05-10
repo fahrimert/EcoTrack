@@ -32,6 +32,15 @@ public class Sensor {
     @JoinColumn(name = "sensor_location_id",referencedColumnName = "id")
     private SensorLocation sensorLocation;
 
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sensor_icon_image_id",referencedColumnName = "id")
+    private SensorIconImage sensorIconImage;
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sensor_session_id",referencedColumnName = "id")
+    private SensorFix currentSensorSession;
 //    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(
 //            name = "sensor_id"

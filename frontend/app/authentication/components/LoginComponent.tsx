@@ -2,36 +2,30 @@
 import { useFormState } from "react-dom";
 import { signin } from "@/app/actions/authActions/signin";
 import toast from "react-hot-toast";
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import {  useEffect, useState} from "react";
 import Link from "next/link";
 import { IoEyeOff,IoEye  } from "react-icons/io5";
 
 import { cn } from "@/lib/utils";
-import { EyeOff } from "lucide-react";
-import { Separator } from "@radix-ui/react-separator";
-const SigninComponent = () => {
+import LoginButton from "./LoginButton";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+const SigninComponent = ({session } : {session: RequestCookie}) => {
   const [state, action] = useFormState(signin, undefined);
-  const [valueForUniversity,setValueForUniversity] = useState("")
-  const [valueForMajor,setValueForMajor] = useState("")
-  const [loginState, setLoginState] = useState<boolean>(true);
-
-    
-
   useEffect(() => {
-    if (state?.serverError) {
-      console.log(state.serverError)
-      toast.error(state?.serverError);
-    }
     if(state?.serverSuccess){
-      console.log(state.serverSuccess)
       toast.success(state?.serverSuccess);
     }
-  }, [state?.serverError ]);
+    if (state?.serverError) {
+      toast.error(state.serverError)
+      
+    }
+  }, [state ]);
+
+  console.log(state?.errors);
 
 
     const [visible,setVisible] = useState(true)
-    const [visibleForRegister,setVisibleForRegister] = useState(true)
+
 
   return (
     <div className=" w-full h-fit flex flex-row justify-center items-center  bg-[#0d0d1f]   >">
@@ -136,14 +130,7 @@ type= {visible  ? "password" : "text" }
                         </div>
 
 
-                  <div className="relative w-full h-fit flex flex-col justify-center items-center gap-[10px]">
-                    <button
-                      type="submit"
-                      className="relative w-full h-[40px] text-[14px] leading-[14px] bg-white border-[#3a3a3a] border-[1px] rounded-[20px] hover:bg-opacity-90 hover:bg-[#0d0d1f] transition-all hover:text-white "
-                    >
-                      <h2 className=" flex items-center justify-center text-black hover:text-white transition-all w-full h-full ">Giriş Yapın </h2>
-                    </button>
-                  </div>
+           <LoginButton session = {session}/>
                 </div>
               </form>
               <div className="relative w-[300px] h-fit flex flex-row justify-between items-center">
