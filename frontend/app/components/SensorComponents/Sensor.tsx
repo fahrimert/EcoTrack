@@ -43,6 +43,7 @@ const Sensor = ({
     });
     try {
       const returnData = await goToSensor(sensorId);
+      console.log(returnData);
       toast.success(returnData.serverData);
     } catch (error) {
       console.log(error.message);
@@ -69,12 +70,13 @@ const Sensor = ({
       })
       .catch((err) => console.error(err));
   }, [])
+
   return (
     <>
       {sensors.userBasedSensor ? (
         <Link
-          href={`/dashboard/sensors/${String(
-            sensors.currentSensorSession?.sensor.id
+          href={`/worker/dashboard/sensors/${String(
+            sensors.id
           )}`}
         >
           <div

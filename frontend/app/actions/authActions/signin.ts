@@ -1,6 +1,7 @@
 "use server";
 import { SignİnFormSchema, FormState } from "@/lib/definitions";
 import axios from "axios";
+import jwt from "jsonwebtoken";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -12,6 +13,8 @@ export async function signin(state: FormState, formData: FormData) {
   });
 
   try {
+
+    
     if (!validatedFields.success) {
       return {
         errors: validatedFields.error.flatten().fieldErrors,
@@ -34,18 +37,30 @@ export async function signin(state: FormState, formData: FormData) {
       const config = {
         headers:{Authorization:`Bearer ${session}`}
       }
+        const sessionData = cookies().get("session")?.value;
+
+   const roleRouteMap = {
+    ROLE_WORKER: '/worker',
+    ROLE_SUPERVISOR: '/supervisor',
+  };
+   const decoded = jwt.decode(session);
+
+  const allowedPath = roleRouteMap[decoded.authorities[0]];
+
+
+  redirect(`/${allowedPath}/dashboard`)
     
   }
   
 
 }
  catch (error : any) {
+   
     return {
       serverError: error.response.data.errors,
-    };
+    }; 
   }
  
  
-  redirect('/dashboard')
 
 }

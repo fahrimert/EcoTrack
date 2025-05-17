@@ -17,5 +17,5 @@ public class SensorDTO {
     private  String color_code;
     private double latitude;
     private double longitude;
-    private SensorFix  currentSensorSession;
+    private SensorFixDTO  currentSensorSession;
 }

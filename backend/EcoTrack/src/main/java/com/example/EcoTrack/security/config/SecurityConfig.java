@@ -62,7 +62,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .logout(customizer-> customizer.logoutUrl("/logout") )
                 .authorizeHttpRequests(
-                        authorize -> authorize.requestMatchers( "/login","/twofactorToken","/oauth2","/refreshToken/**","/ws/**").permitAll()
+                        authorize -> authorize.requestMatchers( "/login","/twofactorToken","/oauth2","/refreshToken/**","/ws/**", "/ws-users/**").permitAll()
 
                                 //hem rol hem authority mevzusunu yapıyor authority yapınca admini korumuş oluyor
                                 //authorities kısmında ise

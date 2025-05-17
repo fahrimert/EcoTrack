@@ -66,6 +66,7 @@ const SensorList = ({
   sensorListData: SensorList[] | undefined;
   userProfile: UserProfile | undefined;
 }) => {
+
   const userBasedsensor = sensorListData?.map(
     (g) =>
       g.currentSensorSession &&

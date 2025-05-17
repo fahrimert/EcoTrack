@@ -16,11 +16,11 @@ export async function goToSensor(sensorId: string) {
             'Content-Type': 'application/json'
           }
         });
-        const responseJson = await responseData.text() 
+         const responseJson = await responseData.text() 
+
              return {
             serverData: responseJson,
           };
-  
   
 
 }
@@ -31,9 +31,6 @@ export async function goToSensor(sensorId: string) {
     };
   }
  
-  finally{
-    redirect(`/dashboard/sensors/${sensorId}`)
-
-  }
+ 
 
 }

@@ -21,7 +21,7 @@ public class SensorSessionDTO {
     private ImageResponseDTO sensorIconImage;
     private  String note;
     private Date startTime;
-
+    private  SensorStatus finalStatus;
     private Date completedTime;
     private double latitude;
     private double longitude;

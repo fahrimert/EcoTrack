@@ -1,7 +1,6 @@
 package com.example.EcoTrack.dto;
 
 import com.example.EcoTrack.model.Sensor;
-import com.example.EcoTrack.model.SensorFix;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAndSessionSensor {
+public class UserAndSessionSensorDTO {
     private  Long id;
     private  String name;
     private double latitude;

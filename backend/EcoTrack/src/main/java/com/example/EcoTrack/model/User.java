@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -25,6 +27,7 @@ public class User {
     @Column(unique = true)
     private String firstName;
     private  String surName;
+
 
     private  String password;
 
@@ -50,6 +53,9 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<SensorFix> sensorSessions;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_online_status_id",referencedColumnName = "id")
+    private UserOnlineStatus userOnlineStatus;
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "solvedBy",cascade = CascadeType.ALL)
 //    @JsonManagedReference

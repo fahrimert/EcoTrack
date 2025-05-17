@@ -5,6 +5,7 @@ import com.example.EcoTrack.model.Sensor;
 import com.example.EcoTrack.model.SensorFix;
 import com.example.EcoTrack.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -22,4 +23,14 @@ public interface SensorSessionRepository extends JpaRepository<SensorFix,Long> {
    List<SensorFix> findByCompletedTimeIsNull();
 
    List<SensorFix> findAllByUserAndCompletedTimeIsNotNull(User user);
+
+
+   @Query(value = """
+        SELECT sf.* 
+        FROM sensor_session sf
+        JOIN sensors s ON sf.sensor_id = s.id
+        WHERE s.status = 'FAULTY'
+        """, nativeQuery = true)
+   List<SensorFix> findAllSensorFixesWithFaultySensors();
+
 }

@@ -1,7 +1,8 @@
 package com.example.EcoTrack.service;
 
-import com.example.EcoTrack.dto.UserAndSessionSensor;
+import com.example.EcoTrack.dto.UserAndSessionSensorDTO;
 import com.example.EcoTrack.dto.UserLocationDTO;
+import com.example.EcoTrack.model.Sensor;
 import com.example.EcoTrack.model.SensorFix;
 import com.example.EcoTrack.model.User;
 import com.example.EcoTrack.model.UserLocation;
@@ -66,35 +67,39 @@ public class UserLocationService {
         return new UserLocationDTO(user.getId(),point.getY(), point.getX());
     }
 
-    public   List<UserAndSessionSensor>  getAllLocation() {
+    public   List<UserAndSessionSensorDTO> getAllLocation() {
         List<User> usersLocationList = userRepository.findAll();
 
-        return  usersLocationList.stream()
-                .map(user -> {//böyle yapılabilir kalsın bi
-                    Point point = user.getUserLocation().getLocation();
-                    return new UserAndSessionSensor(
+        List<UserAndSessionSensorDTO> dtoList = usersLocationList.stream()
+                .map(user -> {
+                    Point userPoint = user.getUserLocation().getLocation();
+
+                    Optional<SensorFix> optionalSession = user.getSensorSessions().stream()
+                            .filter(a -> a.getCompletedTime() != null)
+                            .findFirst();
+
+                    if (optionalSession.isEmpty()) {
+                        return null;
+
+                    }
+
+                    Sensor sensor = optionalSession.get().getSensor();
+                    Point sensorPoint = sensor.getSensorLocation().getLocation();
+
+                    return new UserAndSessionSensorDTO(
                             user.getId(),
                             user.getFirstName(),
-                            point.getY(),
-                            point.getX(),
-                            user.getSensorSessions().stream()
-                                    .filter(a -> a.getCompletedTime() != null)
-                                    .findFirst()
-                                    .orElse(null)
-                                    .getSensor().getSensorLocation().getLocation().getY(),
-                    user.getSensorSessions().stream()
-                            .filter(a -> a.getCompletedTime() != null)
-                            .findFirst()
-                            .orElse(null)
-                            .getSensor().getSensorLocation().getLocation().getX(),
-                    user.getSensorSessions().stream()
-                            .filter(a -> a.getCompletedTime() != null)
-                            .findFirst()
-                            .orElse(null)
-                            .getSensor());
-
+                            userPoint.getY(),
+                            userPoint.getX(),
+                            sensorPoint.getY(),
+                            sensorPoint.getX(),
+                            sensor
+                    );
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
+        return dtoList;
     }
+
 }

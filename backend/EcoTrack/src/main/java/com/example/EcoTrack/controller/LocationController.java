@@ -1,7 +1,7 @@
 package com.example.EcoTrack.controller;
 
 
-import com.example.EcoTrack.dto.UserAndSessionSensor;
+import com.example.EcoTrack.dto.UserAndSessionSensorDTO;
 import com.example.EcoTrack.dto.UserLocationDTO;
 import com.example.EcoTrack.service.UserLocationService;
 import jakarta.transaction.Transactional;
@@ -59,7 +59,7 @@ public class LocationController {
     @GetMapping("/getAllUserLocation")
     @Transactional
 
-    public List<UserAndSessionSensor> getAllUserLocation(){
+    public  List<UserAndSessionSensorDTO> getAllUserLocation(){
         return  userLocationService.getAllLocation();
     }
 

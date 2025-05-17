@@ -11,6 +11,9 @@ export default {
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  plugins: [
+  require("tailwindcss-animate"),
+],
   theme: {
   	extend: {
   		borderRadius: {

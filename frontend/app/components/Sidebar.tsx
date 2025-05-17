@@ -70,11 +70,11 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
             <div className=" relative w-full h-full flex flex-col justify-center items-start gap-[10px]   ">
          
               <Link
-                href={"/dashboard/past-sensors"}
+                href={"/worker/dashboard/past-sensors"}
                 className={cn(
                   "relative w-full h-[30px] flex flex-row justify-start items-center hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200" ,
 
-                  path === "/dashboard/past-sensors" &&
+                  path === "/worker/dashboard/ast-sensors" &&
                     " text-black dark:text-black  bg-[#6c6f8542] rounded-[5px] "
                 )}
               >
@@ -88,11 +88,11 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
               </Link>
 
               <Link
-                href={"/dashboard/ekiptakibi"}
+                href={"/worker/dashboard/ekiptakibi"}
                 className={cn(
                   "relative w-full h-[30px] flex flex-row justify-start items-center  hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200 ",
 
-                  path === "/dashboard/ekiptakibi" &&
+                  path === "/worker/dashboard/ekiptakibi" &&
                     " text-white dark:text-black  bg-[#6c6f8542] rounded-[5px]"
                 )}
               >
@@ -169,11 +169,11 @@ border-r border-[#d0d7de]/50  border-slate-400  pt-[10px] pl-[5px]  `)}>
         <div className=" relative w-full h-full flex flex-col justify-center items-start gap-[10px]   ">
      
           <Link
-            href={"/dashboard/past-sensors"}
+            href={"/worker/dashboard/past-sensors"}
             className={cn(
               "relative w-full h-[30px] flex flex-row justify-start items-center hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200" ,
 
-              path === "/dashboard/past-sensors" &&
+              path === "/worker/dashboard/past-sensors" &&
                 " text-black dark:text-black  bg-[#6c6f8542] rounded-[5px] "
             )}
           >
@@ -187,11 +187,11 @@ border-r border-[#d0d7de]/50  border-slate-400  pt-[10px] pl-[5px]  `)}>
           </Link>
 
           <Link
-            href={"/dashboard/ekiptakibi"}
+            href={"/worker/dashboard/ekiptakibi"}
             className={cn(
               "relative w-full h-[30px] flex flex-row justify-start items-center  hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200 ",
 
-              path === "/dashboard/ekiptakibi" &&
+              path === "/worker/dashboard/ekiptakibi" &&
                 " text-white dark:text-black  bg-[#6c6f8542] rounded-[5px]"
             )}
           >
@@ -248,7 +248,7 @@ border-r border-[#d0d7de]/50  border-slate-400  pt-[10px] pl-[5px]  `)}>
   </div>
 
 </div>  
-        <div className="relative w-full h-fit flex flex-col justify-center items-center gap-[10px] pl-[40px] pr-[40px]   ">
+        <div className="relative w-full h-fit flex flex-col justify-center items-center gap-[10px] ">
     
       {children}  
         </div>

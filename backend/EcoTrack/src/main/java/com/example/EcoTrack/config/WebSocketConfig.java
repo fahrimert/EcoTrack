@@ -10,9 +10,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws","/ws-locations") // ← frontend buna bağlanacak
-                .setAllowedOriginPatterns("*") // CORS
-                .withSockJS(); // SockJS fallback desteği
+        registry.addEndpoint("/ws","/ws-locations","/ws-users")
+                .setAllowedOriginPatterns("*")
+                .withSockJS();
 
     }
 

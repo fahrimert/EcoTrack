@@ -31,16 +31,15 @@ export async function logOut() {
           cookies().delete("refresh")
 
   
-          redirect('/authentication')
         }
  catch (error) {
     console.log((error as Error).message)
  
   }
  
-  /* finally{
-    redirect(`/dashboard/sensors/${sensorId}`)
+  finally{
+          redirect('/authentication')
 
-  } */
+  }
 
 }

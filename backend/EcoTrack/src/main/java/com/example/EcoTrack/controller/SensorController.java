@@ -54,17 +54,7 @@ public class SensorController {
         return  sensorService.getAllSensor();
     }
 
-    @GetMapping("/past-sensors")
-    @CrossOrigin(
-            origins = "http://localhost:9595",
-            allowedHeaders = "*",
-            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
-    @Transactional
-    public List<SensorFix> getPastSensors(
-    ){
-        return  sensorService.getPastSensorsOfUser();
-    }
+
 
     @GetMapping("/sensors/{sensorId}")
     @CrossOrigin(
@@ -72,7 +62,7 @@ public class SensorController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-
+    @Transactional
     public ResponseEntity<ApiResponse> getInduvualSensor(@PathVariable Long sensorId){
         return  sensorService.getInduvualSensor(sensorId);
     }
@@ -93,21 +83,6 @@ public class SensorController {
     }
 
 
-//    @GetMapping("/images/{sessionId}")
-//    public ResponseEntity<List<ImageMetadata>> getImagesMetadata(@PathVariable Long sessionId) {
-//        List<SensorSessionImages> images = sensorSessionImagesRepository.findBySensorSessionsId(sessionId);
-//
-//        List<ImageMetadata> response = images.stream()
-//                .map(image -> new ImageMetadata(
-//                        image.getId(),
-//                        image.getFileName(),
-//                        image.getFileType(),
-//                        image.getDownloadUrl()
-//                ))
-//                .collect(Collectors.toList());
-//
-//        return ResponseEntity.ok(response);
-//    }
 
     @GetMapping("/imagess/{sessionId}")
     @Transactional
@@ -115,17 +90,10 @@ public class SensorController {
         return  sensorService.getImagesBySessionId(sessionId);
     }
 
-//    @PostMapping("/imagess")
-//    public ResponseEntity<?> uploadImage(@RequestParam("image") List<MultipartFile> file) throws IOException {
-//        List<SensorSessionImages> response = sensorSessionImageService.uploadImage(file);
-//
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .body(response);
-//    }
-
 
 
     @GetMapping("/sensors/getSensorStatuses")
+
     @CrossOrigin(
             origins = "http://localhost:9595", // veya frontend URL’in
             allowedHeaders = "*",
@@ -145,7 +113,9 @@ public class SensorController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-        public ResponseEntity<String> updateSensorStatusToRepair(@PathVariable Long sensorId){
+    @Transactional
+
+    public ResponseEntity<String> updateSensorStatusToRepair(@PathVariable Long sensorId){
      return sensorService.updateInRepairTheSensor(sensorId);
         }
 
@@ -173,4 +143,21 @@ public class SensorController {
     }
 
 
+    @GetMapping("/past-sensors")
+    @CrossOrigin(
+            origins = "http://localhost:9595",
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    @Transactional
+    public List<SensorFix> getPastSensors(
+    ){
+        return  sensorService.getPastSensorsOfUser();
+    }
+
+
+
+
+
 }
+

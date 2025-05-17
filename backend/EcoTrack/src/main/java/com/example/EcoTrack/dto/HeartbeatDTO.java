@@ -1,3 +1,5 @@
+package com.example.EcoTrack.dto;
+
 public class HeartbeatDTO {
     private Boolean isOnline;
     public Boolean getIsOnline() { return isOnline; }
