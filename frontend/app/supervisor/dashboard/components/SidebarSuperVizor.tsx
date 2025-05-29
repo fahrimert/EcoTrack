@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { logOut } from "@/app/actions/authActions/signout";
+import { UserProfile } from "./SensorList";
 
 interface NewSidebar  {
   children: React.ReactNode;
@@ -67,7 +68,22 @@ const SidebarSupervizor:React.FC<NewSidebar> = ({children,session} ) => {
  
             </div>
             <div className=" relative w-full h-full flex flex-col justify-center items-start gap-[10px]   ">
-         
+                       <Link
+                href={"/supervisor/dashboard/worker-tasks"}
+                className={cn(
+                  "relative w-full h-[30px] flex flex-row justify-start items-center  hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200 ",
+
+                  path === "/supervisor/dashboard/worker-tasks" &&
+                    " text-white dark:text-black  bg-[#6c6f8542] rounded-[5px]"
+                )}
+              >
+                <div className="relative w-fit h-fit flex flex-row justify-center items-center gap-[10px] px-[5px]">
+                  <div className="relative  w-fit h-fit flex flex-row justify-center items-center gap-[10px] p-0 ">
+                    <MdGroups2 size={20} color="black" />
+                     <h2 >Görevler Sayfası</h2>
+               </div>
+                </div>
+              </Link>
               <Link
                 href={"/supervisor/dashboard/workers-past-sensors"}
                 className={cn(
@@ -102,6 +118,23 @@ const SidebarSupervizor:React.FC<NewSidebar> = ({children,session} ) => {
                </div>
                 </div>
               </Link>
+              <Link
+                href={"/supervisor/dashboard/workers-performance-analysis-charts"}
+                className={cn(
+                  "relative w-full h-[30px] flex flex-row justify-start items-center  hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200 ",
+
+                  path === "/supervisor/dashboard/workers-performance-analysis-charts" &&
+                    " text-white dark:text-black  bg-[#6c6f8542] rounded-[5px]"
+                )}
+              >
+                <div className="relative w-fit h-fit flex flex-row justify-center items-center gap-[10px] px-[5px]">
+                  <div className="relative  w-fit h-fit flex flex-row justify-center items-center gap-[10px] p-0 ">
+                    <BsListTask size={20} color="black" />
+                     <h2 >İşçi  Analiz  Sayfası</h2>
+               </div>
+                </div>
+              </Link>
+
 
       
             

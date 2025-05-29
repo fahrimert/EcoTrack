@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*") // Tüm origin'lere izin ver
+@CrossOrigin(origins = "*")
 
 public class LocationController {
 
@@ -62,6 +62,8 @@ public class LocationController {
     public  List<UserAndSessionSensorDTO> getAllUserLocation(){
         return  userLocationService.getAllLocation();
     }
+
+
 
 
 

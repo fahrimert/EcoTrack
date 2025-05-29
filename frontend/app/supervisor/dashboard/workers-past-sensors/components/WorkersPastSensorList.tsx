@@ -28,7 +28,6 @@ interface GroupedSensorData {
 }
 
 const WorkersPastSensorList = ({session , sensorListData }: {session:RequestCookie, sensorListData:SensorSessionWithser[]| undefined}) => {
-  console.log(sensorListData);
 
 
   const groupedSensors = sensorListData?.reduce((acc, current) => {
@@ -61,7 +60,6 @@ const WorkersPastSensorList = ({session , sensorListData }: {session:RequestCook
     }
     return acc;
   }, [] as GroupedSensorData[]);
-  console.log(sensorListData);
   return (
     <div className=" w-full h-fit items-start justify-start   p-[10px]   gap-[5px] rounded-[30px]">
          <DataTable

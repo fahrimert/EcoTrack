@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @RequiredArgsConstructor
 @Getter
@@ -41,6 +43,9 @@ public class Sensor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sensor_session_id",referencedColumnName = "id")
     private SensorFix currentSensorSession;
+
+    @OneToMany(mappedBy = "sensor")
+    private List<Task> tasks;
 //    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(
 //            name = "sensor_id"

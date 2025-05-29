@@ -1,53 +1,48 @@
 package com.example.EcoTrack.service;
 
-import com.example.EcoTrack.dto.ApiResponse;
 import com.example.EcoTrack.dto.ImageDTO;
 import com.example.EcoTrack.dto.SessionImageDTO;
 import com.example.EcoTrack.model.SensorFix;
 import com.example.EcoTrack.model.SensorSessionImages;
+import com.example.EcoTrack.model.Task;
+import com.example.EcoTrack.model.TaskImages;
 import com.example.EcoTrack.repository.SensorSessionImagesRepository;
 import com.example.EcoTrack.repository.SensorSessionRepository;
+import com.example.EcoTrack.repository.TaskImagesRepository;
+import com.example.EcoTrack.repository.TaskRepository;
 import com.example.EcoTrack.util.ImageUtil;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
-import java.net.http.HttpResponse;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class SensorSessionImageService {
+public class TaskImageService {
     private final SensorSessionRepository sensorSessionRepository;
     private final SensorSessionImagesRepository sensorSessionImagesRepository;
+    private  final TaskRepository taskRepository;
+    private  final TaskImagesRepository taskImagesRepository;
 
-    public List<SessionImageDTO> saveImages(List<MultipartFile> files, Long sessionId) {
-        SensorFix sensorSession = sensorSessionRepository.findById(sessionId).orElseThrow();
+
+    public List<SessionImageDTO> saveTaskImages(List<MultipartFile> files, Long taskId) {
+        Task task = taskRepository.findById(taskId).orElseThrow();
         List<SessionImageDTO> savedImageDto = new ArrayList<>();
         for (MultipartFile file: files){
             try{
-                SensorSessionImages images = new SensorSessionImages();
+                TaskImages images = new TaskImages();
                 images.setName(file.getOriginalFilename());
                 images.setType(file.getContentType());
                 images.setImage(ImageUtil.compressImage(file.getBytes()));
-                images.setSensorSessions(sensorSession);
 
+                TaskImages savedImage = taskImagesRepository.save(images);
 
-                SensorSessionImages savedImage = sensorSessionImagesRepository.save(images);
-
-                sensorSessionImagesRepository.save(savedImage);
+                taskImagesRepository.save(savedImage);
 
                 SessionImageDTO imageDto = new SessionImageDTO();
 
@@ -61,19 +56,18 @@ public class SensorSessionImageService {
         return  savedImageDto;
     }
 
-    public  List<SensorSessionImages> uploadImage(List<MultipartFile> files,Long sessionId) throws  IOException{
-        List<SensorSessionImages> savedImageDto = new ArrayList<>();
-        SensorFix sensorSession = sensorSessionRepository.findById(sessionId).orElseThrow();
+    public  List<TaskImages> uploadTaskImage(List<MultipartFile> files,Long taskId) throws  IOException{
+        List<TaskImages> savedImageDto = new ArrayList<>();
+        Task task = taskRepository.findById(taskId).orElseThrow();
 
         for(MultipartFile file:files){
-            SensorSessionImages sensorSessionImagess = new SensorSessionImages();
-            sensorSessionImagess.setName(file.getOriginalFilename());
-            sensorSessionImagess.setType(file.getContentType());
-            sensorSessionImagess.setSensorSessions(sensorSession);
-            sensorSessionImagess.setImage(ImageUtil.compressImage(file.getBytes()));
+            TaskImages taskImages = new TaskImages();
+            taskImages.setName(file.getOriginalFilename());
+            taskImages.setType(file.getContentType());
+            taskImages.setImage(ImageUtil.compressImage(file.getBytes()));
 
-            sensorSessionImagesRepository.save(sensorSessionImagess);
-            savedImageDto.add(sensorSessionImagess);
+            taskImagesRepository.save(taskImages);
+            savedImageDto.add(taskImages);
 
         }
 

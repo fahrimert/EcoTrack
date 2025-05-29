@@ -1,17 +1,17 @@
 package com.example.EcoTrack.dto;
 
-import com.example.EcoTrack.model.SensorFix;
-import com.example.EcoTrack.model.SensorStatus;
-import com.example.EcoTrack.repository.SensorSessionRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class SensorCountDTO {
-    private  String name;
+public class SensorDateCountDTO {
+    private LocalDate date;
     private  Long count;
 }

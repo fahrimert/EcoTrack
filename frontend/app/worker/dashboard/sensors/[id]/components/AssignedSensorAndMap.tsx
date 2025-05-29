@@ -5,7 +5,7 @@ import { SourceContext } from "@/context/SourceContext";
 
 import AssignedSensorForm from "./AssignedSensorForm";
 import MapOfSingleSensor from "./MapOfSingleSensor";
-import SearchUserLocation from "@/app/components/SearchComponents/SearchUserLocation";
+import SearchUserLocation from "../../../components/SearchComponents/SearchUserLocation";
 
 
 export interface SensorData {

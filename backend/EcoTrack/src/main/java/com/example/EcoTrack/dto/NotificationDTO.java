@@ -1,24 +1,27 @@
 package com.example.EcoTrack.dto;
 
-import com.example.EcoTrack.model.Sensor;
 import com.example.EcoTrack.model.User;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskDTO {
+public class NotificationDTO {
         private  Long Id;
-        private String superVizorDescription;
+        private  String supervizorDescription;
         private LocalDateTime superVizorDeadline;
-        private UserTaskDTO assignedTo;
-        private UserTaskDTO assignedBy;
+        private LocalDateTime createdAt;
 
-        private SensorTaskDTO sensorDTO;
-
-        private Boolean workerArriving;
-        private Boolean workerArrived;
-
+        private Long senderId;
+        private  Long receiverId;
+        private  Long taskId;
+        private  boolean isread;
 }

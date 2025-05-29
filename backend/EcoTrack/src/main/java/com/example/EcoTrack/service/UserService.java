@@ -1,16 +1,16 @@
 package com.example.EcoTrack.service;
 
-import com.example.EcoTrack.dto.ApiResponse;
-import com.example.EcoTrack.dto.UserRequestDTO;
-import com.example.EcoTrack.model.RefreshToken;
-import com.example.EcoTrack.model.User;
+import com.example.EcoTrack.dto.*;
+import com.example.EcoTrack.model.*;
 import com.example.EcoTrack.repository.RefreshTokenRepository;
+import com.example.EcoTrack.repository.TaskRepository;
 import com.example.EcoTrack.repository.UserRepository;
 import com.example.EcoTrack.security.customUserDetail.CustomUserDetailService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.hibernate.Internal;
+import org.locationtech.jts.geom.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,8 +24,8 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -33,17 +33,18 @@ public class UserService {
     private  final UserRepository userRepository;
     private  final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManager authenticationManager;
-
+    private  final TaskRepository taskRepository;
 
     private  final CustomUserDetailService userDetailServicee;
     private  final JwtService jwtService;
     private  final  RefreshTokenService refreshTokenService;
     private  final  OTPService otpService;
     private  final RefreshTokenRepository refreshTokenRepository;
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager,  CustomUserDetailService userDetailServicee1, JwtService jwtService, RefreshTokenService refreshTokenService, OTPService otpService, RefreshTokenRepository refreshTokenRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TaskRepository taskRepository, CustomUserDetailService userDetailServicee1, JwtService jwtService, RefreshTokenService refreshTokenService, OTPService otpService, RefreshTokenRepository refreshTokenRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
         this.authenticationManager = authenticationManager;
+        this.taskRepository = taskRepository;
         this.userDetailServicee = userDetailServicee1;
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
@@ -51,6 +52,9 @@ public class UserService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 
 
     public User findByUsername(String username) {
@@ -162,5 +166,68 @@ public class UserService {
         }
     }
 
+    public  List<Task> getAllTask(Long id){
+        User user = userRepository.findById(id).orElse(null);
+        return  user.getTasksIAssigned();
+    }
 
+
+    public  List<Task> getAllTaskOfMe(Long id){
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) return Collections.emptyList();
+        List<Task> incompleteTasks = user.getTasksAssignedToMe()
+                .stream()
+                .filter(task -> task.getTaskCompletedTime() == null)
+                .collect(Collectors.toList());
+
+
+        return  incompleteTasks;
+    }
+    public   List<UserOnlineStatusDTO> getAllUsers() {
+        List<User> userList = userRepository.findAll();
+
+        List<User> allUsers = userRepository.findAll();
+        List<UserOnlineStatusDTO> dtoList = allUsers.stream()
+                .map(userItem -> {
+
+                    UserOnlineStatusDTO dto = new UserOnlineStatusDTO();
+                    dto.setId(userItem.getId());
+                    dto.setFirstName(userItem.getFirstName());
+                    dto.setSurName(userItem.getSurName());
+                    dto.setRole(userItem.getRole());
+                    dto.setUserOnlineStatus(userItem.getUserOnlineStatus());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        return dtoList;
+    }
+    public   List<UserOnlineStatusDTO> getAllusersWithoutTasks() {
+
+        List<User> allUsers = userRepository.findAll();
+
+        List<UserOnlineStatusDTO> dtoList = allUsers.stream()
+                .filter(user -> user.getSensorSessions() == null ||
+                        user.getSensorSessions().stream()
+                        .noneMatch(session -> session.getCompletedTime() == null))
+                .map(userItem -> {
+
+                    UserOnlineStatusDTO dto = new UserOnlineStatusDTO();
+                    dto.setId(userItem.getId());
+                    dto.setFirstName(userItem.getFirstName());
+                    dto.setSurName(userItem.getSurName());
+                    dto.setRole(userItem.getRole());
+                    dto.setUserOnlineStatus(userItem.getUserOnlineStatus());
+                    return dto;
+
+
+                })
+                .collect(Collectors.toList());
+        return dtoList;
+    }
+
+    public List<User> findAllByIds(List<Long> userIds) {
+        return userRepository.findAllById(userIds);
+
+    }
 }

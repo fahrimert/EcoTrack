@@ -6,16 +6,16 @@ import { Button } from "@/components/ui/button";
 import { HiOutlineLogout } from "react-icons/hi";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { BsListTask } from "react-icons/bs";
-import {  MdOutlineWaterDrop } from "react-icons/md";
+import {  MdOutlineWaterDrop, MdTask } from "react-icons/md";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import Link from "next/link";
 import { MdGroups2 } from "react-icons/md";
-import { logOut } from "../actions/authActions/signout";
+import { logOut } from "../../actions/authActions/signout";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { UserProfile } from "./SensorComponents/SensorList";
 
+ 
 interface NewSidebar  {
   children: React.ReactNode;
   session : RequestCookie | undefined
@@ -27,7 +27,6 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
   const [open, setOpen] = useState(false);
   const [sidebarw,setSidebarw] = useState(true)
     const [userProfile,setUserProfile] = useState<UserProfile>()
-  
   useEffect(() => {
     axios.get(`http://localhost:8080/user/profile/${session}`, {
       headers: { Authorization: `Bearer ${session}` },
@@ -36,6 +35,7 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
     .then((res) => setUserProfile(res.data))
     .catch((err) => console.log(err));
   }, []);
+  
   const handleLogout = async () => {
    
      try {  
@@ -46,6 +46,9 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
       
      }
     }
+
+
+
   return (
     /* bi sıkıntı olursa burdaki ilk divdeki h-screenda sıkıntı var  */
     <div className=" w-full h-full flex flex-col justify-start items-center bg-[#f1f0ee] ">
@@ -82,7 +85,7 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
                   <div className="relative  w-fit h-fit flex flex-row justify-center items-center gap-[10px] p-0 h ">
                   <BsListTask size={20} color="black" />
 
-                    <h2>Görev Geçmişi</h2>
+                    <h2>Sensör Çözme Geçmişi</h2>
                   </div>
                 </div>
               </Link>
@@ -103,6 +106,7 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
                   </div>
                 </div>
               </Link>
+       
 
       
             
@@ -142,7 +146,7 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
       </Button>
 
         </div>
-        <div className=" relative w-fit h-fit flex flex-col justify-start items-start gap-[20px]    ">
+           <div className=" relative w-fit h-fit flex flex-col justify-start items-start gap-[20px]    ">
   <div className=" relative w-full h-fit flex flex-row justify-start items-start gap-[10px]   border-[#E2E9E8] pb-[5px]   ">
     <Sheet  >
       <SheetTrigger className=" w-full h-fit  visible  xl:hidden  justify-start  ">
@@ -248,10 +252,16 @@ border-r border-[#d0d7de]/50  border-slate-400  pt-[10px] pl-[5px]  `)}>
   </div>
 
 </div>  
+
+
+
+<div className="w-full h-fit flex flex-col justify-end">
+     
         <div className="relative w-full h-fit flex flex-col justify-center items-center gap-[10px] ">
     
       {children}  
         </div>
+</div>
       </div>
     </div>
   );

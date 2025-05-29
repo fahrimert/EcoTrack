@@ -22,7 +22,6 @@ const page = async ({params} : {params:{id:string} }) => {
     
     const stasusesData = await statuses.json() as [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]
 
-    console.log(initialData);
   return (
     <>
   <AssignedSensorAndMap initialData = {initialData} session={session}  stasusesData = {stasusesData}/>

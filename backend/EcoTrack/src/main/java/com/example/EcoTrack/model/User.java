@@ -53,12 +53,19 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<SensorFix> sensorSessions;
 
+
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_online_status_id",referencedColumnName = "id")
     private UserOnlineStatus userOnlineStatus;
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "solvedBy",cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private List<Sensor> solvedSensors;
+
+    @OneToMany(mappedBy = "assignedTo")
+    private List<Task> tasksAssignedToMe;
+
+    @OneToMany(mappedBy = "assignedBy")
+    private List<Task> tasksIAssigned;
+
+    @OneToMany(mappedBy = "userNotifications")
+    private List<Notification> notifications;
 
 }

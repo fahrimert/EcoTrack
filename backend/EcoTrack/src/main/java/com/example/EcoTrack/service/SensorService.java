@@ -74,6 +74,38 @@
             }).collect(Collectors.toList());
                 return  sensorlistDTO;
        }
+        public List<SensorDTO> getAllAvailableSensors() {
+
+
+            List<SensorDTO> sensorlistDTO  = sensorRepository.findAllAvailable().stream().map(a ->
+            {
+                SensorFix currentSession = a.getCurrentSensorSession();
+                SensorStatus status = a.getStatus();
+                SensorLocation location = a.getSensorLocation();
+
+                return new SensorDTO(
+                        a.getId(),
+                        a.getSensorName(),
+                        status != null ? status.getDisplayName() : null,
+                        status != null ? status.getColorCode() : null,
+                        location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
+                        location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0,
+
+                        new SensorFixDTO(
+                                currentSession != null ? currentSession.getId() : null,
+                                a.getSensorName(),
+                                status != null ? status.getDisplayName() : null,
+                                status != null ? status.getColorCode() : null,
+                                currentSession != null ? currentSession.getNote() : null,
+                                currentSession != null ? currentSession.getStartTime() : null,
+                                currentSession != null ? currentSession.getCompletedTime() : null,
+                                location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
+                                location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0
+                        )
+                );
+            }).collect(Collectors.toList());
+            return  sensorlistDTO;
+        }
 
         public List<SensorDTO> getInRepaırSensors() {
 
@@ -283,6 +315,33 @@
 
 
         }
+
+
+        public ResponseEntity<ApiResponse> getInduvualSensorLocation(Long id) {
+            //eğer şuanki userin sensorssessionunda değilse buraya erişememesi lazım
+            Optional<Sensor> sensor = sensorRepository.findById(id);
+
+            Sensor sensorEntity = sensor.orElse(null);
+
+            if (sensorEntity == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse(false, "Sensor not found", null, null, 404));
+            }
+            SensorLocationDTO sensorLocationDTO = new SensorLocationDTO();
+
+            SensorLocation location = sensorEntity.getSensorLocation();
+
+
+            sensorLocationDTO.setId(location.getSensor().getId());
+            sensorLocationDTO.setLatitude(location.getSensor().getSensorLocation().getLocation().getX());
+            sensorLocationDTO.setLongitude(location.getSensor().getSensorLocation().getLocation().getY());
+
+            return  ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse(true,"Successfully got sensor",
+                    sensorLocationDTO,null,200));
+
+
+        }
+
         public List<SensorWithUserDTO> getPastSensorsOfWorkers() {
             try {
                 Role workerRole = Role.WORKER;

@@ -17,7 +17,7 @@ shadow-[inset_-1px_0_0_rgba(0,0,0,0.1),inset_1px_0_0_rgba(255,255,255,0.3)]
               {title}
             </h2>
           </div>
-          <div className="w-full h-[40px] ">
+          <div className="w-full h-fit ">
             <h2 className="w-full h-full text-[16px] text-black  items-start">
             {description}
             </h2>

@@ -16,7 +16,6 @@ const page = async ({params} : {params:{id:string} }) => {
 
     const usersAndTheirSensors = await response.json()
 
-    console.log(usersAndTheirSensors);
 
   return (
     <>

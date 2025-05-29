@@ -26,7 +26,7 @@ userListData}: {
 //burada tüm userları dönüp online olanlara online offline olanlara offline dicez
   const userBasedsensor = userListData?.map(
     (g) =>
-      g. == userProfile?.sensorSessions[0].id
+      g.id == userProfile?.sensorSessions[0].id
   );
   const customSensorListData = sensorListData?.map((sensor) => {
     const isUserSensor = userProfile?.sensorSessions.some(

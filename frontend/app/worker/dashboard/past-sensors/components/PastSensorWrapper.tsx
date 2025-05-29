@@ -16,7 +16,6 @@ const PastSensorWrapper = ({session} : {session : RequestCookie}) => {
     .then((res) => setSensorListData(res.data))
     .catch((err) => console.log(err));
   }, []);
-  console.log(sensorListData);
   return (
     <PastSensorList session={session} sensorListData={sensorListData} />
   )

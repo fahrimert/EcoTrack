@@ -62,7 +62,6 @@ initialData
     }
   });
 
-  console.log(initialData.data);
   
   const onSubmit = async (data:AssignedSensorFormValues) => {
     try{
@@ -70,7 +69,6 @@ initialData
     
       formData.append('note', data.not);
       formData.append('statusID', data.statusId);
-      console.log(data.statusId);
       if (data.files) {
         for (let i = 0; i < data.files.length; i++) {
           formData.append('files', data.files[i]);

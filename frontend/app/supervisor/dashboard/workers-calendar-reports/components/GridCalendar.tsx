@@ -61,7 +61,7 @@ const currentMonth = getMonth(new Date())  // Örn: 2025
             
               <GridItem  w='100%' h='70px' border='1px' borderColor={'#D5D4DF'} >
               <Flex w='100%' h='70px'  alignItems={"center"} justifyContent={"center"} > 
-             <Button onClick={() => {setDate(date.date)}}/>
+             <Button onClick={() => {setDate(date.date)}} className='w-[40px] h-[40px] bg-black'></Button>
            
           {date.monthClass == 'prev'    || date.monthClass == 'next' ?  <Text  id={date.key}   p='5'  filter='auto' brightness='80%'  bg='white' > {date.date} </Text> :  <Text  id={date.key}    bg='white' > {date.date} </Text> }
           

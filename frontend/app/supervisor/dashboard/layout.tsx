@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "../../providers/Providers";
-import Sidebar from "../../components/Sidebar";
-import SidebarProvider from "../../components/SidebarProvider";
+import Sidebar from "../../worker/dashboard/Sidebar";
+import SidebarProvider from "../../worker/dashboard/SidebarProvider";
 import SidebarProviderSupervizor from "./components/SidebarProviderSupervizor";
 import { useState } from "react";
+import WrapperProvider from "./workers-performance-analysis-charts/WrapperProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,14 +24,18 @@ export default async function DashboardLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      <WrapperProvider>
+
         <Providers>
+
 
           
           <div className="relative w-full h-fit flex flex-row max-xl:flex-col max-xl:p-0  justify-between  items-start  bg-[#14213f] ">
             <SidebarProviderSupervizor >{children}</SidebarProviderSupervizor>
           </div>
-
         </Providers>
+      </WrapperProvider>
+
       </body>
     </html>
   );

@@ -1,8 +1,7 @@
 package com.example.EcoTrack.dto;
 
-import com.example.EcoTrack.model.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.example.EcoTrack.model.Role;
+import com.example.EcoTrack.model.Task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,13 +11,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserTaskDTO {
     private  Long id;
     private  String firstName;
     private String  surName;
-    private  Role role;
 
-    private List<SensorFixDTO> sensorSessions;
+
 
 
 

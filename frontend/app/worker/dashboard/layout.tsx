@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "../../providers/Providers";
-import SidebarProvider from "../../components/SidebarProvider";
+import SidebarProvider from "./SidebarProvider";
 import UserActivityDetector from "./sensors/[id]/components/UserActivityDetector";
 import { cookies } from "next/headers";
 

@@ -8,12 +8,13 @@ import { DestinationContext } from '@/context/DestinationContext'
 import { Wrapper } from '@googlemaps/react-wrapper'
 import { MdOutlineSensors } from 'react-icons/md'
 import { cn } from '@/lib/utils'
-import { SensorList, UserProfile } from './SensorComponents/SensorList'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { SensorList, UserProfile } from './SensorList'
+import { TaskSensorWithTask } from './SensorsAndMap'
 
 
 
-const GoogleMapComponent = ({session,sensorListData,userProfile} : {session : RequestCookie, sensorListData:SensorList[] | undefined,userProfile : UserProfile | undefined}) => {
+const GoogleMapComponent = ({session,sensorListData,userProfile,taskSensorListData} : {session : RequestCookie, sensorListData:SensorList[] | undefined,userProfile : UserProfile | undefined, taskSensorListData: TaskSensorWithTask[]}) => {
   const [centerStateData, setCenterStateData] = useState({ latitude: 39.9334, longitude: 32.8597 });
   
   //source and destination context states
@@ -131,7 +132,36 @@ const GoogleMapComponent = ({session,sensorListData,userProfile} : {session : Re
             </OverlayView>
        
           {/* buralarda sensörleri listeleyip tek tek onların locasyonlarını koyucam  */}
-          {sensorListData?.map((a,b) => (
+    
+          {taskSensorListData.length !== 0  ? 
+            taskSensorListData?.map((a,b) => (
+
+              <>
+       <MarkerF 
+       key={b}
+            position={{lat:a.taskSensors.latitude, lng:a.taskSensors.longitude}}
+        
+            
+          />
+          <OverlayViewF 
+          position={{lat:a.taskSensors.latitude, lng:a.taskSensors.longitude}}
+          mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+        >
+                    <div className={cn(`w-fit h-fit  text-nowrap inline-block p-[5px] rounded-[3px]`)}
+                      style={{ backgroundColor: a.taskSensors.color_code }}
+
+                    >
+
+                     <MdOutlineSensors  color={a.taskSensors.color_code}/>
+       <h2 className=' w-fit h-fit text-[12px] text-white '> {a.taskSensors.sensorName}</h2>
+       </div>
+      </OverlayViewF>
+      </>
+
+          ))
+          
+          : 
+          sensorListData?.map((a,b) => (
 
               <>
        <MarkerF 
@@ -145,11 +175,11 @@ const GoogleMapComponent = ({session,sensorListData,userProfile} : {session : Re
           mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
         >
                     <div className={cn(`w-fit h-fit  text-nowrap inline-block p-[5px] rounded-[3px]`)}
-                      style={{ backgroundColor: a.color_code }}
+                      style={{ backgroundColor: a.colorCode }}
 
                     >
 
-                     <MdOutlineSensors  color={a.color_code}/>
+                     <MdOutlineSensors  color={a.colorCode}/>
        <h2 className=' w-fit h-fit text-[12px] text-white '> {a.sensorName}</h2>
        </div>
       </OverlayViewF>

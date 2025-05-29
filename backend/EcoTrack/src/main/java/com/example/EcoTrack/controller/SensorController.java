@@ -54,6 +54,17 @@ public class SensorController {
         return  sensorService.getAllSensor();
     }
 
+    @GetMapping("/sensors/location/{sensorId}")
+    @CrossOrigin(
+            origins = "http://localhost:9595", // veya frontend URL’in
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    @Transactional
+    public ResponseEntity<ApiResponse> getInduvualSensorLocation(@PathVariable Long sensorId){
+        return  sensorService.getInduvualSensorLocation(sensorId);
+    }
+
 
 
     @GetMapping("/sensors/{sensorId}")

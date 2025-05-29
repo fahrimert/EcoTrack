@@ -61,7 +61,6 @@ session: RequestCookie
       "2025-05-03T20:35:41.891+00:00",
       "2025-05-03T20:36:36.939+00:00"
     )); */
-    console.log(sensor);
     return (
      
         

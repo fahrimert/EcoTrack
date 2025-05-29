@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Point;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -67,6 +68,19 @@ public class AuthController {
     public Claims accessTokenController(HttpServletRequest request , HttpServletResponse response , @PathVariable String accessToken){
         return  jwtService.extractAllClaims(accessToken);
     }
+
+
+    @GetMapping("/getUserLocationBasedOnİd/{userId}")
+    @Transactional
+
+    public UserLocationDTO getLocationBasedOnId(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        Point point =   user.getUserLocation().getLocation();
+
+        return new UserLocationDTO(user.getId(),point.getY(), point.getX());
+    }
+
     @GetMapping("/user/role/{accessToken}")
     @Transactional
     public String getUserRoleController(HttpServletRequest request , HttpServletResponse response , @PathVariable String accessToken){
@@ -80,6 +94,24 @@ public class AuthController {
 
     }
 
+
+
+
+    @PostMapping("/user/getProfilesOfUsers")
+    @Transactional
+    public List<UserOnlineStatusDTO> getProfilesOfUsers(@RequestBody List<Long> userIds) {
+        List<User> users = userService.findAllByIds(userIds);
+
+        return users.stream().map(user -> {
+            UserOnlineStatusDTO dto = new UserOnlineStatusDTO();
+            dto.setId(user.getId());
+            dto.setFirstName(user.getFirstName());
+            dto.setSurName(user.getSurName());
+            dto.setRole(user.getRole());
+            dto.setUserOnlineStatus(user.getUserOnlineStatus());
+            return dto;
+        }).collect(Collectors.toList());
+    }
 
 
 
