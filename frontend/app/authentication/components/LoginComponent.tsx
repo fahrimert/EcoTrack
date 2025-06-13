@@ -9,19 +9,30 @@ import { IoEyeOff,IoEye  } from "react-icons/io5";
 import { cn } from "@/lib/utils";
 import LoginButton from "./LoginButton";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-const SigninComponent = ({session } : {session: RequestCookie}) => {
+import { useRouter } from "next/navigation";
+const SigninComponent = ({session } : {session: RequestCookie | undefined}) => {
   const [state, action] = useFormState(signin, undefined);
+    const router = useRouter(); 
   useEffect(() => {
-    if(state?.serverSuccess){
-      toast.success(state?.serverSuccess);
-    }
     if (state?.serverError) {
-      toast.error(state.serverError)
+      toast.error(state?.serverError);
+      console.log("Toast Error Triggered:", state?.serverError);
       
     }
-  }, [state ]);
+    if(state?.serverSuccess){
+            toast.success("Successfully logged in");
 
-  console.log(state?.errors);
+           const roleRouteMap = {
+         ROLE_WORKER: '/worker',
+         ROLE_SUPERVISOR: '/supervisor',
+       };
+   
+        router.push(`/dashboard`); 
+
+    }
+  }, [state?.serverError]);
+
+  console.log(state?.serverError);
 
 
     const [visible,setVisible] = useState(true)

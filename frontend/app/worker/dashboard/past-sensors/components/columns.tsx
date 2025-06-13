@@ -6,18 +6,8 @@ import { format } from "date-fns"
 import { tr } from "date-fns/locale"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-export type GroupedSensorData = {
-  id: number;
-  sensorName: string;
-  status: string;
-  installationDate: string;
-  sessions: {
-    id: number;
-    startTime: string;
-    completedTime: string;
-    note: string;
-  }[];
-}
+import { GroupedSensorData } from "@/app/supervisor/superVizorDataTypes/types";
+
 export const columns: ColumnDef<GroupedSensorData>[] = [
   {
     accessorKey: "sensorName",

@@ -2,15 +2,9 @@
 import React from 'react'
 
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import PastSensor from './PastSensor'
+
 import { columns } from './columns'
-import { DataTable } from '@/components/ui/DataTable'
+import { CustomDataTable } from '@/components/ui/CustomDataTable'
 
 export interface SensorData {
   id: number;
@@ -67,7 +61,7 @@ const PastSensorList = ({session , sensorListData }: {session:RequestCookie, sen
   }, [] as GroupedSensorData[]);
   return (
     <div className=" w-full h-fit items-start justify-start   p-[10px]   gap-[5px] rounded-[30px]">
-          <DataTable
+          <CustomDataTable
       
       searchKey="sensorName"
       columns={columns}

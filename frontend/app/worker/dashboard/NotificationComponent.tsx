@@ -1,28 +1,23 @@
 "use client"
-import { UserOnlineStatusDTO } from '@/app/supervisor/dashboard/components/OnlineUsers';
 import React, { useEffect, useState } from 'react'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { IoNotifications } from "react-icons/io5";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { format } from 'date-fns';
 import Link from 'next/link';
-import { Client, over } from 'stompjs';
-import SockJS from 'sockjs-client';
-import { Sensor } from './past-sensors/[id]/page';
 import { tr } from 'date-fns/locale';
-import { UserProfile } from './components/SensorComponents/SensorList';
 import axios from 'axios';
 import { updateNotificationsToIsReadTrue } from '@/app/actions/notificationActions/updateNotificationsToIsReadTrue';
+import { UserOnlineStatusDTO } from '@/app/supervisor/superVizorDataTypes/types';
+import { useUserProfile } from '@/hooks/useUserProfile';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 const NotificationComponent = ({session , enrichedNotifications} : {
-  session:string,
+  session:RequestCookie | undefined,
   
   enrichedNotifications: {
     sender: UserOnlineStatusDTO | undefined;
@@ -35,18 +30,11 @@ const NotificationComponent = ({session , enrichedNotifications} : {
     isread:boolean
     id: number;
 }[]    }) => {
-  const [userProfile,setUserProfile] = useState<UserProfile>()
-    useEffect(() => {
-    axios.get(`http://localhost:8080/user/profile/${session}`, {
-      headers: { Authorization: `Bearer ${session}` },
-      withCredentials: true,
-    })
-    .then((res) => setUserProfile(res.data))
-    .catch((err) => console.log(err));
-  }, []);
+  const { userProfile, loading, error } = useUserProfile(session);
+
   const makeMyNotificationRead = async(userId:string ) => {
  try {
-    const response =  await updateNotificationsToIsReadTrue(session,userId)
+    const response =  await updateNotificationsToIsReadTrue(session?.value!,userId)
   console.log(response);
  } catch (error) {
     console.log(error);

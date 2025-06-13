@@ -1,21 +1,14 @@
 import { cookies } from "next/headers";
 import React from "react";
-import MainPageChartsComponent from "../components/MainPageChartsComponent";
-import WorkerPerformanceAnalysis from "./WorkerPerformanceAnalysis";
+import WorkerPerformanceAnalysis from "./PerformanceCharts/WorkerPerformanceAnalysis";
 
 const page = async () => {
   const session = cookies().get("session");
-  
- 
 
-
-
-
- 
-    return (
+  return (
     <>
       <div className=" h-fit w-full items-center justify-center flex">
-        <WorkerPerformanceAnalysis session = {session} />
+        <WorkerPerformanceAnalysis session={session} />
       </div>
     </>
   );

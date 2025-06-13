@@ -5,7 +5,7 @@ interface SidebarProviderProps  {
   children: React.ReactNode;
 }
 const SidebarProviderSupervizor:React.FC<SidebarProviderProps> = ({children} ) => {
-  const session = cookies().get("session")?.value;
+  const session = cookies().get("session")
   return (
       <SidebarSupervizor children = {children} session = {session} />
   )

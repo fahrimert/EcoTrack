@@ -3,5 +3,5 @@ package com.example.EcoTrack.dto;
 public class HeartbeatDTO {
     private Boolean isOnline;
     public Boolean getIsOnline() { return isOnline; }
-    public void setIsOnline(Boolean isOnline) { this.isOnline = isOnline; }
+public void setIsOnline(Boolean isOnline) { this.isOnline = isOnline; }
 }

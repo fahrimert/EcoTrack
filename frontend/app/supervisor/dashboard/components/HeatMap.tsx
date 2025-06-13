@@ -1,9 +1,6 @@
 import { Separator } from '@/components/ui/separator';
-import { Wrapper } from '@googlemaps/react-wrapper'
-import { GoogleMap, HeatmapLayer } from '@react-google-maps/api'
 import dynamic from 'next/dynamic';
-import { cookies } from 'next/headers';
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 const HeatMapComponent = dynamic(() => import("./HeatMapComponent"), {
   ssr: false,
 });
@@ -17,7 +14,7 @@ const HeatMap = ({response } : {response:[{
 
 
   return <div className=' w-full h-fit flex flex-col gap-[10px]'>
-    <h2 className='text-[24px]'>Geçmişteki Hatalı Sensörlerin Sıcaklık Haritalar</h2>
+    <h2 className='text-[24px]'>Geçmişteki Görevler Harici Hatalı Sensörlerin Sıcaklık Haritaları</h2>
     <Separator/>
     <HeatMapComponent response={response} />
   </div>

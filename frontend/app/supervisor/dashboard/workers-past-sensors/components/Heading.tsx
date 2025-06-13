@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 
 interface HeadingProps {
   title: String;
-  description: Date;
+  description: String;
 }
 
 const Heading: React.FC<HeadingProps> = ({ title, description }) => {

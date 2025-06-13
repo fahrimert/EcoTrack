@@ -3,6 +3,7 @@ package com.example.EcoTrack.service;
 import com.example.EcoTrack.dto.*;
 import com.example.EcoTrack.model.*;
 import com.example.EcoTrack.repository.RefreshTokenRepository;
+import com.example.EcoTrack.repository.SensorSessionRepository;
 import com.example.EcoTrack.repository.TaskRepository;
 import com.example.EcoTrack.repository.UserRepository;
 import com.example.EcoTrack.security.customUserDetail.CustomUserDetailService;
@@ -22,9 +23,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,13 +40,13 @@ public class UserService {
     private  final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManager authenticationManager;
     private  final TaskRepository taskRepository;
-
     private  final CustomUserDetailService userDetailServicee;
     private  final JwtService jwtService;
     private  final  RefreshTokenService refreshTokenService;
     private  final  OTPService otpService;
+    private  final SensorSessionRepository sensorSessionRepository;
     private  final RefreshTokenRepository refreshTokenRepository;
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TaskRepository taskRepository, CustomUserDetailService userDetailServicee1, JwtService jwtService, RefreshTokenService refreshTokenService, OTPService otpService, RefreshTokenRepository refreshTokenRepository) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, TaskRepository taskRepository, CustomUserDetailService userDetailServicee1, JwtService jwtService, RefreshTokenService refreshTokenService, OTPService otpService, SensorSessionRepository sensorSessionRepository, RefreshTokenRepository refreshTokenRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
         this.authenticationManager = authenticationManager;
@@ -49,12 +55,36 @@ public class UserService {
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
         this.otpService = otpService;
+        this.sensorSessionRepository = sensorSessionRepository;
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+
+    public void deleteUserById(Long id)
+    {
+        try {
+            userRepository.deleteById(id);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deactivateUserById(Long id)
+    {
+        try {
+            User userOptional = findById(id);
+            userOptional.setIsActive(false);
+            userRepository.save(userOptional);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 
     public User findByUsername(String username) {
@@ -77,6 +107,14 @@ public class UserService {
                                 HttpStatus.FORBIDDEN
                         ));
 
+            }
+            if (dbUser.getIsActive() == false){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(ApiResponse.error(
+                                "User Deactivated",
+                                List.of("User Deactivated"),
+                                HttpStatus.FORBIDDEN
+                        ));
             }
         if (!dbUser.getEmail().equals(user.getEmail     ())){
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
@@ -120,9 +158,14 @@ public class UserService {
                         )
                 );
 
+
                 UserDetails userDetails = userDetailServicee.loadUserByUsername(user.getFirstName());
                 String token = jwtService.generateToken(userDetails.getUsername());
                 String refreshToken = refreshTokenService.createRefreshToken(dbUser.getFirstName(), dbUser, userRepository);
+
+                Date now = new Date();
+                dbUser.setLastLoginTime(now);
+                userRepository.save(dbUser);
                 return ResponseEntity.status(HttpStatus.ACCEPTED)
                         .body(ApiResponse.success(
                                 Map.of(
@@ -183,10 +226,8 @@ public class UserService {
 
         return  incompleteTasks;
     }
-    public   List<UserOnlineStatusDTO> getAllUsers() {
-        List<User> userList = userRepository.findAll();
-
-        List<User> allUsers = userRepository.findAll();
+    public   List<UserOnlineStatusDTO> getAllWorker() {
+        List<User> allUsers = userRepository.findAllByRole(Role.WORKER);
         List<UserOnlineStatusDTO> dtoList = allUsers.stream()
                 .map(userItem -> {
 
@@ -202,6 +243,49 @@ public class UserService {
 
         return dtoList;
     }
+    public List<UserOnlineStatusDTO> getAllSuperVizor(){
+        List<User> allSupervizor = userRepository.findAllByRole(Role.SUPERVISOR);
+        List<UserOnlineStatusDTO> dtoList = allSupervizor.stream()
+                .map(userItem -> {
+
+                    UserOnlineStatusDTO dto = new UserOnlineStatusDTO();
+                    dto.setId(userItem.getId());
+                    dto.setFirstName(userItem.getFirstName());
+                    dto.setSurName(userItem.getSurName());
+                    dto.setRole(userItem.getRole());
+                    dto.setUserOnlineStatus(userItem.getUserOnlineStatus());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        return dtoList;
+
+    }
+
+    public List<UserAndSupervizorsDTO> getAllSupervizorAndWorker(){
+        List<User> allUsers = userRepository.findAllExceptManager();
+        List<UserAndSupervizorsDTO> dtoList = allUsers.stream()
+                .map(userItem -> {
+                    UserAndSupervizorsDTO dto = new UserAndSupervizorsDTO();
+                    dto.setId(userItem.getId());
+                    dto.setFirstName(userItem.getFirstName());
+                    dto.setSurName(userItem.getSurName());
+                    dto.setRole(userItem.getRole());
+                    dto.setEmail(userItem.getEmail());
+                    dto.setLastLoginTime(userItem.getLastLoginTime());
+                    dto.setLastOnlineTime(
+                            userItem.getUserOnlineStatus() != null && userItem.getUserOnlineStatus().getLastOnlineTime() != null
+                                    ? userItem.getUserOnlineStatus().getLastOnlineTime()
+                                    : LocalDateTime.now()
+                    );
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        return dtoList;
+
+    }
+
     public   List<UserOnlineStatusDTO> getAllusersWithoutTasks() {
 
         List<User> allUsers = userRepository.findAll();
@@ -225,9 +309,11 @@ public class UserService {
                 .collect(Collectors.toList());
         return dtoList;
     }
-
     public List<User> findAllByIds(List<Long> userIds) {
         return userRepository.findAllById(userIds);
-
     }
+
+
+
 }
+

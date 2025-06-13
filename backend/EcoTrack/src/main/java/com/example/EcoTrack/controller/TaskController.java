@@ -123,8 +123,8 @@ public class TaskController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    public void updateTaskToFinal(@RequestParam String solvingNote, @PathVariable Long taskId, @RequestParam List<MultipartFile> files){
-        taskService.finishTask(solvingNote,taskId,files);
+    public void updateTaskToFinal(@RequestParam String solvingNote,@RequestParam SensorStatus statusID, @PathVariable Long taskId, @RequestParam List<MultipartFile> files){
+        taskService.finishTask(solvingNote,statusID,taskId,files);
     }
 
 

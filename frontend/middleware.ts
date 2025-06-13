@@ -16,6 +16,7 @@ export async function middleware(request: NextRequest, res: NextResponse) {
      const roleRouteMap = {
     ROLE_WORKER: '/worker',
     ROLE_SUPERVISOR: '/supervisor',
+    ROLE_MANAGER : '/manager'
   };
    const decoded = jwt.decode(session);
 

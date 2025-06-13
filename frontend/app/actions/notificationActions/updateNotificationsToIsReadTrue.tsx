@@ -1,11 +1,7 @@
 "use server";
-import { TaskSensorWithTask } from "@/app/worker/dashboard/components/SensorComponents/SensorsAndMap";
 import axios from "axios";
-import { cookies } from "next/headers";
 
 export async function updateNotificationsToIsReadTrue(session:string,userId:string) {
-  console.log(userId);
-  console.log(session );
   try {
         const response = await axios.put(
             `http://localhost:8080/task/updateMarkIsRead/${userId}`,

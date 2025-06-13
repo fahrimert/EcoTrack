@@ -1,38 +1,16 @@
 "use client"
 import React from 'react'
-
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import PastSensor from './PastSensor'
 import { columns } from './columns'
-import { DataTable } from '@/components/ui/DataTable'
-import { SensorSessionWithser } from './WorkerPastSensorWrapper'
-interface GroupedSensorData {
-  id: number;
-  userİd:number
-  sensorName: string;
-  status: string;
-  username:string
-  installationDate: string;
-  sessions: {
-    id: number;
-    startTime: string;
-    completedTime: string;
-    note: string;
-  }[];
-}
+import { GroupedSensorData, SensorSessionWithser } from '@/app/supervisor/superVizorDataTypes/types'
+import { CustomDataTable } from '@/components/ui/CustomDataTable'
 
-const WorkersPastSensorList = ({session , sensorListData }: {session:RequestCookie, sensorListData:SensorSessionWithser[]| undefined}) => {
+
+const WorkersPastSensorList = ({session , sensorListData }: {session:RequestCookie | undefined, sensorListData:SensorSessionWithser[]| undefined}) => {
 
 
   const groupedSensors = sensorListData?.reduce((acc, current) => {
 
-    //hem userin idsinin eşit olması lazım usera göre sıralayıp ondaki sensorleri yapması lazım 
     const existingSensor = acc.find(s => s.userİd === current.userid);
     
     if (existingSensor) {
@@ -62,7 +40,7 @@ const WorkersPastSensorList = ({session , sensorListData }: {session:RequestCook
   }, [] as GroupedSensorData[]);
   return (
     <div className=" w-full h-fit items-start justify-start   p-[10px]   gap-[5px] rounded-[30px]">
-         <DataTable
+         <CustomDataTable
              
              searchKey="sensorName"
              columns={columns}

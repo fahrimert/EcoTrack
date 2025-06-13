@@ -1,20 +1,14 @@
 import { cookies } from "next/headers";
 import React from "react";
-import { ChartComponent } from "./components/ChartComponent";
 import MainPageChartsComponent from "./components/MainPageChartsComponent";
- interface UserStats {
-    [key: string]: number; // kullanıcı adı -> sayı eşleşmesi
-  }
 
-  interface TimeBasedUserStats {
-    last_month?: UserStats;
-    last_week?: UserStats;
-    last_day?: UserStats;
-  }
 
-  export type FullUserStats = TimeBasedUserStats[]
+ 
+
 const page = async () => {
   const session = cookies().get("session");
+
+  
      const response = await fetch(`http://localhost:8080/superVizorSensors/getSensorsFiltersBasedStat`, {
       method: "GET",
       headers: {
@@ -35,11 +29,27 @@ const page = async () => {
     });
 
     const getWorkerStats = await responsegetWorkerStats.json()
- 
+         const getFaultyLocationss = await fetch(`http://localhost:8080/superVizorSensors/getFaultyLocations`, {
+           method: "GET",
+           headers: {
+             Authorization: `Bearer ${session?.value}`,
+             "Content-Type": "application/json",
+           },
+         });
+     
+         const responseOFaulty = await getFaultyLocationss.json() as 	[{
+     id: string;
+     latitude: number;
+     longitude: number;
+ }]
+   
     return (
     <>
-      <div className=" h-fit w-full items-center justify-center flex">
-        <MainPageChartsComponent sensorfilterBasedStat = {sensorfilterBasedStat} getWorkerStats = {getWorkerStats} />
+      <div className=" h-fit w-full items-center justify-center flex pt-[10px]">
+        <MainPageChartsComponent 
+        sensorfilterBasedStat = {sensorfilterBasedStat}
+        responseOFaulty = {responseOFaulty}
+        getWorkerStats = {getWorkerStats} />
       </div>
     </>
   );

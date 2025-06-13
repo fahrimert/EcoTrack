@@ -14,7 +14,7 @@ import { SensorDestinationContext } from '@/context/SensorDestinationContext'
 
 
 
-const GoogleMapComponentOfOrder = ({session} : {session: string | undefined}) => {
+const GoogleMapComponentOfOrder = ({session} : {session: RequestCookie | undefined}) => {
   const [centerStateData, setCenterStateData] = useState({ latitude: 39.9334, longitude: 32.8597 });
   
   //source and destination context states
@@ -25,7 +25,7 @@ const GoogleMapComponentOfOrder = ({session} : {session: string | undefined}) =>
   //useeffect for putting the current user location on map center and setting the source value users location 
  useEffect(() => {
     axios.get("http://localhost:8080/getUserLocation", {
-      headers: { Authorization: `Bearer ${session}` },
+      headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })
     .then((res) => {setSource({lat:res.data.latitude, lng: res.data.longitude} )  
@@ -99,7 +99,10 @@ console.log(source);
 
       return (
           <div>
-          <Wrapper apiKey="AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E" key={mapKey}>
+          <Wrapper apiKey="AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E" 
+      libraries={["visualization"]}
+          
+          key={mapKey}>
             <GoogleMap
             mapContainerStyle={{ width: '100%', height: '700px', position: 'relative' }}
             center={ {lat:centerData.latitude,lng:centerData.longitude}}
@@ -149,7 +152,7 @@ console.log(source);
            
               {/* buralarda sensörleri listeleyip tek tek onların locasyonlarını koyucam  */}
          
-         
+
     
               {/* Child components, such as markers, info windows, etc. */}
       <DirectionsRenderer

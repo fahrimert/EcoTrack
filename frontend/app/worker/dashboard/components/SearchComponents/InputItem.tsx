@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -50,6 +50,18 @@ const InputItem = ({ session }: { session: RequestCookie }) => {
     }
   };
 
+  useEffect(() => {
+  if (!window.google) {
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E&libraries=places`;
+    script.async = true;
+    document.head.appendChild(script);
+    script.onload = () => {
+      console.log("Google Maps script loaded");
+    };
+  }
+}, []);
+
   return (
     <Form {...form}>
       <form
@@ -57,12 +69,7 @@ const InputItem = ({ session }: { session: RequestCookie }) => {
         className="w-full  h-fit p-[10px]   border-[1px]  "
       >
         <div className="w-fit h-fit flex flex-col  gap-[20px]  p-[10px]  bg-white">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-black">Adres</FormLabel>
+    
                 <FormControl>
                   <Autocomplete
                     apiKey="AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E"
@@ -83,13 +90,9 @@ const InputItem = ({ session }: { session: RequestCookie }) => {
                       componentRestrictions: { country: "tr" },
                     }}
                     className="  h-[50px] w-full box-border text-sm font-medium   text-black bg-white border-[2px] shadow-md  "
-                    {...field}
                   />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+           
 
           <Button
             variant={null}

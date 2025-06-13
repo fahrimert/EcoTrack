@@ -1,6 +1,5 @@
 package com.example.EcoTrack.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,7 +18,7 @@ import java.util.List;
 public class Sensor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private  String sensorName;
@@ -46,14 +45,8 @@ public class Sensor {
 
     @OneToMany(mappedBy = "sensor")
     private List<Task> tasks;
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(
-//            name = "sensor_id"
-//    )
-//    @JsonBackReference
-//    private  User solvedBy;
-//
 
+    private  Date lastUpdatedAt;
 
     private Date installationDate;
 

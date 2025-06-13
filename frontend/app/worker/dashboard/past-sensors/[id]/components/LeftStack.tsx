@@ -20,10 +20,9 @@
   import { AddressComponent } from "@googlemaps/google-maps-services-js";
   import { format } from "date-fns";
   import { Separator } from "@/components/ui/separator";
-  import { ImageResponseDTO } from "../page";
-import { useEffect, useState } from "react";
-import { UserProfile } from "@/app/components/SensorComponents/SensorList";
-import axios from "axios";
+import { ImageResponseDTO } from "@/app/supervisor/superVizorDataTypes/types";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
   const LeftStack = ({initialData,addressComponents,session} : {initialData :  {data:{
     id: number,
@@ -43,19 +42,10 @@ import axios from "axios";
   }},
 
   addressComponents: AddressComponent[]
-  session: string
+  session: RequestCookie | undefined
   } , ) => {
 
-  const [userProfile,setUserProfile] = useState<UserProfile>()
-
-  useEffect(() => {
-    axios.get(`http://localhost:8080/user/profile/${session}`, {
-      headers: { Authorization: `Bearer ${session}` },
-      withCredentials: true,
-    })
-    .then((res) => setUserProfile(res.data))
-    .catch((err) => console.log(err));
-  }, []);
+  const { userProfile, loading, error } = useUserProfile(session);
 
     return (
       <div className='relative  w-full h-fit flex flex-col justify-center items-start gap-[5px]  '>

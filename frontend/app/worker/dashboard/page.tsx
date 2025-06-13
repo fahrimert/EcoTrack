@@ -2,11 +2,9 @@ import { cookies } from "next/headers";
 import React from "react";
 import SensorsAndMap, { Notification } from "./components/SensorComponents/SensorsAndMap";
 
-import { UserProfile } from "./components/SensorComponents/SensorList";
-import { UserOnlineStatusDTO } from "@/app/supervisor/dashboard/components/OnlineUsers";
 
-import NotificationComponent from "./NotificationComponent";
 import NotificationComponentWrapper from "./NotificationComponentWrapper";
+import { UserOnlineStatusDTO, UserProfilea } from "@/app/supervisor/superVizorDataTypes/types";
 const page = async () => {
   const session = cookies().get("session");
 
@@ -18,7 +16,7 @@ const page = async () => {
                     "Content-Type": "application/json",
                   },
                 });
-                const responseProfileUserdata = await responseProfileUser.json() as UserProfile
+                const responseProfileUserdata = await responseProfileUser.json() as UserProfilea
              const response = await fetch(`http://localhost:8080/notifications/getNotifications/${responseProfileUserdata?.id}`, {
                   method: "GET",
                   headers: {
@@ -55,7 +53,7 @@ const enrichedNotifications = notifications.map((notif) => {
     <>
       <div className=" h-fit w-full">
     
-<NotificationComponentWrapper session = {session?.value} enrichedNotifications = {enrichedNotifications}/>
+<NotificationComponentWrapper session = {session} enrichedNotifications = {enrichedNotifications}/>
 
 
         <SensorsAndMap session={session} />

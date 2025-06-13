@@ -14,6 +14,7 @@ import { logOut } from "../../actions/authActions/signout";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
  
 interface NewSidebar  {
@@ -26,16 +27,9 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const [sidebarw,setSidebarw] = useState(true)
-    const [userProfile,setUserProfile] = useState<UserProfile>()
-  useEffect(() => {
-    axios.get(`http://localhost:8080/user/profile/${session}`, {
-      headers: { Authorization: `Bearer ${session}` },
-      withCredentials: true,
-    })
-    .then((res) => setUserProfile(res.data))
-    .catch((err) => console.log(err));
-  }, []);
-  
+  const { userProfile, loading, error } = useUserProfile(session);
+
+  console.log(userProfile);
   const handleLogout = async () => {
    
      try {  

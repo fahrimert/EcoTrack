@@ -8,8 +8,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -67,5 +68,11 @@ public class User {
 
     @OneToMany(mappedBy = "userNotifications")
     private List<Notification> notifications;
+
+    @Column(name = "is_active")
+    private Boolean isActive = true;
+
+    private Date lastLoginTime;
+
 
 }

@@ -14,9 +14,10 @@ import SockJS from "sockjs-client";
 import { TaskSensorWithTask } from "../../../components/SensorComponents/SensorsAndMap";
 
 
-const AssignedTaskAndMap = ({initialData , session   } : {initialData: TaskSensorWithTask
+const AssignedTaskAndMap = ({initialData , session ,stasusesData  } : {initialData: TaskSensorWithTask
   
-  , session:RequestCookie | undefined}) => {
+  , session:RequestCookie | undefined , 
+stasusesData  : [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ] }) => {
   const [source,setSource] = useState({
     lat:39.9334,
     lng: 32.8597
@@ -41,7 +42,7 @@ const AssignedTaskAndMap = ({initialData , session   } : {initialData: TaskSenso
         console.error("WebSocket bağlantı hatası:", error);
       });
     }, []);
-
+console.log(stasusesData);
   return (
     <>
     <div className="relative w-full h-fit flex flex-row justify-start items-start gap-[20px]  pt-[20px] ">
@@ -61,7 +62,7 @@ const AssignedTaskAndMap = ({initialData , session   } : {initialData: TaskSenso
         <AssignedSensorFormForOnRoad initialData = {initialData}  />
   </TabsContent>
   <TabsContent value="solving">
-        <AssignedTaskFormForSolving initialData = {initialData}  />
+        <AssignedTaskFormForSolving initialData = {initialData}  stasusesData = {stasusesData}  />
 
   </TabsContent>
 

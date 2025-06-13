@@ -1,15 +1,15 @@
 "use client"
 
-import { UserOnlineStatusDTO } from "@/app/supervisor/dashboard/components/OnlineUsers";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 import { Client, over } from "stompjs";
-import { UserProfile } from "./components/SensorComponents/SensorList";
-import axios from "axios";
+import { UserOnlineStatusDTO } from "@/app/supervisor/superVizorDataTypes/types";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 const NotificationComponent = dynamic(() => import('./NotificationComponent'), { ssr: false });
 
-const NotificationComponentWrapper = ({session,enrichedNotifications} : {session:string , enrichedNotifications: {
+const NotificationComponentWrapper = ({session,enrichedNotifications} : {session:RequestCookie | undefined , enrichedNotifications: {
     sender: UserOnlineStatusDTO | undefined;
     supervizorDescription: string;
     superVizorDeadline: string;
@@ -33,16 +33,8 @@ const NotificationComponentWrapper = ({session,enrichedNotifications} : {session
 } []>(enrichedNotifications || [])
 
     let stompClient: Client;
-      const [userProfile,setUserProfile] = useState<UserProfile>()
-  
-        useEffect(() => {
-    axios.get(`http://localhost:8080/user/profile/${session}`, {
-      headers: { Authorization: `Bearer ${session}` },
-      withCredentials: true,
-    })
-    .then((res) => setUserProfile(res.data))
-    .catch((err) => console.log(err));
-  }, []);
+       const { userProfile, loading, error } = useUserProfile(session);
+
 
       useEffect(() => {
     const socket = new SockJS('http://localhost:8080/ws'); 
@@ -65,6 +57,8 @@ const NotificationComponentWrapper = ({session,enrichedNotifications} : {session
 
    
   }, [enrichedNotifications,userProfile?.id]);
+
+  console.log(userProfile?.firstName);
   return (
     <div>
         <NotificationComponent session = {session} enrichedNotifications = {notification}/>

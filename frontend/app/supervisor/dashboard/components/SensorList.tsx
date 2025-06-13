@@ -1,35 +1,27 @@
 "use client";
 import React from "react";
 import Sensor from "./Sensor";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { UserProfile, UserProfilea } from "../../superVizorDataTypes/types";
 
 //interface for sensorlist
 
-export interface UserProfile {
-   id: number;
-  firstName: string;
-  surName: string;
-  role: string;
-  userOnlineStatus: {
-  id: number;
-  isOnline: boolean;
-  createdAt: string | null;
-}
-;
-}
+
 
 const SensorList = ({
-userListData}: {
-  userListData: UserProfile[] | undefined;
+userListData,
+userProfile
+}: {
+  userListData: UserProfilea[] | undefined;
+userProfile : UserProfilea
 }) => {
 //burada tüm userları dönüp online olanlara online offline olanlara offline dicez
   const userBasedsensor = userListData?.map(
     (g) =>
-      g.id == userProfile?.sensorSessions[0].id
+      g.id == userProfile?.sensorSessions![0].id
   );
   const customSensorListData = sensorListData?.map((sensor) => {
-    const isUserSensor = userProfile?.sensorSessions.some(
+    const isUserSensor = userProfile?.sensorSessions!.some(
       (session) => session.id === sensor.currentSensorSession?.id
     );
 

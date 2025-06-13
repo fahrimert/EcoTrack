@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { UserOnlineStatusDTO } from "./OnlineUsers";
+import { UserOnlineStatusDTO } from "../../superVizorDataTypes/types";
 
 const OnlineUser = ({
     user

@@ -5,61 +5,120 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e3eb0bd-d057-4c1b-b69e-863abc37bb95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/TaskController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/NotificationDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorAllAndTaskDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorCountDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorDateCountDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorTaskDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/TaskDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserTaskDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Task.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/TaskImages.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/NotificationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/TaskImagesRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/TaskRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/NotificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TaskImageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TaskService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/ManageBasedController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/AllSensorForManagerDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/AllSensorSessionDTOForManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/CreateSensorLocationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/CreateSensorLocationRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorDetailForManagerDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorWithUserProjection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/TaskCountDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserAndSupervizorsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/ManagerGraphService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SuperVizorGraphsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/EcoTrackApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/EcoTrackApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/LocationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SensorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SensorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SuperVizorBasedController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SuperVizorBasedController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/TaskController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/HeartbeatDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/HeartbeatDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Sensor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Task.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/UserOnlineStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/UserOnlineStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorSessionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorSessionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/TaskRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TaskService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/GoogleMapComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SearchComponents/InputItem.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SearchComponents/SearchUserLocation.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SensorComponents/Sensor.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SensorComponents/SensorList.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SensorsAndMap.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/Sidebar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/SidebarProvider.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/(" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/authActions/signin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/authActions/signin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/notificationActions/updateNotificationsToIsReadTrue.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/notificationActions/updateNotificationsToIsReadTrue.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/updateSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/updateSensor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/taskActions/updateTask.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/taskActions/updateTask.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/authentication/components/LoginComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/authentication/components/LoginComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/authentication/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/authentication/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/ChartComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/ChartComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/HeatMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/HeatMap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/HeatMapComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/HeatMapComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/LineChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/LineChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/MainPageChartsComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/MainPageChartsComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUsers.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SensorList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SensorList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SidebarProviderSupervizor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SidebarProviderSupervizor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SidebarSuperVizor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SidebarSuperVizor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/GridCalendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/GridCalendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/AttachTask.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/AttachTask.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/GoogleMapComponentOfOrder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/GoogleMapComponentOfOrder.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/TasksList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/TasksList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/WorkerMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/WorkerMap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/WrapperForContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/WrapperForContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/Calendar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/GridCalendar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/PastSensorsForReport.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/PastSensorsForReport.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/PastSensorsForReportWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/PastSensorsForReportWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/SheetOfPDF.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/WrapperForContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/WrapperForContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/columns.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/DetailsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/DetailsPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/LeftStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/LeftStack.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/SingleSensorFromPastSensors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/SingleSensorFromPastSensors.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/a.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/components/LeftStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/components/LeftStack.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/components/SingleSensorFromPastSensors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/components/SingleSensorFromPastSensors.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/Heading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/Heading.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/PastSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/PastSensor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/WorkerPastSensorWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/WorkerPastSensorWrapper.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/WorkersPastSensorList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/WorkersPastSensorList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/columns.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/columns.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/Calendar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/CalendarHeatmapForWorker.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/ChartComponent.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/GridCalendarHeatmapForWorker.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/HeatMapForWorkerSensors.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/HeatMapForWorkerSensorsComponent.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/LeaderBoardComponent.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/WorkerPerformanceAnalysis.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/test/TestComponent.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/NotificationComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/NotificationComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/NotificationComponentWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/NotificationComponentWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/Sidebar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/SidebarProvider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/SidebarProvider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SearchComponents/InputItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SearchComponents/InputItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/GoogleMapComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/GoogleMapComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/SensorList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/SensorList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/SensorsAndMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/SensorsAndMap.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/components/Heading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/components/Heading.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensorWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensorWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/components/LeftStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/components/LeftStack.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/components/SingleSensorFromPastSensors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/components/SingleSensorFromPastSensors.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensorList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensorList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/columns.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/columns.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskAndMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskAndMap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskFormForSolving.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskFormForSolving.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/AssignedSensorAndMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/AssignedSensorAndMap.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/AssignedSensorForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/AssignedSensorForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/MapOfSingleSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/MapOfSingleSensor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/components/ui/DataTable.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/components/ui/DataTable.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/lib/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/lib/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/middleware.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +144,7 @@
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/6.4.4/spring-security-config-6.4.4.jar!/org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.4.4/spring-security-core-6.4.4.jar!/org/springframework/security/authentication/AuthenticationManager.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.4.4/spring-security-core-6.4.4.jar!/org/springframework/security/authentication/UsernamePasswordAuthenticationToken.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/6.2.5/spring-web-6.2.5.jar!/org/springframework/http/ResponseEntity.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
@@ -121,9 +181,9 @@
       <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\service" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.EcoTrack.dto" />
       <recent name="com.example.EcoTrack.repository" />
       <recent name="com.example.EcoTrack.service" />
-      <recent name="com.example.EcoTrack.dto" />
       <recent name="com.example.EcoTrack.model" />
       <recent name="com.example.EcoTrack.controller" />
     </key>

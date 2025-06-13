@@ -5,11 +5,11 @@ import axios from 'axios'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { SourceContext } from '@/context/SourceContext'
 import { Wrapper } from '@googlemaps/react-wrapper'
-import { SensorData } from './AssignedSensorAndMap'
+import { SensorDataDifferentOne } from '@/app/supervisor/superVizorDataTypes/types'
 
 
 
-const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, initialData: SensorData   }   ) => {
+const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, initialData: SensorDataDifferentOne   }   ) => {
   const [data, setData] = useState({ latitude: 39.9334, longitude: 32.8597 });
   const { source ,setSource} = useContext(SourceContext);
   

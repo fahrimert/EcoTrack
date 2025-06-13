@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "../../providers/Providers";
-import Sidebar from "../../worker/dashboard/Sidebar";
-import SidebarProvider from "../../worker/dashboard/SidebarProvider";
 import SidebarProviderSupervizor from "./components/SidebarProviderSupervizor";
-import { useState } from "react";
 import WrapperProvider from "./workers-performance-analysis-charts/WrapperProvider";
 
 const inter = Inter({ subsets: ["latin"] });

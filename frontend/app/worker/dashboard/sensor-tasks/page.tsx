@@ -1,6 +1,7 @@
 import React from 'react'
 import { cookies } from 'next/headers';
-import AssignedSensorAndMap from './[id]/components/AssignedSensorForOnRoadAndMap';
+import { SensorData } from '../past-sensors/components/PastSensorList';
+import AssignedSensorAndMap from '../sensors/[id]/components/AssignedSensorAndMap';
 
 const page = async ({params} : {params:{id:string} }) => {
     const session = cookies().get('session');

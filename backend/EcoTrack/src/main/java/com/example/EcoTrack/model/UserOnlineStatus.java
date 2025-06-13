@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.locationtech.jts.geom.Point;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 @Entity
 @Data
@@ -23,6 +23,10 @@ public class UserOnlineStatus {
     @OneToOne(mappedBy = "userOnlineStatus")
     @JoinColumn(name = "user_online_status_id")
     private User user;
+
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime lastOnlineTime; // Son aktif olma zamanı
+
 
     private Date createdAt;
 }

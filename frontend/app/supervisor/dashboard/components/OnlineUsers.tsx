@@ -1,72 +1,145 @@
-"use client"
-import React, { useCallback, useEffect, useState } from 'react'
+"use client";
+import React, { useCallback, useEffect, useState } from "react";
 import { Client, over } from "stompjs";
 import SockJS from "sockjs-client";
-import OnlineUser from './OnlineUser';
+import OnlineUser from "./OnlineUser";
+import { UserOnlineStatusDTO } from "../../superVizorDataTypes/types";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 
-export interface UserOnlineStatusDTO {
-  id: number;
-  firstName: string;
-  surName: string;
-  role: 'ADMIN' | 'WORKER' | 'MANAGER' | 'SUPERVISOR';
-  userOnlineStatus: {
-    id: number;
-    isOnline: boolean;
-    createdAt: string | null;
-  } | null;
-}
 
-  
 const OnlineUsers = () => {
   const [mapLoaded, setMapLoaded] = useState(false);
-      const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
 
-const [onlineUsers, setOnlineUsers] = useState<UserOnlineStatusDTO[]>([]);
-      const onUnmount = useCallback(() => setMap(null), []);
-let stompClient: Client;
+  const [onlineUsers, setOnlineUsers] = useState<UserOnlineStatusDTO[]>([]);
+  const onUnmount = useCallback(() => setMap(null), []);
+  let stompClient: Client;
 
-    //burda tüm userları gösterecez sadece bunu eşleşenleri online diye gösterecez onu da backgroundu yeşil yaparız 
+  //burda tüm userları gösterecez sadece bunu eşleşenleri online diye gösterecez onu da backgroundu yeşil yaparız
 
   useEffect(() => {
-    const socket = new SockJS('http://localhost:8080/ws-users'); 
+    const socket = new SockJS("http://localhost:8080/ws-users");
     stompClient = over(socket);
-    stompClient.connect({}, (frame) => {
-      console.log("Connected: " + frame); 
-      stompClient.subscribe('/topic/users', (message) =>  
-        {const user = JSON.parse(message.body) as  UserOnlineStatusDTO[];
-          setOnlineUsers(user)});
-    }, (error) => {
-      console.error("WebSocket bağlantı hatası:", error);
-    });
-  }, [onlineUsers]);
+    stompClient.connect(
+      {},
+      (frame) => {
+        console.log("Connected: " + frame);
+        stompClient.subscribe("/topic/users", (message) => {
+          const user = JSON.parse(message.body) as UserOnlineStatusDTO[];
+          setOnlineUsers(user);
+        });
+      },
+      (error) => {
+        console.error("WebSocket bağlantı hatası:", error);
+      }
+    );
+    return () => {
+      if (stompClient && stompClient.connected) {
+        stompClient.disconnect(() => {
+          console.log("Websocket Bağlantısı kapatıldı");
+        });
+      }
+    };
+  }, []);
   return (
-<div className='w-full h-fit'>
-  <div className=" w-full h-fit grid grid-cols-3 bg-[#c2cecb] items-center justify-center     gap-[5px] rounded-[30px] max-xl:grid max-xl:grid-cols-2 max-md:grid max-md:grid-cols-1">
-    {onlineUsers.length == 0  ?  
-    
-    (
-      <div className=' w-full h-[300px] flex items-center justify-center '>
-        <h2 className='w-fit h-fit text-[24px] text-white flex items-center justify-center'>
+    <div className="w-full h-fit">
+      <div className=" w-full h-fit flex flex-row bg-[#c2cecb] items-center    gap-[10px] rounded-[30px] ">
+        {onlineUsers.length == 0 ? (
+          <div className=" w-full h-fit flex flex-col items-center justify-center   pointer-events-none p-[10px] ">
+            <h2 className="w-fit h-fit text-[24px] text-white ">
+              Herhangi Bir Aktif İşçi bulunmamakta
+            </h2>
 
-        Herhangi Bir Online Kullanıcı bulunmamakta
-        </h2>
+                <div className="flex flex-row blur-sm  w-full h-fit  justify-center items-center rounded-[30px]  p-[10px] gap-[10px]  max-md:grid max-md:grid-cols-1">
+                {[0,1,2,3].map((c) => (
+                  <>
+                 <div
+                        className={cn(
+                           `flex flex-col   w-full h-fit  justify-center items-center rounded-[30px]  p-[10px] gap-[10px] `
+                        )}
+                      >
+                        <div
+                          className={cn(` "bg-green-400 rounded-[30px] flex flex-col w-full h-fit p-[10px]   justify-start items-start  shadow-lg  hover:scale-105 duration-300 cursor-pointer " `)} 
+                          
+                        >
+                          <Image
+                            src={"/indir.jpg"}
+                            alt="232"
+                            className={cn(
+                              ` w-[200px] h-[100px]  object-fit  rounded-[30px] cursor-pointer  `
+                            )}
+                            width={100}
+                            height={100}
+                          />
+                          <div className=" h-full w-full justify-start items-start flex flex-col p-[5px] gap-[5px]  ">
+                      <div className=" flex flex-row gap-[5px] w-full">
+                                <h2 className="text-[13px] font-normal w-fit   text-white ">
+                              Kullanıcı İsmi:
+                            </h2>
+                            <h2 className="w-full text-[16px] font-normal   ">
+                             Test
+                            </h2>
+                      </div>
+              
+                          </div>
+                          <div 
+                    /*       style={{ backgroundColor: sensors.color_code , opacity: 0.6}} */
+                          
+                          className=" bg-[#c0ccc9]  w-full p-[5px] rounded-[5px] mb-[5px]">
+                      <div className=" flex flex-row gap-[5px]">
+                            <h2 className="text-[13px] font-normal   text-white ">
+                              Kullanıcı Soyismi:
+                            </h2>
+              
+              
+                            <h2 className="text-[13px] font-normal   text-white ">
+                            Test
+                            </h2>
+                      </div>
+                      
+                      <div className=" flex flex-row  gap-[5px]">
+              
+                            <h2 className="text-[13px] font-normal text-white   ">
+                            Kullanıcı rolü:
+                            </h2>
+                            <h2 className="text-[13px] font-normal text-white   ">
+                              Test
+                            </h2>
+                      </div>
+              
+                         <div className=" flex flex-row  gap-[5px]">
+              
+                            <h2 className="text-[13px] font-normal text-white   ">
+                            Kullanıcı Aktiflik Durumu: 
+                            </h2>
+                            <h2 className="text-[13px] font-normal text-white   ">
+                              Test
+                            </h2>
+                      </div>
+                          
+                       
+                          </div>
+              
+                        
+                        </div>
+                      </div>
+            </>
+            ))}
+
+                </div>
+          </div>
+        ) : (
+          <>
+            {onlineUsers.map((c) => (
+              <OnlineUser user={c} />
+            ))}
+          </>
+        )}
       </div>
-    ) : 
-    <>
-    
-    {onlineUsers.map((c) => (
-          <OnlineUser user = {c}/>
-          
-        ))}  
-    </>
-        
-        }
+    </div>
+  );
+};
 
-        </div>
-
-</div>
-  )
-}
-
-export default OnlineUsers
+export default OnlineUsers;

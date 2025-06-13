@@ -20,5 +20,7 @@ public interface  SensorRepository extends JpaRepository<Sensor,Long> {
    @Query(value = "SELECT * FROM sensors WHERE status != 'IN_REPAIR' ",nativeQuery = true)
    List<Sensor> findAllAvailable();
 
+    boolean existsBySensorName(String sensorName);
+
 //   List<Sensor> findByCurrentSensorSessionAndCompletedTimeIsNull;
 }

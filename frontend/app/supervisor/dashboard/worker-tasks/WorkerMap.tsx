@@ -2,9 +2,10 @@
 import React from "react";
 
 import GoogleMapComponentOfOrder from "./GoogleMapComponentOfOrder";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 
-const WorkerMap = ({session} : {session : string | undefined}) => {
+const WorkerMap = ({session} : {session : RequestCookie | undefined}) => {
 
 
 

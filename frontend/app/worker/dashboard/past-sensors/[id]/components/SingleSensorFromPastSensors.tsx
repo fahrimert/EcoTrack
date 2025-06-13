@@ -1,7 +1,8 @@
 import React from 'react'
 import LeftStack from './LeftStack';
 import { Client } from '@googlemaps/google-maps-services-js';
-import { ImageResponseDTO, Sensor } from '../page';
+import { ImageResponseDTO } from '@/app/supervisor/superVizorDataTypes/types';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 
 const SingleSensorFromPastSensors = async ({initialData,session} : {initialData :   { data: {
@@ -20,7 +21,7 @@ const SingleSensorFromPastSensors = async ({initialData,session} : {initialData 
 imageResponseDTO: ImageResponseDTO[];
 
 },
-session:string},
+session:RequestCookie | undefined},
 }) => {
     const client = new Client({});
   const result = await client.reverseGeocode({

@@ -1,19 +1,18 @@
 import React from "react";
 import Heading from "./components/Heading";
-import PastSensorWrapper from "./components/WorkerPastSensorWrapper";
 import { cookies } from "next/headers";
 import WorkerPastSensorWrapper from "./components/WorkerPastSensorWrapper";
 
 const page = () => {
-  const session = cookies().get("session")?.value;
+  const session = cookies().get("session");
 
   return (
     <>
-      <div className="flex flex-col h-fit w-full">
+      <div className="flex flex-col h-fit w-full pt-[10px]">
         <Heading
-          title={"İşçilerin Görev Geçmişi"}
+          title={"İşçilerin Görev Harici Sensör Çözme Geçmişi"}
           description={
-            "Tüm işçilerin görev geçmişini gösterir "
+            "Verdiğiniz Görevleri Çözme Değil İşçilerin Kendi Görev Dışı Çözdükleri Sensörleri Gösterir"
           }
         />
         <WorkerPastSensorWrapper session={session} />

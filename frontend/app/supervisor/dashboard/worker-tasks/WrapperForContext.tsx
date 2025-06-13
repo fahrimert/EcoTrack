@@ -5,8 +5,9 @@ import { WorkerLocationContext } from '@/context/WorkerLocationContext'
 import { SensorDestinationContext } from '@/context/SensorDestinationContext'
 import AttachTaskForm from './AttachTask'
 import WorkerMap from './WorkerMap'
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
-const WrapperForContext = ({session} : {session: string | undefined}) => {
+const WrapperForContext = ({session} : {session:RequestCookie | undefined}) => {
        const [source,setSource] = useState({
          lat:39.9334,
          lng: 32.8597

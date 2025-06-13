@@ -1,31 +1,17 @@
 import React from 'react'
 import LeftStack from './LeftStack';
 import { Client } from '@googlemaps/google-maps-services-js';
-import { ImageResponseDTO, Sensor } from '../page';
+import { ImageResponseDTO, Sensor, SensorDetailForWorkerPastSensor } from '@/app/supervisor/superVizorDataTypes/types';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 
-const SingleSensorFromPastSensors = async ({initialData,session} : {initialData :   { data: {
-  id: number,
-  sensorName: string,
-  displayName: string,
-  color_code: string,
-  note: string,
-  startTime: string,
-  completedTime: string,
-      finalStatus: string,
-  latitude: number,
-  longitude: number
-  sensorİconİmage: ImageResponseDTO;
-
-imageResponseDTO: ImageResponseDTO[];
-
-},
-session:string},
+const SingleSensorFromPastSensors = async ({initialdata,session} : {initialdata :  SensorDetailForWorkerPastSensor
+session:RequestCookie | undefined
 }) => {
     const client = new Client({});
   const result = await client.reverseGeocode({
     params: {
-      latlng: { lat: initialData.data.latitude, lng: initialData.data.longitude },
+      latlng: { lat: initialdata.data.latitude, lng: initialdata.data.longitude },
       key: 'AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E',
     },
   });
@@ -34,7 +20,7 @@ session:string},
   return (
     <div className='w-full h-fit flex flex-col justify-start items-center gap-[10px] bg-[#EEF0F3]'>
     <div className='relative  w-full h-fit flex flex-row justify-center items-start gap-[20px] p-[30px] '>
-         <LeftStack session = {session} addressComponents = {addressComponents}  initialData = {initialData}/>
+         <LeftStack session = {session} addressComponents = {addressComponents}  initialdata = {initialdata}/>
     </div>
 
 </div>

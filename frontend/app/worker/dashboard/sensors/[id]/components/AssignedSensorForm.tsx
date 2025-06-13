@@ -5,8 +5,6 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, Trash } from "lucide-react";
-import { redirect, useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import {string, z} from "zod";
@@ -16,7 +14,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Heading from "./Heading";
 import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { SensorData } from "./AssignedSensorAndMap";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -29,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { updateSensor } from "@/app/actions/sensorActions/updateSensor";
 import toast from "react-hot-toast";
+import { SensorDataDifferentOne } from "@/app/supervisor/superVizorDataTypes/types";
 
 //not eklicez
 //durumunu görmüş olucaz haritasını falan görücez 
@@ -49,7 +47,7 @@ const formSchema = z.object({
 export type AssignedSensorFormValues = z.infer<typeof formSchema>
 
 
-const AssignedSensorForm= ({initialData,statuses,session} : {session:RequestCookie,initialData: SensorData, statuses :  [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ] }) => {
+const AssignedSensorForm= ({initialData,statuses,session} : {session:RequestCookie,initialData: SensorDataDifferentOne, statuses :  [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ] }) => {
     const [loading,setLoading] = useState(false)
     const form = useForm<AssignedSensorFormValues>({
     resolver:zodResolver(formSchema),

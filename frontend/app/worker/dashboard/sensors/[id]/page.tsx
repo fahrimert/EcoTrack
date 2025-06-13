@@ -1,6 +1,7 @@
 import React from 'react'
 import { cookies } from 'next/headers';
-import AssignedSensorAndMap, { SensorData } from './components/AssignedSensorAndMap';
+import AssignedSensorAndMap from './components/AssignedSensorAndMap';
+import { SensorDataDifferentOne } from '@/app/supervisor/superVizorDataTypes/types';
 
 const page = async ({params} : {params:{id:string} }) => {
     const session = cookies().get('session');
@@ -18,7 +19,7 @@ const page = async ({params} : {params:{id:string} }) => {
         'Content-Type': 'application/json'
       }
     });
-    const initialData = await response.json() as SensorData 
+    const initialData = await response.json() as SensorDataDifferentOne
     
     const stasusesData = await statuses.json() as [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]
 

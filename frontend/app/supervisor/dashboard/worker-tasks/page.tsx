@@ -43,7 +43,7 @@ const WorkerTasksPage = async () => {
   return (
     <div className='w-full h-fit flex flex-col'>
 
-     <WrapperForContext session={session?.value}/>
+     <WrapperForContext session={session}/>
 
         <div className='w-full h-fit'>
 <TasksList sensorfilterBasedStat = {sensorfilterBasedStat}/>

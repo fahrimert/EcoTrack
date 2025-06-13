@@ -1,15 +1,12 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
-import { cookies } from 'next/headers'
-import { Client } from '@googlemaps/google-maps-services-js';
-import { UserProfile } from '@/app/components/SensorComponents/SensorList';
-import Heading from './Heading';
+import React from 'react'
+
 import SingleSensorFromPastSensors from './SingleSensorFromPastSensors';
-import axios from 'axios';
 import { Button } from '@/components/ui/button';
 
 import html2pdf from "html2pdf.js";
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 export interface ImageResponseDTO {
   name: string;
@@ -17,28 +14,13 @@ export interface ImageResponseDTO {
   base64Image: string;
 }
 
-interface SensorData {
-  id: number,
-        sensorName: string,
-        displayName: string,
-        color_code: string,
-        note: string,
-        startTime: string,
-        completedTime: string,
-        latitude: number,
-        longitude: number
-  sensorİconİmage: ImageResponseDTO;
-
-  imageResponseDTO: ImageResponseDTO[];
-}
 
 
 
-export interface Sensor {
- 
-}
-const DetailsPage =  ({session,sessionId} : {session:string,sessionId: string}) => {
 
+const DetailsPage =  ({session,sessionId} : {session:RequestCookie | undefined,sessionId: string}) => {
+
+  console.log(sessionId);
    const downloadPDF = () => {
     const element = document.getElementById("pdf-report");
     if (!element) return;

@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 const AuthPage = async () => {
 
-  const session =   cookies().get("session")?.value
+  const session =   cookies().get("session")
   
   return <LoginComponent session = {session} />;
 

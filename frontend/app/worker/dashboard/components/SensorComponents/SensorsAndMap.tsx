@@ -9,7 +9,8 @@ import SockJS from 'sockjs-client';
 import { Client, over } from 'stompjs';
 import GoogleMapComponent from "./GoogleMapComponent";
 import SearchUserLocation from "../SearchComponents/SearchUserLocation";
-import SensorList, { UserProfile } from "./SensorList";
+import SensorList from "./SensorList";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 
 export interface Notification {
@@ -69,18 +70,11 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
   })
   const [sensorListData,setSensorListData] = useState<typeof SensorList[]>()
   const [taskSensorListData,setTaskSensorListData] = useState <TaskSensorWithTask[]>([])
-  const [userProfile,setUserProfile] = useState<UserProfile>()
 
   const [notification,setNotification] = useState<Notification>()
-  useEffect(() => {
-    axios.get(`http://localhost:8080/user/profile/${session?.value}`, {
-      headers: { Authorization: `Bearer ${session?.value}` },
-      withCredentials: true,
-    })
-    .then((res) => setUserProfile(res.data))
-    .catch((err) => console.log(err));
-  }, []);
+   const { userProfile, loading, error } = useUserProfile(session);
 
+  console.log(userProfile);
   let stompClient: Client;
 
   useEffect(() => {
@@ -116,7 +110,10 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
       withCredentials: true,
     })
     .then((res) => setSensorListData(res.data))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+  console.log("Sensör verisi alınamadı:", err);
+  setSensorListData([]); // fallback
+  })
   }, []);
 
     useEffect(() => {
@@ -127,7 +124,10 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
       withCredentials: true,
     })
     .then((res) => setTaskSensorListData(res.data))
-    .catch((err) => console.log(err));
+      .catch((err) => {
+  console.log("Sensör verisi alınamadı:", err);
+  setTaskSensorListData([]); // fallback
+  })
   }, [userProfile?.id]);
 
 
@@ -157,7 +157,11 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
     {/* List Of */}
       <div className="relative w-[40%] h-fit flex flex-col justify-start items-start max-xl:w-full ">
      
-      <SensorList taskSensorListData = {taskSensorListData}  sensorListData= {sensorListData} session = {session} userProfile ={userProfile}/>
+     <SensorList 
+      taskSensorListData = {taskSensorListData}
+       sensorListData= {sensorListData } 
+       session = {session}
+        userProfile ={userProfile}/> 
       </div>
       </HoverContext.Provider>
       </DestinationContext.Provider>

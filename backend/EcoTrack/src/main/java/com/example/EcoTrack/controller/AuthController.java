@@ -20,6 +20,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -69,8 +71,12 @@ public class AuthController {
         return  jwtService.extractAllClaims(accessToken);
     }
 
-
-    @GetMapping("/getUserLocationBasedOnİd/{userId}")
+    @GetMapping("/getUserLocationBasedOnıd/{userId}")
+    @CrossOrigin(
+            origins = "http://localhost:9595", // veya frontend URL’in
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
     @Transactional
 
     public UserLocationDTO getLocationBasedOnId(@PathVariable Long userId) {
@@ -156,6 +162,8 @@ public class AuthController {
     public String refreshTokenController(HttpServletRequest request, HttpServletResponse response, @PathVariable String refreshToken ){
 return  refreshTokenService.findByToken(refreshToken,request,response);
     }
+
+
     @CrossOrigin(
             origins = "http://localhost:9595", // veya frontend URL’in
             allowedHeaders = "*",
@@ -168,7 +176,6 @@ return  refreshTokenService.findByToken(refreshToken,request,response);
         Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
         String username = securityContextHolder.getName();
         User user = userService.findByUsername(username);
-        UserOnlineStatusDTO userOnlineStatusDTO = new UserOnlineStatusDTO();
 
         UserOnlineStatus userOnlineStatus = userOnlineStatusRepository.findByUser(user
         ) .orElseGet(() -> {
@@ -177,10 +184,11 @@ return  refreshTokenService.findByToken(refreshToken,request,response);
             return newStatus;
         });
 
-
         user.setUserOnlineStatus(userOnlineStatus);
         userOnlineStatus.setUser(user);
         userOnlineStatus.setIsOnline(heartbeatDTO.getIsOnline());
+
+        userOnlineStatus.setLastOnlineTime(LocalDateTime.now());
 
 
 

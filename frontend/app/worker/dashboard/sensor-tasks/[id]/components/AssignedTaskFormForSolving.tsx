@@ -9,12 +9,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z} from "zod";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Heading from "./Heading";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import { finishTask } from "@/app/actions/taskActions/finishTask";
+import { TaskSensorWithTask } from "../../../components/SensorComponents/SensorsAndMap";
 
 
 
@@ -58,15 +66,15 @@ const formSchema = z.object({
   solvingNote:z.string().min(1,{
       message:"Not must be at least 1 character"
   }),
+  statusId: z.string().min(2),
   files: z.any() // Dosyalar için validasyon
 },
 )
 export type AssignedSensorFormForSolvingValues = z.infer<typeof formSchema>
 
 
-const AssignedTaskFormForSolving= ({initialData} : {initialData: TaskSensorWithTask 
-  
-  }) => {
+const AssignedTaskFormForSolving= ({initialData,stasusesData} : {initialData: TaskDetail
+  ,stasusesData : [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]}) => {
     const [loading,setLoading] = useState(false)
     const form = useForm<AssignedSensorFormForSolvingValues>({
     resolver:zodResolver(formSchema),
@@ -74,22 +82,27 @@ const AssignedTaskFormForSolving= ({initialData} : {initialData: TaskSensorWithT
 initialData
     : {
         solvingNote : "",
+        statusId:""
+
 
     }
   });
 
-  
+  console.log(stasusesData);
   const onSubmit = async (data:AssignedSensorFormForSolvingValues) => {
     try{
       const formData = new FormData();
     
       formData.append('solvingNote', data.solvingNote);
+
       if (data.files) {
         for (let i = 0; i < data.files.length; i++) {
           formData.append('files', data.files[i]);
         }
       }
       try {  
+      formData.append('statusID', data.statusId);
+
         finishTask(formData,initialData)
         console.log(data);
         } catch (error) {
@@ -185,6 +198,42 @@ initialData
                     </FormItem>
 )}
 />
+
+<FormField
+            /* bunu category componentından aldık  */
+            control={form.control}
+            name="statusId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-black">Taskın Statusunu  Güncelleyin </FormLabel>
+                <Select
+                  disabled={loading}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        defaultValue={field.value}
+                        className="w-fit bg-black"
+                        placeholder="Sensörün Durumunu Güncelleyiniz"
+                      ></SelectValue>
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="bg-[#edecea]">
+                    {stasusesData.map((status,b) => (
+                      <SelectItem key={b} value={status} className="text-black" >
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
 <FormField
   control={form.control}
   name="files"

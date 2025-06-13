@@ -1,34 +1,13 @@
 "use client"
 import React, { useContext } from 'react'
-
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
-
 import { DataTable } from '@/components/ui/DataTable'
-import { SensorSessionWithser } from './PastSensorsForReportWrapper'
-import { SourceContext } from '@/context/SourceContext'
 import { DateContext } from '@/context/DateContext'
-import { columns } from './columns'
-interface GroupedSensorData {
-  id: number;
-  userİd:number
-  sensorName: string;
-  status: string;
-  sessionkey:string
-  
-  username:string
-  installationDate: string;
-  sessions: {
-    
-    id: number;
-        sessionkey:string,
-    
-    startTime: string;
-    completedTime: string;
-    note: string;
-  }[];
-}
+import { GroupedSensorDataOnPDFReport, SensorSessionWithser } from '@/app/supervisor/superVizorDataTypes/types'
+import { columns } from './detailComponentsForPdfSheet/columns'
 
-const PastSensorsForReport = ({session , sensorListData }: {session:string, sensorListData:SensorSessionWithser[]| undefined}) => {
+
+const PastSensorsForReport = ({session , sensorListData }: {session:RequestCookie | undefined, sensorListData:SensorSessionWithser[]| undefined}) => {
     const { date, setDate } = useContext(DateContext);
      const defaultList = sensorListData.filter((d) => new Date(d.startTime).getDate() == date )
 
@@ -63,9 +42,11 @@ const PastSensorsForReport = ({session , sensorListData }: {session:string, sens
       });
     }
     return acc;
-  }, [] as GroupedSensorData[]);
+  }, [] as GroupedSensorDataOnPDFReport[]);
+
+  console.log(defaultListt);
   return (
-    <div className=" w-full h-fit items-start justify-start   p-[10px]   gap-[5px] rounded-[30px]">
+    <div className=" w-full h-fit items-center justify-center   p-[10px]   gap-[5px] rounded-[30px]">
 
                                 
          <DataTable

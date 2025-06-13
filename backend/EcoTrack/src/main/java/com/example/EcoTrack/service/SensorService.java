@@ -4,12 +4,17 @@
     import com.example.EcoTrack.model.*;
     import com.example.EcoTrack.repository.*;
     import com.example.EcoTrack.util.ImageUtil;
+    import org.locationtech.jts.geom.Coordinate;
+    import org.locationtech.jts.geom.GeometryFactory;
+    import org.locationtech.jts.geom.Point;
+    import org.locationtech.jts.geom.PrecisionModel;
     import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.messaging.simp.SimpMessagingTemplate;
     import org.springframework.security.core.Authentication;
     import org.springframework.security.core.context.SecurityContextHolder;
     import org.springframework.stereotype.Service;
+    import org.springframework.web.bind.annotation.RequestParam;
     import org.springframework.web.multipart.MultipartFile;
 
     import java.io.IOException;
@@ -30,6 +35,7 @@
             private final UserService userService;
             private final SimpMessagingTemplate messagingTemplate;
             private  final SensorSessionImagesRepository sensorSessionImagesRepository;
+
         public SensorService(SensorRepository sensorRepository, SensorImageIconRepository sensorImageIconRepository, SensorSessionRepository sensorSessionRepository, UserRepository userRepository, SensorSessionImageService sensorSessionImageService, UserService userService, SimpMessagingTemplate messagingTemplate, SensorSessionImagesRepository sensorSessionImagesRepository) {
             this.sensorRepository = sensorRepository;
             this.sensorImageIconRepository = sensorImageIconRepository;
@@ -40,10 +46,49 @@
             this.messagingTemplate = messagingTemplate;
             this.sensorSessionImagesRepository = sensorSessionImagesRepository;
         }
+        public List<AllSensorForManagerDTO> getAllSensorForManagerUse() {
+
+
+            List<AllSensorForManagerDTO> sensorlistDTO  = sensorRepository.findAll().stream().map(a ->
+            {
+                SensorFix currentSession = a.getCurrentSensorSession();
+                SensorStatus status = a.getStatus();
+                SensorLocation location = a.getSensorLocation();
+
+                AllSensorSessionDTOForManager sessionDTO = null;
+                if (currentSession != null) {
+                    User user = currentSession.getUser();
+                    sessionDTO = new AllSensorSessionDTOForManager(
+                            currentSession.getId(),
+                            a.getSensorName(),
+                            user != null ? user.getFirstName() : null,
+                            user != null ? user.getSurName() : null,
+                            user != null && user.getUserOnlineStatus() != null
+                                    ? user.getUserOnlineStatus().getIsOnline()
+                                    : null
+                    );
+                }
+                String base64 = Base64.getEncoder().encodeToString(ImageUtil.decompressImage(a.getSensorIconImage().getImage()));
+
+                ImageResponseDTO ıconImageResponse = new ImageResponseDTO(a.getSensorIconImage().getName(), a.getSensorIconImage().getType(), base64);
+                return new AllSensorForManagerDTO(
+                        a.getId(),
+                        a.getSensorName(),
+                        ıconImageResponse,
+                        status != null ? status.getDisplayName() : null,
+                        status != null ? status.getColorCode() : null,
+                        location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
+                        location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0,
+                        a.getInstallationDate(),
+                        a.getLastUpdatedAt(),
+                        sessionDTO
+                );
+            }).collect(Collectors.toList());
+            return  sensorlistDTO;
+        }
 
         public List<SensorDTO> getAllSensor() {
 
-            List<Sensor> sensor = sensorRepository.findAll();
 
             List<SensorDTO> sensorlistDTO  = sensorRepository.findAll().stream().map(a ->
             {
@@ -106,7 +151,81 @@
             }).collect(Collectors.toList());
             return  sensorlistDTO;
         }
+        public ResponseEntity<?> managerCreateSensor (String sensorName, MultipartFile files) {
 
+            try {
+                if (sensorName == null){
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("Sensör İsmi Boş Olamaz");
+                }
+                if (sensorRepository.existsBySensorName(sensorName)){
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("Aynı Sensör İsmine Ait Sensör Bulunmakta");
+
+                }
+
+                if (files == null){
+                    return ResponseEntity.status(HttpStatus.CONFLICT).body("Fotoğraf Ekleme boş olamaz ");
+
+                }
+                Sensor sensor = new Sensor();
+                sensor.setSensorName(sensorName);
+                Date now = new Date();
+                sensor.setStatus(SensorStatus.ACTIVE);
+                sensor.setLastUpdatedAt(now);
+                sensor.setInstallationDate(now);
+                Sensor createdSensor = sensorRepository.save(sensor);
+
+
+                uploadIconImage(files,createdSensor.getId());
+
+                return  ResponseEntity.status(HttpStatus.ACCEPTED).body(sensor);
+
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+            }
+
+        }
+        public ResponseEntity<?> managerUpdateSensorLocation (CreateSensorLocationRequestDTO sensorLocationDTO )  {
+
+            try {
+
+                Sensor sensor = sensorRepository.findById(sensorLocationDTO.getId()).orElse(null);
+
+                GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+                double latitude = sensorLocationDTO.getLatitude();
+                double longitude = sensorLocationDTO.getLongitude();
+
+                Point location = geometryFactory.createPoint(new Coordinate(latitude, longitude));
+                System.out.println(sensorLocationDTO.getLatitude());
+                System.out.println(sensorLocationDTO.getLongitude());
+
+                SensorLocation sensorLocation = new SensorLocation();
+
+                CreateSensorLocationRequestDTO createSensorLocationDTO = new CreateSensorLocationRequestDTO();
+
+
+
+                Date now = new Date();
+
+                sensorLocation.setCreatedAt(now);
+                sensorLocation.setLocation(location);
+                sensorLocation.setSensor(sensor);
+                sensor.setSensorLocation(sensorLocation);
+
+                sensorRepository.save(sensor);
+
+                createSensorLocationDTO.setLatitude(latitude);
+                createSensorLocationDTO.setLongitude(longitude);
+                return  ResponseEntity.status(HttpStatus.ACCEPTED).body(createSensorLocationDTO);
+
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+            }
+
+        }
         public List<SensorDTO> getInRepaırSensors() {
 
             List<Sensor> sensor = sensorRepository.findAll();
@@ -316,6 +435,30 @@
 
         }
 
+        //management sensor management page for update sensor component initialdata purposes module same as the upper module without protection detail
+        public ResponseEntity<ApiResponse> getJustDetailOfSensorForManagerManageSensorUsage(Long id) {
+            //eğer şuanki userin sensorssessionunda değilse buraya erişememesi lazım
+
+            Optional<Sensor> sensor = sensorRepository.findById(id);
+            Sensor sensorEntity = sensor.orElse(null);
+            if (sensorEntity == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse(false, "Sensor not found", null, null, 404));
+            }
+
+            String base64 = Base64.getEncoder().encodeToString(ImageUtil.decompressImage(sensorEntity.getSensorIconImage().getImage()));
+
+            ImageResponseDTO ıconImageResponse = new ImageResponseDTO(sensorEntity.getSensorIconImage().getName(), sensorEntity.getSensorIconImage().getType(), base64);
+
+            SensorDetailForManagerDTO sensorDTO = new SensorDetailForManagerDTO(
+                    sensorEntity.getSensorName(),
+                    ıconImageResponse
+            );
+            return  ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse(true,"Successfully got sensor for manager sensor management page",
+                    sensorDTO,null,200));
+
+
+        }
 
         public ResponseEntity<ApiResponse> getInduvualSensorLocation(Long id) {
             //eğer şuanki userin sensorssessionunda değilse buraya erişememesi lazım
@@ -342,44 +485,17 @@
 
         }
 
-        public List<SensorWithUserDTO> getPastSensorsOfWorkers() {
+        public List<SensorWithUserProjection> getPastSensorsOfWorkers() {
             try {
                 Role workerRole = Role.WORKER;
                 List<User> workers = userRepository.findAllByRole(workerRole);
-                //burada ayrıca userin bilgisini de almam lazım
-                List<SensorWithUserDTO> responseList = new ArrayList<>();
-                //hayatımda böyle bişe görmedim
-                for (User worker : workers) {
-                    List<SensorFix> workerSensors = sensorSessionRepository
-                            .findAllByUserAndCompletedTimeIsNotNull(worker);
-                    UserDTO userDTO = new UserDTO();
-                    userDTO.setId(worker.getId());
-                    userDTO.setRole(worker.getRole());
-                    userDTO.setSurName(worker.getSurName());
-                    userDTO.setFirstName(worker.getFirstName());
+                List<SensorWithUserProjection> responseList = new ArrayList<>();
+                    return sensorSessionRepository
+                            .findCompletedSensorsWithUserDetails("WORKER");
 
-                    //alttaki satırı ve yeni dto ekledik ikisi de gelsin diye user da çok önemli frontend için çünkü
-                    for (SensorFix sensor : workerSensors) {
-                        responseList.add(new SensorWithUserDTO(
-                                sensor.getSensor().getId(),
-                                sensor.getId(),
-                                sensor.getSensor().getSensorName(),
-                                sensor.getNote(),
-                                sensor.getFinalStatus(),
-                                sensor.getStartTime(),
-                                sensor.getCompletedTime(),
-                                worker.getId(),
-                                worker.getFirstName(),
-                                worker.getSurName(),
-                                worker.getRole()
-                        ));
-                    }
-                }
-
-                return responseList;
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return null;
+                System.out.println("getPastSensorsOfWorkers failed" + e.getMessage() + e);
+                return Collections.emptyList();
             }
         }
 

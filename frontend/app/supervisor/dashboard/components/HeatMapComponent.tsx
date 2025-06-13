@@ -1,7 +1,6 @@
-// components/HeatMapComponent.tsx
 "use client";
 import { GoogleMap, HeatmapLayer } from "@react-google-maps/api";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback,  useMemo, useState } from "react";
 import { Wrapper } from '@googlemaps/react-wrapper'
 
 

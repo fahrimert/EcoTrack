@@ -6,31 +6,12 @@ import { SourceContext } from "@/context/SourceContext";
 import AssignedSensorForm from "./AssignedSensorForm";
 import MapOfSingleSensor from "./MapOfSingleSensor";
 import SearchUserLocation from "../../../components/SearchComponents/SearchUserLocation";
+import { SensorDataDifferentOne } from "@/app/supervisor/superVizorDataTypes/types";
 
 
-export interface SensorData {
-  data : {
-  id: number;
-  sensorName: string;
-  status: string;
-  color_code: string;
-  latitude: number;
-  longitude: number;
-  currentSensorSession: {  id: number;
-  sensorName: string;
-  displayName: string;
-  color_code: string;
-  note: string | null;
-  startTime: string; // ISO formatta tarih
-  completedTime: string | null;
-  latitude: number;
-  longitude: number;};
-  
-}
 
-}
 
-const AssignedSensorAndMap = ({initialData , session ,stasusesData  } : {initialData: SensorData, session:RequestCookie | undefined,stasusesData : [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]}) => {
+const AssignedSensorAndMap = ({initialData , session ,stasusesData  } : {initialData: SensorDataDifferentOne, session:RequestCookie | undefined,stasusesData : [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]}) => {
   const [source,setSource] = useState({
     lat:39.9334,
     lng: 32.8597

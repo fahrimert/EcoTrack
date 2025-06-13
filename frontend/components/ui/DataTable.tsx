@@ -10,12 +10,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+
 import {
   Table,
   TableBody,
@@ -63,14 +58,14 @@ export function DataTable<TData, TValue>({
           className="w-full"
         />
       </div>
-      <div className="rounded-md border p-[10px]">
-        <Table>
+      <div className="rounded-md  p-[10px] ">
+        <Table className="gap-[5px]">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="bg-[#202024] text-white">
+                    <TableHead key={header.id} className="bg-[#1d1e22] text-white">
      
      {header.isPlaceholder
                         ? null
@@ -86,7 +81,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-[#202024] text-white">
+          <TableBody className="bg-[#1d1e22] text-white m-[5px] w-fit h-fit items-start justify-start">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
                 const cells = row.getVisibleCells()

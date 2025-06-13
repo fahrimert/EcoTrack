@@ -112,6 +112,10 @@ public class TaskService {
 
         List<SensorAllAndTaskDTO> taskSensorListDTO  = usersTask.stream().map(a ->
         {
+            Sensor sensor = a.getSensor();
+            if (sensor ==null){
+                return  null;
+            }
             SensorFix currentSession = a.getSensor().getCurrentSensorSession();
             SensorStatus status = a.getSensor().getStatus();
             SensorLocation location = a.getSensor().getSensorLocation();
@@ -349,7 +353,7 @@ public class TaskService {
 
     }
     @Transactional
-    public ResponseEntity<String> finishTask(String workerNote,  Long taskId, List<MultipartFile> files){
+    public ResponseEntity<String> finishTask(String workerNote,SensorStatus statusID,  Long taskId, List<MultipartFile> files){
 
         try {
 
@@ -357,6 +361,8 @@ public class TaskService {
             Sensor sensor = sensorRepository.findById(taskk.getSensor().getId()).orElseThrow(() -> new RuntimeException("Sensor Not Found"));
 
             taskk.setSolvingNote(workerNote);
+            taskk.setFinalStatus(statusID);
+
             taskImageService.uploadTaskImage(files,taskId);
             taskk.setWorkerArrived(true);
 

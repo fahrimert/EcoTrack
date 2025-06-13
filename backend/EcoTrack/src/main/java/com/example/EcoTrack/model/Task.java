@@ -45,6 +45,7 @@ public class Task {
     private Boolean workerArrived;
 
     private String workerOnRoadNote;
+    private  SensorStatus finalStatus;
 
 
 

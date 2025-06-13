@@ -33,31 +33,31 @@ export async function signin(state: FormState, formData: FormData) {
       
       cookies().set("session",session,{httpOnly:true,})
       cookies().set("refresh",refresh,{httpOnly:true,})
-
-      const config = {
-        headers:{Authorization:`Bearer ${session}`}
+      console.log(data);
+   
+      return{
+        serverSuccess: "Successfully Logged In"
       }
-        const sessionData = cookies().get("session")?.value;
-
-   const roleRouteMap = {
-    ROLE_WORKER: '/worker',
-    ROLE_SUPERVISOR: '/supervisor',
-  };
-   const decoded = jwt.decode(session);
-
-  const allowedPath = roleRouteMap[decoded.authorities[0]];
-
-
-  redirect(`/${allowedPath}/dashboard`)
-    
   }
   
 
 }
  catch (error : any) {
-   
+   if (error.response?.data?.error) {
     return {
       serverError: error.response.data.errors,
+    };
+   }
+   if (error.response) {
+       console.error("Unexpected error response:", error.response.data);
+    return {
+      serverError: ["Unexpected server error occurred."],
+    };
+   }
+     console.error("Network or unknown error:", error.message);
+
+    return {
+      serverError: "Network or unknown error:",
     }; 
   }
  

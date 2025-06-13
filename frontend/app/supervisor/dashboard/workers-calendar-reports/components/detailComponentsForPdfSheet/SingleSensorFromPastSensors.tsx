@@ -1,12 +1,11 @@
 "use client"
 import React from 'react'
 import LeftStack from './LeftStack';
-import { Client } from '@googlemaps/google-maps-services-js';
-import { ImageResponseDTO } from './DetailsPage';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 
 const SingleSensorFromPastSensors =  ({session,sessionId} : {
-session:string,
+session:RequestCookie | undefined,
 sessionId: string},
 ) => {
  

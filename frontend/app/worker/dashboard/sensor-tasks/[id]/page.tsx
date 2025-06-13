@@ -6,13 +6,7 @@ import { notFound } from 'next/navigation';
 
 const page = async ({params} : {params:{id:string} }) => {
     const session = cookies().get('session');
-    const response = await fetch(`http://localhost:8080/sensors/${params.id}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${session?.value}`,
-        'Content-Type': 'application/json'
-      }
-    });
+
     const statuses = await fetch(`http://localhost:8080/sensors/getSensorStatuses`, {
       method: 'GET',
       headers: {
@@ -20,7 +14,8 @@ const page = async ({params} : {params:{id:string} }) => {
         'Content-Type': 'application/json'
       }
     });
-
+    
+    const stasusesData = await statuses.json() as [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]
         const user  = await fetch(`http://localhost:8080/user/profile/${session?.value}`, {
       method: 'GET',
       headers: {
@@ -64,10 +59,12 @@ const page = async ({params} : {params:{id:string} }) => {
     return notFound()
   }  
 
+
+  console.log(filteredSensorBasedOnParam);
   return (
     <>
   
-  <AssignedTaskAndMap initialData = {filteredSensorBasedOnParam} session={session} />
+  <AssignedTaskAndMap stasusesData = {stasusesData} initialData = {filteredSensorBasedOnParam} session={session} />
 </>  
 )
 }

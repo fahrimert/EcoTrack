@@ -74,8 +74,20 @@ public class SensorController {
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
     @Transactional
-    public ResponseEntity<ApiResponse> getInduvualSensor(@PathVariable Long sensorId){
+    public ResponseEntity<ApiResponse> getInduvualSensorWithProtectionForWorker(@PathVariable Long sensorId){
         return  sensorService.getInduvualSensor(sensorId);
+    }
+
+
+    @GetMapping("/sensors/sensormanagement/{sensorId}")
+    @CrossOrigin(
+            origins = "http://localhost:9595", // veya frontend URL’in
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    @Transactional
+    public ResponseEntity<ApiResponse> getJustDetailOfSensorForManagerManageSensorUsage(@PathVariable Long sensorId){
+        return  sensorService.getJustDetailOfSensorForManagerManageSensorUsage(sensorId);
     }
 
 

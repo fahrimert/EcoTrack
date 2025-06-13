@@ -1,47 +1,22 @@
   "use client"
-  import {
-      Dialog,
-      DialogContent,
-      DialogDescription,
-      DialogHeader,
-      DialogTrigger,
-    } from "@/components/ui/dialog"
-
-    import {
-      Carousel,
-      CarouselContent,
-      CarouselItem,
-      CarouselNext,
-      CarouselPrevious,
-    } from "@/components/ui/carousel"
   
-  import { Button } from "@/components/ui/button";
   import Image from "next/image";
-  import { AddressComponent } from "@googlemaps/google-maps-services-js";
   import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds, format } from "date-fns";
   import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
-import { UserProfile } from "@/app/components/SensorComponents/SensorList";
+
 import axios from "axios";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Textarea } from "@/components/ui/textarea";
+
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
   const LeftStack = ({session,sessionId} : {
 
-  session: string
+  session: RequestCookie | undefined
   sessionId:string
   } , ) => {
 
-  const [userProfile,setUserProfile] = useState<UserProfile>()
-
-  useEffect(() => {
-    axios.get(`http://localhost:8080/user/profile/${session}`, {
-      headers: { Authorization: `Bearer ${session}` },
-      withCredentials: true,
-    })
-    .then((res) => setUserProfile(res.data))
-    .catch((err) => console.log(err));
-  }, []);
+  const { userProfile, loading, error } = useUserProfile(session);
 
   
       const [data,setData] = useState<  {data:{
@@ -62,9 +37,11 @@ import { Textarea } from "@/components/ui/textarea";
 }[];
 
       }}>()
+
+      console.log(sessionId);
       useEffect(() => {
         axios.get(`http://localhost:8080/sensors/getPastSensorDetail/${sessionId}`, {
-          headers: { Authorization: `Bearer ${session}` },
+          headers: { Authorization: `Bearer ${session?.value}` },
           withCredentials: true,
         })
         .then((res) => {setData(res.data)}

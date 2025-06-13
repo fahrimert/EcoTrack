@@ -1,11 +1,10 @@
 "use server";
-import { SensorData } from "@/app/worker/dashboard/sensors/[id]/components/AssignedSensorAndMap";
-import { SignİnFormSchema, FormState } from "@/lib/definitions";
-import axios from "axios";
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
 
-export async function updateSensor(formData: FormData,initialData : SensorData) {
+import { SensorDataDifferentOne } from "@/app/supervisor/superVizorDataTypes/types";
+import axios from "axios";
+import { cookies,  } from "next/headers";
+
+export async function updateSensor(formData: FormData,initialData : SensorDataDifferentOne) {
  
   try {
 

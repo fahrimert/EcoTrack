@@ -8,6 +8,7 @@ import Heading from "../../past-sensors/[id]/components/Heading";
 import TaskSensor from "./TaskSensor";
 import { Client, over } from "stompjs";
 import SockJS from "sockjs-client";
+import { UserProfilea } from "@/app/supervisor/superVizorDataTypes/types";
 
 //interface for sensorlist
 export interface SensorList {
@@ -71,17 +72,18 @@ const SensorList = ({
   session: RequestCookie;
   taskSensorListData : TaskSensorWithTask[]
   sensorListData: SensorList[] | undefined;
-  userProfile: UserProfile | undefined;
+  userProfile: UserProfilea | undefined;
 }) => {
-  const userBasedsensor = sensorListData?.map(
-    (g) =>
-      g.currentSensorSession &&
-      g.currentSensorSession.id == userProfile?.sensorSessions[0].id
-  );
+const userBasedsensor = sensorListData?.map((g) => {
+  if (!g.currentSensorSession || !userProfile?.sensorSessions || userProfile.sensorSessions.length === 0) {
+    return false;
+  }
+  return g.currentSensorSession.id === userProfile.sensorSessions[0].id;
+});
   const customSensorListData = sensorListData?.map((sensor) => {
-    const isUserSensor = userProfile?.sensorSessions.some(
+    const isUserSensor =   userProfile?.sensorSessions ? userProfile?.sensorSessions.some(
       (session) => session.id === sensor.currentSensorSession?.id
-    );
+    ) : null;
 
     return {
       ...sensor,

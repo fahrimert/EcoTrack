@@ -1,11 +1,7 @@
 "use server";
 import { TaskSensorWithTask } from "@/app/worker/dashboard/components/SensorComponents/SensorsAndMap";
-import { TaskDetail } from "@/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskFormForSolving";
-import { SensorData } from "@/app/worker/dashboard/sensors/[id]/components/AssignedSensorAndMap";
-import { SignİnFormSchema, FormState } from "@/lib/definitions";
 import axios from "axios";
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export async function updateTask(worker_on_road_note: string ,initialData : TaskSensorWithTask) {
  

@@ -5,7 +5,6 @@ import { DataTable } from '@/components/ui/DataTable'
 import { columns } from './TaskListDataTableComponents/columns'
 import SockJS from 'sockjs-client'
 import { Client, over } from 'stompjs'
-import { TaskDetail } from '@/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskFormForSolving'
 
 const TasksList = ({sensorfilterBasedStat} : {sensorfilterBasedStat:Task[]}) => {
   const [tasks, setTasks] = useState<Task[]>(sensorfilterBasedStat);

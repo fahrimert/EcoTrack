@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -18,26 +17,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { format } from "date-fns";
-import toast from "react-hot-toast";
 import axios from "axios";
-import { UserOnlineStatusDTO } from "../components/OnlineUsers";
-
 import * as React from "react"
 import { Calendar as CalendarIcon } from "lucide-react"
-
 import { Calendar } from "@/components/ui/Calendar "
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import DatePickerDemo  from "./DatePicker";
-import { WarningIcon } from "@chakra-ui/icons";
 import { WorkerLocationContext } from "@/context/WorkerLocationContext";
 import { SensorDestinationContext } from "@/context/SensorDestinationContext";
 import { createTask } from "@/app/actions/sensorActions/createTask";
+import { useAllUsers } from "@/hooks/useAllUsers";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
  interface Sensor {
   id: number;
   sensorName: string;
@@ -69,20 +63,12 @@ export type AttachTaskFormValues = z.infer<typeof formSchema>
 //güncelleme yapmıyon createleme yapıyon
 
 
-const AttachTaskForm= ({session} : {session: string | undefined  }) => {
+const AttachTaskForm= ({session} : {session: RequestCookie | undefined }) => {
 
  const { source ,setSource} = React.useContext(WorkerLocationContext);
   const { destination ,setDestination} = React.useContext(SensorDestinationContext);
-
-      const [users,setUsers] = useState<UserOnlineStatusDTO[]>([])
-   useEffect(() => {
-    axios.get(`http://localhost:8080/superVizorSensors/getAllUser`, {
-      headers: { Authorization: `Bearer ${session}` },
-      withCredentials: true,
-    })
-    .then((res) => setUsers(res.data))
-    .catch((err) => console.log(err));
-  }, []);
+      const { users,  error } = useAllUsers(session);
+   
 
   function handleTimeChange(type:"hour" | "minute" | "ampm",value:string){
     const currentDate = form.getValues("deadline") || new Date();
@@ -113,14 +99,14 @@ const AttachTaskForm= ({session} : {session: string | undefined  }) => {
 
    useEffect(() => {
     axios.get(`http://localhost:8080/superVizorSensors/getAllAvailableSensors`, {
-      headers: { Authorization: `Bearer ${session}` },
+      headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })
     .then((res) => setSensorListData(res.data))
     .catch((err) => console.log(err));
   }, []);
 
-
+  console.log(sensorListData);
 
 
           var today = new Date();
@@ -140,7 +126,7 @@ const AttachTaskForm= ({session} : {session: string | undefined  }) => {
 
     useEffect(() => {
     axios.get(`http://localhost:8080/getUserLocationBasedOnİd/${userId}`, {
-      headers: { Authorization: `Bearer ${session}` },
+      headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })
     .then((res) => {setSource({lat:res.data.latitude,lng:res.data.longitude})
@@ -154,7 +140,7 @@ const AttachTaskForm= ({session} : {session: string | undefined  }) => {
 
     useEffect(() => {
     axios.get(`http://localhost:8080/getUserLocationBasedOnİd/${sensorId}`, {
-      headers: { Authorization: `Bearer ${session}` },
+      headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })
     .then((res) => {setDestination({lat:res.data.latitude,lng:res.data.longitude})
