@@ -1,0 +1,16 @@
+package com.example.EcoTrack.user;
+
+import com.example.EcoTrack.user.model.User;
+import com.example.EcoTrack.user.model.UserOnlineStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface UserOnlineStatusRepository extends JpaRepository<UserOnlineStatus,Long> {
+
+
+    Optional<UserOnlineStatus> findByUser(User user);
+
+    List<UserOnlineStatus> findByIsOnlineTrue();
+}

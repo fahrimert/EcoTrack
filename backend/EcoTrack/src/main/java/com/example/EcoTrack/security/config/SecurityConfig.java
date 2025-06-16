@@ -1,38 +1,31 @@
-package com.example.EcoTrack.security.config;
+package com.example.EcoTrack.auth.security.config;
 
 
-import ch.qos.logback.classic.spi.ConfiguratorRank;
-import com.example.EcoTrack.repository.UserRepository;
-import com.example.EcoTrack.security.customUserDetail.CustomUserDetailService;
-import com.example.EcoTrack.security.filters.JwtFilter;
-import com.example.EcoTrack.service.JwtService;
+import com.example.EcoTrack.user.UserRepository;
+import com.example.EcoTrack.auth.security.customUserDetail.CustomUserDetailService;
+import com.example.EcoTrack.auth.security.filters.JwtFilter;
+import com.example.EcoTrack.auth.service.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Slf4j
 @Configuration
