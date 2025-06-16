@@ -1,4 +1,4 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.user.dto;
 
 import com.example.EcoTrack.sensors.model.Sensor;
 import lombok.AllArgsConstructor;

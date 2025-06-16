@@ -1,4 +1,5 @@
 "use client"
+
 import axios from 'axios';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import React, { useEffect, useState } from 'react'
@@ -7,7 +8,7 @@ import PastSensorList from './PastSensorList';
 const PastSensorWrapper = ({session} : {session : RequestCookie}) => {
   const [sensorListData,setSensorListData] = useState()
   useEffect(() => {
-    axios.get("http://localhost:8080/past-sensors",      {
+    axios.get("http://localhost:8080/worker/past-sensors",      {
         headers: {
           'Authorization': `Bearer ${session}`,
           'Content-Type': 'application/json',

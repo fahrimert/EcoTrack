@@ -10,7 +10,6 @@ import { Client, over } from "stompjs";
 import SockJS from "sockjs-client";
 import { UserProfilea } from "@/app/supervisor/superVizorDataTypes/types";
 
-//interface for sensorlist
 export interface SensorList {
   sensorName: string;
   status: string;
@@ -32,7 +31,6 @@ export interface SensorList {
       }
     | undefined;
 }
-/* interface for user profile data */
 export interface UserProfile {
   id: number;
   email: string;
@@ -45,7 +43,6 @@ export interface UserProfile {
     id: number;
   };
   role: string;
-  twoFactorCode: null;
   sensorSessions: [
     {
       id: number;
@@ -60,7 +57,6 @@ export interface UserProfile {
       note: null;
     }
   ];
-  twoFactorAuthbeenverified: boolean;
 }
 
 const SensorList = ({
@@ -112,11 +108,11 @@ const userBasedsensor = sensorListData?.map((g) => {
                   const exists = prevTasks.some(notif => notif.id === updatedTask.id);
               if (exists) return prevTasks;
       
-              return [updatedTask, ...prevTasks]; // En başa eklemek için
+              return [updatedTask, ...prevTasks]; 
                }
       )});
 
-              setHasLiveTasks(true); // Yeni görev geldi, görevli moda geç
+              setHasLiveTasks(true);
 
         }, (error) => {
           console.error("WebSocket bağlantı hatası:", error);
@@ -126,9 +122,6 @@ const userBasedsensor = sensorListData?.map((g) => {
       }, []);
 
 
-        
-      console.log(taskSensorListData);
-      console.log(tasks);
         
             //burda tüm userları gösterecez sadece bunu eşleşenleri online diye gösterecez onu da backgroundu yeşil yaparız 
         

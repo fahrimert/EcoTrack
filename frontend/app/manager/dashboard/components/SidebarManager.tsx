@@ -14,6 +14,7 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { logOut } from "@/app/actions/authActions/signout";
 import { IoAnalyticsSharp } from "react-icons/io5";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import toast from "react-hot-toast";
 
 interface NewSidebar  {
   children: React.ReactNode;
@@ -29,7 +30,13 @@ const SidebarManager:React.FC<NewSidebar> = ({children,session} ) => {
   const handleLogout = async () => {
    
      try {  
-      await logOut()
+          
+    const logout =   await logOut()
+    if (logout?.serverError) {
+      toast.error(logout.serverError);
+      console.log("Toast Error Triggered:",logout.serverError);
+      
+    }
      } catch (error) {
    if (error instanceof Error) {
   console.log(error.message);

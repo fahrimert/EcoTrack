@@ -5,7 +5,7 @@ import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import WorkerSelect from "../WorkerSelect";
 import HeatMapForWorkerSensors from "./HeatmapComponents/HeatMapForWorkerSensors";
-import { useAllUsers } from "@/hooks/useAllUsers";
+import { useFetchAllWorkers } from "@/hooks/useFetchAllWorkers";
 import { HeatMapSelectWorkerContext } from "@/context/HeatMapSelectWorkerContext";
 import WorkerSelectDifferentForHeatmap from "../WorkerSelectDifferentForHeatmap";
 
@@ -24,13 +24,13 @@ const PerformanceHeatmapComponent = ({
       }
     ]
   >([]);
-  const { users, error } = useAllUsers(session);
+  const { users, error } = useFetchAllWorkers(session);
 
   useEffect(() => {
     if (!usernameForHeatmap) return;
     axios
       .get(
-        `http://localhost:8080/superVizorSensors/getSensorSessionLocationsBasedOnUser/${usernameForHeatmap}`,
+        `http://localhost:8080/supervizor/getNonTaskHeatmapComponent/${usernameForHeatmap}`,
         {
           headers: { Authorization: `Bearer ${session?.value}` },
           withCredentials: true,

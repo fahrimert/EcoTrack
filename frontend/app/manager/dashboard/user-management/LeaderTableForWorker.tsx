@@ -24,7 +24,7 @@ const LeaderTableForWorker = ({session} : {session: RequestCookie | undefined}) 
     
   useEffect(() => {
 
-    axios.get(`http://localhost:8080/superVizorSensors/getTheUserPerformanceCharts`, {
+    axios.get(`http://localhost:8080/superVizor/getTheLeaderBoardTable`, {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })

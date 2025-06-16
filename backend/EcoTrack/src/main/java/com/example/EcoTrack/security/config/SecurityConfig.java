@@ -1,9 +1,9 @@
-package com.example.EcoTrack.auth.security.config;
+package com.example.EcoTrack.security.config;
 
 
-import com.example.EcoTrack.user.UserRepository;
-import com.example.EcoTrack.auth.security.customUserDetail.CustomUserDetailService;
-import com.example.EcoTrack.auth.security.filters.JwtFilter;
+import com.example.EcoTrack.user.repository.UserRepository;
+import com.example.EcoTrack.security.customUserDetail.CustomUserDetailService;
+import com.example.EcoTrack.security.filters.JwtFilter;
 import com.example.EcoTrack.auth.service.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .logout(customizer-> customizer.logoutUrl("/logout") )
                 .authorizeHttpRequests(
-                        authorize -> authorize.requestMatchers( "/login","/twofactorToken","/oauth2","/refreshToken/**","/ws/**", "/ws-users/**").permitAll()
+                        authorize -> authorize.requestMatchers( "/auth/login","/oauth2","/refreshToken/**","/ws/**", "/ws-users/**").permitAll()
 
                                 //hem rol hem authority mevzusunu yapıyor authority yapınca admini korumuş oluyor
                                 //authorities kısmında ise

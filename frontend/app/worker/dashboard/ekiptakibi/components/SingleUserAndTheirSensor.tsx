@@ -1,9 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { DestinationContext } from "@/context/DestinationContext";
 import { SourceContext } from "@/context/SourceContext";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useContext, useEffect } from "react";
+import { useContext} from "react";
 
 const SingleUserAndTheirSensor = ({
   sensors,

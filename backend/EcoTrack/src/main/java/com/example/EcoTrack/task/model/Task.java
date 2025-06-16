@@ -1,5 +1,7 @@
-package com.example.EcoTrack.model;
+package com.example.EcoTrack.task.model;
 
+import com.example.EcoTrack.sensors.model.Sensor;
+import com.example.EcoTrack.sensors.model.SensorStatus;
 import com.example.EcoTrack.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -46,7 +48,7 @@ public class Task {
     private Boolean workerArrived;
 
     private String workerOnRoadNote;
-    private  SensorStatus finalStatus;
+    private SensorStatus finalStatus;
 
 
 

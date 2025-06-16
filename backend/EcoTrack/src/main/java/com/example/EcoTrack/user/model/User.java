@@ -1,15 +1,17 @@
-package com.example.EcoTrack.model;
+package com.example.EcoTrack.user.model;
 
 
+import com.example.EcoTrack.auth.model.RefreshToken;
+import com.example.EcoTrack.notification.model.Notification;
+import com.example.EcoTrack.sensors.model.SensorFix;
+import com.example.EcoTrack.task.model.Task;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,12 +42,15 @@ public class User {
     private Role role;
 
 
-    private  boolean isTwoFactorAuthbeenverified = false  ;
+//    private  boolean isTwoFactorAuthbeenverified = false  ;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "two_factor_code_id",referencedColumnName = "id")
 
-    private TwoFactorCode twoFactorCode;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "two_factor_code_id",referencedColumnName = "id")
+//
+//    private TwoFactorCode twoFactorCode;
+
+
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_location_code_id",referencedColumnName = "id")

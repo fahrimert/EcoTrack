@@ -32,7 +32,11 @@ const SigninComponent = ({session } : {session: RequestCookie | undefined}) => {
     }
   }, [state?.serverError]);
 
-  console.log(state?.serverError);
+  useEffect(() => {
+    if (state?.serverSuccess) {
+      router.push("/");
+    }
+  }, [state, router]);
 
 
     const [visible,setVisible] = useState(true)
@@ -144,21 +148,7 @@ type= {visible  ? "password" : "text" }
            <LoginButton session = {session}/>
                 </div>
               </form>
-              <div className="relative w-[300px] h-fit flex flex-row justify-between items-center">
-                <div className="relative w-fit h-fit  text-white text-[16px] tracking-[-0.032px] leading-[38.4px]  ">
-              
-                <Link
-                  className="relative w-full h-fit text-white text-[16px] tracking-[-0.032px] leading-[38.4px] hover:text-red-400 transition-all  "
-                  href={"/auth/reset"}
-                >
-                      <h2 className=" flex items-center justify-center text-white hover:underline transition-all w-full h-full ">  Şifrenizi Mi Unuttunuz? </h2>
-                      </Link>
-           
-                </div>
-
-
         
-              </div>
             </div>
       </div>
     </div>

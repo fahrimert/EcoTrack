@@ -1,6 +1,6 @@
-package com.example.EcoTrack.repository;
+package com.example.EcoTrack.auth.repository;
 
-import com.example.EcoTrack.model.RefreshToken;
+import com.example.EcoTrack.auth.model.RefreshToken;
 import com.example.EcoTrack.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

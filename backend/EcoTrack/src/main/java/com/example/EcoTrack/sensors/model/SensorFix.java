@@ -1,4 +1,4 @@
-package com.example.EcoTrack.model;
+package com.example.EcoTrack.sensors.model;
 
 import com.example.EcoTrack.user.model.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -25,12 +25,6 @@ public class SensorFix {
     private Long id;
 
     private  String Note;
-
-
-//    @OneToMany(mappedBy = "sensorFix",cascade = CascadeType.ALL,orphanRemoval = true)
-//    private List<SensorSolvingImages> sensorSolvingImagesList;
-
-    //bi user birden fazla sensor çözebilir bi sensor birden fazla user tarafından çözülebilir
 
 
     @ManyToOne(cascade = CascadeType.ALL)

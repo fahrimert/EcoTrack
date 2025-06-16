@@ -10,7 +10,7 @@ export async function logOut() {
         
         ;
         const response = axios.post(
-            'http://localhost:8080/customLogout',
+            'http://localhost:8080/auth/customLogout',
             {}, 
             {
               headers: {
@@ -32,9 +32,23 @@ export async function logOut() {
 
   
         }
- catch (error) {
-    console.log((error as Error).message)
- 
+ catch (error : any) {
+   if (error.response?.data?.error) {
+    return {
+      serverError: error.response.data.errors,
+    };
+   }
+   if (error.response) {
+       console.error("Unexpected error response:", error.response.data);
+    return {
+      serverError: ["Unexpected server error occurred."],
+    };
+   }
+     console.error("Network or unknown error:", error.message);
+
+    return {
+      serverError: "Network or unknown error:",
+    }; 
   }
  
   finally{

@@ -1,6 +1,7 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.user.dto;
 
-import com.example.EcoTrack.auth.model.Role;
+import com.example.EcoTrack.user.model.Role;
+import com.example.EcoTrack.shared.dto.SensorFixDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -135,6 +135,30 @@ export interface ImageResponseDTO {
   type: string;
   base64Image: string;
 }
+
+export interface Task {
+  id: number;
+  superVizorDescription: string;
+  superVizorDeadline: string; 
+  assignedTo: {
+    id: number;
+    firstName: string;
+    surName: string;
+  };
+  assignedBy: {
+    id: number;
+    firstName: string;
+    surName: string;
+  };
+  sensorDTO: {
+    id: number;
+    sensorName: string;
+    latitude: number;
+    longitude: number;
+  };
+  workerArriving: string | null; 
+  workerArrived: string | null;  
+}
 export interface SensorDataDifferentOne {
   data : {
   id: number;
@@ -183,7 +207,6 @@ export interface UserProfilea {
     id: number;
   };
   role: string;
-  twoFactorCode: null;
   sensorSessions: [
     {
       id: number;
@@ -198,7 +221,6 @@ export interface UserProfilea {
       note: null;
     }
   ] | undefined;
-  twoFactorAuthbeenverified: boolean;
 }
 export interface UserProfile {
    id: number;

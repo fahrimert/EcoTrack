@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { LeaderboardResponse, LeaderboardResponseSuperVizor } from "@/app/supervisor/superVizorDataTypes/types";
+import {  LeaderboardResponseSuperVizor } from "@/app/supervisor/superVizorDataTypes/types";
 import { LeaderBoardComponentForSupervizor } from "./LeaderBoardComponentForSupervizor";
 
 const LeaderTableForSupervizor = ({session} : {session: RequestCookie | undefined}) => {

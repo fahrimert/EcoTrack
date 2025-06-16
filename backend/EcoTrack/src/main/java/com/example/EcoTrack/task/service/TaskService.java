@@ -1,21 +1,30 @@
-package com.example.EcoTrack.service;
+package com.example.EcoTrack.task.service;
 
-import com.example.EcoTrack.dto.*;
-import com.example.EcoTrack.model.*;
-import com.example.EcoTrack.repository.*;
+import com.example.EcoTrack.sensors.model.Sensor;
+import com.example.EcoTrack.sensors.model.SensorFix;
+import com.example.EcoTrack.sensors.model.SensorLocation;
+import com.example.EcoTrack.sensors.model.SensorStatus;
+import com.example.EcoTrack.notification.repository.NotificationRepository;
+import com.example.EcoTrack.sensors.repository.SensorRepository;
+import com.example.EcoTrack.shared.dto.ApiResponse;
+import com.example.EcoTrack.shared.dto.SensorDTO;
+import com.example.EcoTrack.shared.dto.SensorFixDTO;
+import com.example.EcoTrack.task.dto.SensorAllAndTaskDTO;
+import com.example.EcoTrack.task.dto.SensorTaskDTO;
+import com.example.EcoTrack.task.dto.TaskDTO;
+import com.example.EcoTrack.task.dto.UserTaskDTO;
+import com.example.EcoTrack.task.model.Task;
+import com.example.EcoTrack.task.repository.TaskRepository;
 import com.example.EcoTrack.user.model.User;
-import com.example.EcoTrack.user.UserRepository;
+import com.example.EcoTrack.user.repository.UserRepository;
 import com.example.EcoTrack.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.transaction.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,87 +33,24 @@ import java.util.stream.Collectors;
 public class TaskService {
 
     private  final TaskRepository taskRepository;
-    private  final  SensorService sensorService;
-    private  final  NotificationService notificationService;
     private final UserService userService;
     private  final SensorRepository sensorRepository;
-
-    private final  SensorSessionRepository sensorSessionRepository;
     private  final UserRepository userRepository;
-    private  final  TaskImageService taskImageService;
+    private  final TaskImageService taskImageService;
     private SimpMessagingTemplate messagingTemplate;
     private NotificationRepository notificationRepository;
 
-    public TaskService(TaskRepository taskRepository, SensorService sensorService, NotificationService notificationService, UserService userService, SensorRepository sensorRepository, SensorSessionRepository sensorSessionRepository, UserRepository userRepository1, TaskImageService taskImageService, SimpMessagingTemplate messagingTemplate, NotificationRepository notificationRepository) {
+    public TaskService(TaskRepository taskRepository,   UserService userService, SensorRepository sensorRepository,  UserRepository userRepository1, TaskImageService taskImageService, SimpMessagingTemplate messagingTemplate, NotificationRepository notificationRepository) {
         this.taskRepository = taskRepository;
-        this.sensorService = sensorService;
-        this.notificationService = notificationService;
         this.userService = userService;
         this.sensorRepository = sensorRepository;
-        this.sensorSessionRepository = sensorSessionRepository;
         this.userRepository = userRepository1;
         this.taskImageService = taskImageService;
         this.messagingTemplate = messagingTemplate;
         this.notificationRepository = notificationRepository;
     }
-//    public   List<Task>  getAllUserTasks (Task task){
-//
-//        //burada atanan useri bulup o userda eğer aynı sensör ona atanmışsa zaten atanmasın aynı görev biaha
-//            List<User> user =       userRepository.findAll();
-//        List<User> allUsers = userRepository.findAll();
-//        Map<String,   Map<String, Long>> userData = new HashMap<>();
-//        List<UserOnlineStatusDTO> dtoList = allUsers.stream()
-//                .map(userItem -> {userItem.getTasksAssignedToMe(),userItem.getTasksIAssigned();})
-//                .collect(Collectors.toList());
-//
-//        return user;
-//    }
 
-    public  ResponseEntity<?> getTasks(){
-        Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
-        String username = securityContextHolder.getName();
-
-        User user = userRepository.findByFirstName(username);
-
-        List<Task> usersTask = userService.getAllTask(user.getId());
-
-
-        List<TaskDTO> taskDTOList = usersTask.stream()
-                .filter(task -> task.getSensor() != null)
-
-                .map(a -> {
-            UserTaskDTO userTaskDTOassignedto = new UserTaskDTO();
-            userTaskDTOassignedto.setId(a.getAssignedTo().getId());
-            userTaskDTOassignedto.setFirstName(a.getAssignedTo().getFirstName());
-            userTaskDTOassignedto.setSurName(a.getAssignedTo().getSurName());
-
-            UserTaskDTO userTaskDTOassignedBy = new UserTaskDTO();
-            userTaskDTOassignedBy.setId(a.getAssignedBy().getId());
-            userTaskDTOassignedBy.setFirstName(a.getAssignedBy().getFirstName());
-            userTaskDTOassignedBy.setSurName(a.getAssignedBy().getSurName());
-
-            SensorTaskDTO sensorTaskDTO = new SensorTaskDTO();
-            sensorTaskDTO.setId(a.getSensor().getId());
-            sensorTaskDTO.setSensorName(a.getSensor().getSensorName());
-            sensorTaskDTO.setLatitude(a.getSensor().getSensorLocation().getLocation().getX());
-            sensorTaskDTO.setLongitude(a.getSensor().getSensorLocation().getLocation().getY());
-
-            return new TaskDTO(
-                    a.getId(),
-                    a.getSuperVizorDescription(),
-                    a.getSuperVizorDeadline(),
-                    userTaskDTOassignedto,
-                    userTaskDTOassignedBy,
-                    sensorTaskDTO,
-                    a.getWorkerArriving(),
-                    a.getWorkerArrived()
-            );
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.ok(taskDTOList);
-
-    }
-
+    //get the tasks of user based on given id for worker pages use case function
     public  ResponseEntity<?> getSensorListFromTasksOfSingleUser(Long userId){
 
         User user = userRepository.findById(userId).orElse(null);
@@ -145,9 +91,6 @@ public class TaskService {
                     )
             );
          Long taskId = a.getId();
-
-
-
             return new SensorAllAndTaskDTO(sensorDTO,
                     taskId,
                     a.getSuperVizorDescription(),
@@ -165,124 +108,8 @@ public class TaskService {
 
     }
 
-
-    public  ResponseEntity<?> markNotificationsOfRead(Long userId){
-        User user = userService.findById(userId);
-        List<Notification> notifications = notificationRepository.findByReceiverIdAndIsReadFalse(userId);
-        for (Notification n : notifications) {
-            n.setIsRead(true);
-        }
-        notificationRepository.saveAll(notifications);
-        return ResponseEntity.ok().build();
-    }
-
-
-    public   ResponseEntity<?>  createTask (Task task){
-
-        //burada atanan useri bulup o userda eğer aynı sensör ona atanmışsa zaten atanmasın aynı görev biaha
-        UserTaskDTO userTaskDTOassignedto = new UserTaskDTO();
-        UserTaskDTO userTaskDTOassignedBy = new UserTaskDTO();
-        SensorTaskDTO sensorTaskDTO = new SensorTaskDTO();
-
-
-        Sensor sensor = sensorRepository.findById(task.getSensor().getId()).orElse(null);
-
-        sensorTaskDTO.setId(sensor.getId());
-        sensorTaskDTO.setSensorName(sensor.getSensorName());
-        sensorTaskDTO.setLatitude(sensor.getSensorLocation().getLocation().getX());
-        sensorTaskDTO.setLongitude(sensor.getSensorLocation().getLocation().getY());
-
-        Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
-        String username = securityContextHolder.getName();
-
-
-        User assignedToUser = userService.findById(task.getAssignedTo().getId());
-        User assignedBy = userService.findByUsername(username);
-
-
-
-        userTaskDTOassignedto.setId(assignedToUser.getId());
-        userTaskDTOassignedto.setFirstName(assignedToUser.getFirstName());
-        userTaskDTOassignedto.setSurName(assignedToUser.getSurName());
-
-
-        userTaskDTOassignedBy.setId(assignedBy.getId());
-        userTaskDTOassignedBy.setFirstName(assignedBy.getFirstName());
-        userTaskDTOassignedBy.setSurName(assignedBy.getSurName());
-
-        TaskDTO taskDTO = new TaskDTO(task.getId(), task.getSuperVizorDescription(),task.getSuperVizorDeadline()
-        ,userTaskDTOassignedto
-                ,userTaskDTOassignedBy
-                ,sensorTaskDTO
-                ,task.getWorkerArriving()
-                ,task.getWorkerArrived()
-
-        );
-
-        User user = userService.findByUsername(assignedToUser.getFirstName());
-
-
-
-        if ( sensor.getStatus() == SensorStatus.IN_REPAIR) {
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sensor is already in another worker hand");
-        }
-
-        sensor.setStatus(SensorStatus.IN_REPAIR);
-        Date now = new Date();
-
-        ArrayList<Task> tasks = new ArrayList<>();
-        tasks.add(task);
-        assignedBy.setTasksIAssigned(tasks);
-
-        assignedToUser.setTasksAssignedToMe(tasks);
-        sensor.setTasks(tasks);
-
-        Task taskk = new Task();
-
-        taskk.setSuperVizorDescription(task.getSuperVizorDescription());
-        taskk.setSuperVizorDeadline(task.getSuperVizorDeadline());
-        taskk.setAssignedTo(assignedToUser);
-        taskk.setAssignedBy(assignedBy);
-        taskk.setSensor(sensor);
-
-        taskk.setCreatedAt(LocalDateTime.now());
-
-
-
-        userRepository.save(assignedToUser);
-        userRepository.save(assignedBy);
-
-        taskRepository.save(taskk);
-
-        Authentication securityContextHolderr = SecurityContextHolder.getContext().getAuthentication();
-        String usernamee = securityContextHolderr.getName();
-
-
-
-        Notification notificationn = new Notification();
-
-        notificationn.setSupervizorDescription(taskk.getSuperVizorDescription());
-        notificationn.setSuperVizorDeadline(taskk.getSuperVizorDeadline());
-        notificationn.setUserNotifications(assignedToUser);
-        notificationn.setReceiverId(assignedToUser.getId());
-        notificationn.setSenderId(assignedBy.getId());
-        notificationn.setTaskId(taskk.getId());
-
-        notificationService.sendNotification(notificationn);
-
-
-        messagingTemplate.convertAndSend("/topic/tasks", taskDTO);
-
-
-
-        sensorRepository.save(sensor);
-
-
-        return ResponseEntity.ok(taskDTO);
-    }
-
-    public  ResponseEntity<ApiResponse<?>>  updateTasksOnRoadNote (Long taskId, String workerNote){
-        System.out.println(workerNote);
+    //worker update the task and add on road note  function
+    public  ResponseEntity<ApiResponse<?>>  workerUpdateTasksOnRoadNote (Long taskId, String workerNote){
         Task task = taskRepository.findById(taskId).orElse(null);
 
         Boolean idInTaskList = taskRepository.findAll().stream().map(a ->a.getId()).collect(Collectors.toList()).contains(taskId);
@@ -352,8 +179,10 @@ public class TaskService {
 
 
     }
+
+    //worker update the task to final function
     @Transactional
-    public ResponseEntity<String> finishTask(String workerNote,SensorStatus statusID,  Long taskId, List<MultipartFile> files){
+    public ResponseEntity<String> workerUpdateTaskToFinal(String workerNote,SensorStatus statusID,  Long taskId, List<MultipartFile> files){
 
         try {
 

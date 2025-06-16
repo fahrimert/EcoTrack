@@ -3,7 +3,6 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { DestinationContext } from "@/context/DestinationContext";
 import Link from "next/link";
-import { TaskSensorWithTask } from "./SensorsAndMap";
 
 const TaskSensor = ({
   sensors,

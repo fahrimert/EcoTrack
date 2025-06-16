@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -10,8 +10,6 @@ import {  MdOutlineWaterDrop } from "react-icons/md";
 import { RiDashboardHorizontalFill, RiTaskLine } from "react-icons/ri";
 import Link from "next/link";
 import { MdGroups2 } from "react-icons/md";
-import toast from "react-hot-toast";
-import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { logOut } from "@/app/actions/authActions/signout";
 import { IoAnalyticsSharp } from "react-icons/io5";

@@ -22,11 +22,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { createSensorManager } from '@/app/actions/sensorActions/createSensorManager';
 import toast from 'react-hot-toast'
 import { SensorListForManagerUse } from './SensorManagementSensorsWrapperComponent'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { updateSensor } from '@/app/actions/sensorActions/updateSensor'
+import { updateSensorManager } from '@/app/actions/sensorActions/updateSensorForManager'
+import Image from 'next/image'
 
 
 const formSchema = z.object({
@@ -59,6 +59,8 @@ const ManagerSensorUpdateComponent = ({sensorDataInduvual,onSuccess,onSetId,sens
         }
       });
 
+      const [initialImage,setInıtıalImage] = useState(sensorDataInduvual.imageResponseDTO.base64Image)
+
       
         const onSubmit = async (data: UpdateSensorFormValues) => {
           try {
@@ -74,8 +76,7 @@ const ManagerSensorUpdateComponent = ({sensorDataInduvual,onSuccess,onSetId,sens
         }
       }
 
-      console.log(formData);
-      /*        const returnData = await updateSensor(formData);
+        const returnData = await updateSensorManager(formData);
        if (returnData.serverData != null) {
                onSuccess()
          toast.success(returnData.serverData);
@@ -84,7 +85,6 @@ const ManagerSensorUpdateComponent = ({sensorDataInduvual,onSuccess,onSetId,sens
            if (returnData.serverError  != null) {
             toast.error(returnData.serverError)
            }
- */
          } catch (error) {
             console.log(error);
             toast.error(error);
@@ -106,7 +106,6 @@ const ManagerSensorUpdateComponent = ({sensorDataInduvual,onSuccess,onSetId,sens
                 name = "sensorId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Resim Ekle</FormLabel>
                     <FormControl>
                       <Select  
                           onValueChange={(e) => {
@@ -194,6 +193,23 @@ value={form.watch("sensor_location")}
               </FormItem>
             )}
           /> */}
+
+           <div className="w-full h-fit grid grid-cols-3 gap-[20px]">
+            {
+     
+                                <div className="relative   bg-blue rounded-[20px] bg-blue-200">
+            <Image
+            width={200}
+            height={200}
+            objectFit="true"
+            src={`data:image/png;base64,${initialImage}`}
+          
+            alt="212"
+            />                                     
+          
+            </div>
+                          } 
+            </div>
               <FormField
                 control={form.control}
                 name="sensor_icon_image"
@@ -205,7 +221,9 @@ value={form.watch("sensor_location")}
                       <Input
                         type="file" 
                         multiple 
-                        onChange={(e) => field.onChange(e.target.files)} 
+                        onChange={(e) => {
+                          field.onChange(e.target.files)
+                   }} 
                       />
                     </FormControl>
                     <FormMessage/>

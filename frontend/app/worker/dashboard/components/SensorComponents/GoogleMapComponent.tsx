@@ -25,7 +25,7 @@ const GoogleMapComponent = ({session,sensorListData,userProfile,taskSensorListDa
 
   //useeffect for putting the current user location on map center and setting the source value users location 
   useEffect(() => {
-    axios.get("http://localhost:8080/getUserLocation", {
+    axios.get("http://localhost:8080/user/getUserLocation", {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })
@@ -41,24 +41,12 @@ const GoogleMapComponent = ({session,sensorListData,userProfile,taskSensorListDa
     if (source) {
       setCenterData({latitude:source.lat, longitude:source.lng})
       setMapKey(prev => prev + 1); // Key'i değiştirerek bileşeni yeniden yükle
-
     }
-  
   },[source])
 
   const [mapKey, setMapKey] = useState(0);
 
 
-
-
-
-  const ref = React.useRef(null)
-
-
-
- 
-
-      
   //centeri source datası yap 
   //bizim marker f ve overliev userin datası 
     

@@ -1,4 +1,4 @@
-package com.example.EcoTrack.auth.model;
+package com.example.EcoTrack.user.model;
 
 import java.util.List;
 

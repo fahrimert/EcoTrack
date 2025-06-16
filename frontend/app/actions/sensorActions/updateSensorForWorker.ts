@@ -4,13 +4,13 @@ import { SensorDataDifferentOne } from "@/app/supervisor/superVizorDataTypes/typ
 import axios from "axios";
 import { cookies,  } from "next/headers";
 
-export async function updateSensor(formData: FormData,initialData : SensorDataDifferentOne) {
+export async function updateSensorForWorker(formData: FormData,initialData : SensorDataDifferentOne) {
  
   try {
 
         const session = cookies().get("session")?.value
         const response = await axios.put(
-            `http://localhost:8080/sensor/AllState/${initialData.data.id}`,
+            `http://localhost:8080/worker/nonTaskSensorSolving/${initialData.data.id}`,
             formData,
             {
               headers: {

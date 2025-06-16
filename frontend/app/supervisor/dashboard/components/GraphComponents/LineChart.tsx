@@ -2,7 +2,7 @@
 import dynamic from "next/dynamic";
 import "chart.js/auto";
 import React from "react";
-import { workerTimeBasedStatsGraph } from "../../superVizorDataTypes/types";
+import { workerTimeBasedStatsGraph } from "../../../superVizorDataTypes/types";
 export const Bar = dynamic(() => import("react-chartjs-2").then((mod) => mod.Bar), {
   ssr: false,
 });

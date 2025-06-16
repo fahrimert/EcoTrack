@@ -1,15 +1,16 @@
 
-import { ChartComponent } from "./ChartComponent";
+import { ChartComponent } from "./GraphComponents/ChartComponent";
 import { cn } from "@/lib/utils";
-import BarChart from "./LineChart";
-import HeatMap from "./HeatMap";
-import OnlineUsers from "./OnlineUsers";
+import BarChart from "./GraphComponents/LineChart";
+import HeatMap from "./GraphComponents/HeatMap";
+import OnlineUsers from "./OnlineUserListComponents/OnlineUsers";
 import { FullUserStats, statusEnums} from "../../superVizorDataTypes/types";
 
 
-const MainPageChartsComponent = async({sensorfilterBasedStat,getWorkerStats,responseOFaulty} : {sensorfilterBasedStat :statusEnums,
-getWorkerStats : FullUserStats 
-responseOFaulty:
+const MainPageChartsComponent = async({responseOfDoughbut,responseOfBarChart,responseOHeatmapComponent} : {
+  responseOfDoughbut :statusEnums,
+responseOfBarChart : FullUserStats 
+responseOHeatmapComponent:
  [{
     id: string;
     latitude: number;
@@ -19,7 +20,7 @@ responseOFaulty:
 
 ) => {
 
-const transformed = getWorkerStats.map((periodObj) => {
+const transformed = responseOfBarChart.map((periodObj) => {
   const [periodKey, periodValue] = Object.entries(periodObj)[0];
   return {
     period: periodKey,
@@ -50,10 +51,10 @@ const lastdaydata = transformed.filter((c) => c.period == 'last_day')
 
             </div>
             <div className="w-full h-fit flex p-[20px] items-center justify-center ">
-            {sensorfilterBasedStat !== null ? 
+            {responseOfDoughbut !== null ? 
                <div className=" w-full h-[300px] flex flex-row items-center justify-center ">
 
-                 <ChartComponent sensorfilterBasedStat={sensorfilterBasedStat} />
+                 <ChartComponent responseOfDoughbut={responseOfDoughbut} />
                </div>
                
                : 
@@ -75,7 +76,7 @@ const lastdaydata = transformed.filter((c) => c.period == 'last_day')
      </div> 
               
               <div className=" w-[70%] h-fit bg-white rounded-[20px] p-[20px]">
-                <HeatMap response = {responseOFaulty}/>
+                <HeatMap response = {responseOHeatmapComponent}/>
               </div>
 
               <div  className=" w-fit h-fit bg-white rounded-[20px] p-[20px] ">

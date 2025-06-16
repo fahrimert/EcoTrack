@@ -1,4 +1,4 @@
-package com.example.EcoTrack.repository;
+package com.example.EcoTrack.notification.repository;
 
 import com.example.EcoTrack.notification.model.Notification;
 import jakarta.transaction.Transactional;

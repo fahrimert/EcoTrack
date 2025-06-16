@@ -1,11 +1,10 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.supervizor.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor

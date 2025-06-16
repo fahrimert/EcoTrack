@@ -1,4 +1,4 @@
-package com.example.EcoTrack.model;
+package com.example.EcoTrack.notification.model;
 
 import com.example.EcoTrack.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;

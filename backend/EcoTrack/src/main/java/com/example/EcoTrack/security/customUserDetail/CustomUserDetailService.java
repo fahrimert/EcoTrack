@@ -1,8 +1,8 @@
-package com.example.EcoTrack.auth.security.customUserDetail;
+package com.example.EcoTrack.security.customUserDetail;
 
 import com.example.EcoTrack.user.model.User;
-import com.example.EcoTrack.user.UserRepository;
-import com.example.EcoTrack.auth.security.principal.UserPrincipal;
+import com.example.EcoTrack.user.repository.UserRepository;
+import com.example.EcoTrack.security.principal.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
-package com.example.EcoTrack.auth.security.filters;
+package com.example.EcoTrack.security.filters;
 
-import com.example.EcoTrack.user.UserRepository;
-import com.example.EcoTrack.auth.security.customUserDetail.CustomUserDetailService;
+import com.example.EcoTrack.user.repository.UserRepository;
+import com.example.EcoTrack.security.customUserDetail.CustomUserDetailService;
 import com.example.EcoTrack.auth.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

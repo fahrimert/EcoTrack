@@ -23,7 +23,7 @@ const PerformanceLeaderTableComponent = ({session} : {session: RequestCookie | u
     
   useEffect(() => {
 
-    axios.get(`http://localhost:8080/superVizorSensors/getTheUserPerformanceCharts`, {
+    axios.get(`http://localhost:8080/superVizor/getTheLeaderBoardTable`, {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })

@@ -1,5 +1,6 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.task.dto;
 
+import com.example.EcoTrack.shared.dto.SensorDTO;
 import com.example.EcoTrack.task.model.TaskImages;
 import lombok.AllArgsConstructor;
 import lombok.Data;

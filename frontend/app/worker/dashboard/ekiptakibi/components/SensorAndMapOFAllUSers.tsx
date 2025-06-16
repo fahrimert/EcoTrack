@@ -6,11 +6,11 @@ import axios from "axios";
 
 import GoogleMapComponentOfAllUsers from "./GoogleMapComponentOfAllUsers";
 import { TailSpin } from 'react-loader-spinner'
-import SensorList from "@/app/components/SensorComponents/SensorList";
 import { SourceContext } from "@/context/SourceContext";
 import { DestinationContext } from "@/context/DestinationContext";
 import { HoverContext } from "@/context/HoverContext";
 import SensorListAndUsers from "./SensorListAndUsers";
+import SensorList from "../../components/SensorComponents/SensorList";
 
 const UserSensorsAndMapOFAllUsers = ({session , usersAndTheirSensors } : {session:RequestCookie | undefined, 
   usersAndTheirSensors : [{  id: number;
@@ -40,7 +40,9 @@ useEffect(() => {
   })
   .then((res) => setSensorListData(res.data))
   .catch((err) => console.log(err));
-}, []);
+}, []); 
+
+
 const [source,setSource] = useState({
   lat:39.9334,
   lng: 32.8597
@@ -59,7 +61,7 @@ const [destination,setDestination] = useState({
       {/* Sensör Listesi  */}
    
     <div className=" w-full h-fit flex flex-col bg-[#c2cecb] items-start justify-start     gap-[5px] rounded-[30px]">
-      <SensorListAndUsers session={session} sensorListData={usersAndTheirSensors}  />
+      <SensorListAndUsers  sensorListData={usersAndTheirSensors}  />
 
 
 

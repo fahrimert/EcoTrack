@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useEffect, useState } from "react";
 import { SensorListForManagerUse } from "./SensorManagementSensorsWrapperComponent";
+import { managerDeleteSensorAction } from "@/app/actions/sensorActions/manageDeleteSensorAction";
 
   const SensorSheetComponent = ({
     sensors,
@@ -60,7 +61,7 @@ open:boolean,
 
   const handleDelete = async (id:string) => {
         try {
-          const user = await managerDeleteUserAction(id);
+          const user = await managerDeleteSensorAction(id);
           setOpen(false)
           setOpenMainDialog(false)
           console.log(user);
@@ -68,6 +69,8 @@ open:boolean,
           console.log(error);
         }
   }
+  
+  
   const [deactivateOpen,setDeactivateOpen] = useState(false)
   const handleDeactivateUser = async (id: string) => {
         try {
@@ -81,7 +84,7 @@ open:boolean,
   console.log(sensors);
     return (
       <div className='relative  w-full h-full flex flex-col justify-start items-start gap-[5px] p-[10px]  '>
-                      <h2 className={`w-fit h-fit  text-black text-[24px] leading-[24px]`}>Kullanıcı Raporu</h2>
+                      <h2 className={`w-fit h-fit  text-black text-[24px] leading-[24px]`}>Sensör Raporu</h2>
 
     <div className="w-full  h-fit flex flex-col justify-start items-start">
      <div className=" w-full  px-[5px] flex flex-col py-[10px] gap-[10px] ">
@@ -146,37 +149,12 @@ open:boolean,
 
 <div className="w-full justify-end items-end h-fit flex gap-[10px] ">
 
-<Dialog open ={deactivateOpen} onOpenChange={setDeactivateOpen}>
-<DialogTrigger >
-<div className=" flex justify-end items-center bg-blue-400 w-fit p-[10px] rounded-[15px]">
-  <h2 className="text-white">
-
-Kullanıcıyı Dondur 
-  </h2>
-</div>
-
-</DialogTrigger>
-
-<DialogContent className="bg-white  px-[10px] mr-[10px]">
-  <div className="gap-[5px]">
-
-  <h2 className=" text-[24px]">Kullanıcıyı dondurmaya emin misiniz? </h2>
-  <h2 className=" text-[16px]">Kullanıcıyı dondurduğunuz zaman bu işlem birdaha geri alınamaz.</h2>
-  </div>
-  <Button variant={null} onClick={() => {handleDeactivateUser(sensors.id)} }  className=" flex justify-end items-center bg-blue-400 w-fit p-[10px] rounded-[15px]">
-  <h2 className="text-white">
-
-Kullanıcıyı Dondur  
-  </h2>
-</Button>
-</DialogContent>
-</Dialog>
 <Dialog open ={open} onOpenChange={setOpen}>
 <DialogTrigger >
 <div className=" flex justify-end items-center bg-red-400 w-fit p-[10px] rounded-[15px]">
   <h2 className="text-white">
 
-Kullanıcıyı Sil
+Sensörü Sil
   </h2>
 </div>
 
@@ -185,13 +163,13 @@ Kullanıcıyı Sil
 <DialogContent className="bg-white">
   <div className="gap-[5px]">
 
-  <h2 className=" text-[24px]">Kullanıcıyı silmeye emin misiniz? </h2>
-  <h2 className=" text-[16px]">Kullanıcıyı sildiğiniz zaman bu işlem bidaha geri alınamaz.</h2>
+  <h2 className=" text-[24px]">Sensörü silmeye emin misiniz? </h2>
+  <h2 className=" text-[16px]">Sensörü sildiğiniz zaman bu işlem bidaha geri alınamaz.</h2>
   </div>
   <Button variant={null} onClick={() => {handleDelete(sensors.id)} }  className=" flex justify-end items-center bg-red-400 w-fit p-[10px] rounded-[15px]">
   <h2 className="text-white">
 
-Kullanıcıyı Sil
+Sensörü Sil
   </h2>
 </Button>
 </DialogContent>

@@ -1,4 +1,4 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.shared.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

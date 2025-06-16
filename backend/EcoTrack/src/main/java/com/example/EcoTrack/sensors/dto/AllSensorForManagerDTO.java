@@ -1,4 +1,5 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.sensors.dto;
+import com.example.EcoTrack.shared.dto.ImageResponseDTO;
 import com.example.EcoTrack.user.dto.AllSensorSessionDTOForManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Date;
 public class AllSensorForManagerDTO {
     private  Long id;
     private  String sensorName;
-    private  ImageResponseDTO imageResponseDTO;
+    private ImageResponseDTO imageResponseDTO;
     private String status;
     private  String color_code;
     private double latitude;

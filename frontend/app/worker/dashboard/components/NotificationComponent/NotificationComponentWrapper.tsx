@@ -58,7 +58,6 @@ const NotificationComponentWrapper = ({session,enrichedNotifications} : {session
    
   }, [enrichedNotifications,userProfile?.id]);
 
-  console.log(userProfile?.firstName);
   return (
     <div>
         <NotificationComponent session = {session} enrichedNotifications = {notification}/>

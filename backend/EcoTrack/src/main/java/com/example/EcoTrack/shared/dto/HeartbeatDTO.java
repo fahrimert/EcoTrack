@@ -1,4 +1,4 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.shared.dto;
 
 public class HeartbeatDTO {
     private Boolean isOnline;

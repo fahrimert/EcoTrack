@@ -75,8 +75,8 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
   <div className=" w-fit flex flex-row items-center  gap-[10px]">
   <h2 className="text-[18px]">Sensör Konum: </h2>
       <h2>
-  {  addressComponents.reverse()[2].short_name + "/" +  addressComponents.reverse()[2].short_name}
-    </h2>
+{/*   {  addressComponents.reverse()[2].short_name + "/" +  addressComponents.reverse()[2].short_name}
+ */}    </h2>
   </div>
   <div className=" w-fit flex flex-row items-center  gap-[10px]">
   <h2 className="text-[18px]">İsmi : </h2>

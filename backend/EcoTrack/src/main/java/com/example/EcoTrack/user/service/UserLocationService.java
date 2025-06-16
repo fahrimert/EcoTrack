@@ -1,11 +1,12 @@
-package com.example.EcoTrack.user.model;
+package com.example.EcoTrack.user.service;
 
-import com.example.EcoTrack.dto.UserAndSessionSensorDTO;
+import com.example.EcoTrack.user.dto.UserAndSessionSensorDTO;
 import com.example.EcoTrack.user.dto.UserLocationDTO;
 import com.example.EcoTrack.sensors.model.Sensor;
 import com.example.EcoTrack.sensors.model.SensorFix;
+import com.example.EcoTrack.user.model.User;
+import com.example.EcoTrack.user.model.UserLocation;
 import com.example.EcoTrack.user.repository.LocationRepository;
-import com.example.EcoTrack.sensors.repository.SensorSessionRepository;
 import com.example.EcoTrack.user.repository.UserRepository;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -21,7 +22,6 @@ import java.util.stream.Collectors;
 public class UserLocationService {
     private UserRepository userRepository;
     private LocationRepository locationRepository;
-    private SensorSessionRepository sensorSessionRepository;
     private SimpMessagingTemplate messagingTemplate;
     public UserLocationService(UserRepository userRepository, LocationRepository locationRepository, SimpMessagingTemplate messagingTemplate) {
         this.userRepository = userRepository;
@@ -32,7 +32,6 @@ public class UserLocationService {
     public   String  saveUserLocation(String username , Double lat , Double longtitude){
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
 
-// Enlem (latitude) ve boylam (longitude)
         double latitude = lat;
         double longitude = longtitude;
 
@@ -65,7 +64,8 @@ public class UserLocationService {
         return new UserLocationDTO(user.getId(),point.getY(), point.getX());
     }
 
-    public   List<UserAndSessionSensorDTO> getAllLocation() {
+    //Get all workers session if they has and their own location for worker ekiptakibi page
+    public   List<UserAndSessionSensorDTO> getAllWorkersSessionSensorAndTheirLocation() {
         List<User> usersLocationList = userRepository.findAll();
 
         List<UserAndSessionSensorDTO> dtoList = usersLocationList.stream()

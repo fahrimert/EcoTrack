@@ -1,4 +1,4 @@
-package com.example.EcoTrack.user;
+package com.example.EcoTrack.user.repository;
 
 import com.example.EcoTrack.user.model.User;
 import com.example.EcoTrack.user.model.UserOnlineStatus;

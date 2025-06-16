@@ -1,12 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Image from "next/image";
 import { cn } from '@/lib/utils';
-import { SourceContext } from '@/context/SourceContext';
-import { DestinationContext } from '@/context/DestinationContext';
-import Link from "next/link"
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
-import { redirect } from 'next/navigation';
-import toast from 'react-hot-toast';
 import { formatDuration, intervalToDuration } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { SensorDataDifferentOne } from '@/app/supervisor/superVizorDataTypes/types';

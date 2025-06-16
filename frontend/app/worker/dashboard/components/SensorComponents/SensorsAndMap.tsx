@@ -1,4 +1,6 @@
 "use client"
+
+
 import React, { useEffect, useState } from "react";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { SourceContext } from "@/context/SourceContext";
@@ -59,7 +61,6 @@ export interface TaskSensorWithTask {
 }
 const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
   
-  //source ve destination stateleri map için 
   const [source,setSource] = useState({
     lat:39.9334,
     lng: 32.8597
@@ -71,10 +72,8 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
   const [sensorListData,setSensorListData] = useState<typeof SensorList[]>()
   const [taskSensorListData,setTaskSensorListData] = useState <TaskSensorWithTask[]>([])
 
-  const [notification,setNotification] = useState<Notification>()
    const { userProfile, loading, error } = useUserProfile(session);
 
-  console.log(userProfile);
   let stompClient: Client;
 
   useEffect(() => {
@@ -95,15 +94,6 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
 
 
 
-
-  
-      //burda tüm userları gösterecez sadece bunu eşleşenleri online diye gösterecez onu da backgroundu yeşil yaparız 
-  
-  
-
-  //tüm userların locationlarını anlık almak için websocket için websocket 
-
-  //dbdeki tüm sensor listesini almak için endpoint
   useEffect(() => {
     axios.get("http://localhost:8080/sensors", {
       headers: { Authorization: `Bearer ${session?.value}` },
@@ -112,29 +102,25 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
     .then((res) => setSensorListData(res.data))
     .catch((err) => {
   console.log("Sensör verisi alınamadı:", err);
-  setSensorListData([]); // fallback
+  setSensorListData([]);
   })
   }, []);
-
     useEffect(() => {
-        if (!userProfile?.id) return; // userProfile henüz gelmediyse çık
+        if (!userProfile?.id) return; 
 
-    axios.get(`http://localhost:8080/tasks/getTasksOfMe/${userProfile?.id}`, {
+    axios.get(`http://localhost:8080/worker/getTasksOfMe/${userProfile?.id}`, {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })
     .then((res) => setTaskSensorListData(res.data))
       .catch((err) => {
   console.log("Sensör verisi alınamadı:", err);
-  setTaskSensorListData([]); // fallback
+  setTaskSensorListData([]);
   })
   }, [userProfile?.id]);
 
 
-  //mantık task varsa taskdaki sensör listesini task yoksa normal bunu dönder 
-    
-    
-  //user için useeffect
+
 
   return (
     <>
@@ -154,7 +140,6 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
       <GoogleMapComponent taskSensorListData = {taskSensorListData}  userProfile = {userProfile} sensorListData= {sensorListData} session={session} />
     </div>
 
-    {/* List Of */}
       <div className="relative w-[40%] h-fit flex flex-col justify-start items-start max-xl:w-full ">
      
      <SensorList 
@@ -162,6 +147,8 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
        sensorListData= {sensorListData } 
        session = {session}
         userProfile ={userProfile}/> 
+
+        
       </div>
       </HoverContext.Provider>
       </DestinationContext.Provider>

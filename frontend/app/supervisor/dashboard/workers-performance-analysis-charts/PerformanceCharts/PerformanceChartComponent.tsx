@@ -6,7 +6,7 @@ import axios from "axios";
 import { ChartComponentForWorker } from "./ChartComponent/ChartComponent";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import WorkerSelect from "../WorkerSelect";
-import { useAllUsers } from "@/hooks/useAllUsers";
+import { useFetchAllWorkers } from "@/hooks/useFetchAllWorkers";
 import { SensorTypeCount } from "@/app/supervisor/superVizorDataTypes/types";
 
 const PerformanceChartComponent = ({session} : {session: RequestCookie | undefined}) => {
@@ -18,7 +18,7 @@ const PerformanceChartComponent = ({session} : {session: RequestCookie | undefin
     
   useEffect(() => {
   if (!userNameForPie) return
-    axios.get(`http://localhost:8080/superVizorSensors/getSensorNames/${userNameForPie}`, {
+    axios.get(`http://localhost:8080/supervizor/getNonTaskSessionSolvingSensorNames/${userNameForPie}`, {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })
@@ -26,7 +26,7 @@ const PerformanceChartComponent = ({session} : {session: RequestCookie | undefin
     .catch((err) => console.log(err));
   }, [userNameForPie]);
 
-      const { users,  error } = useAllUsers(session);
+      const { users,  error } = useFetchAllWorkers(session);
 
 
 

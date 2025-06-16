@@ -3,21 +3,17 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Client, over } from "stompjs";
 import SockJS from "sockjs-client";
 import OnlineUser from "./OnlineUser";
-import { UserOnlineStatusDTO } from "../../superVizorDataTypes/types";
+import { UserOnlineStatusDTO } from "../../../superVizorDataTypes/types";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 
 
 const OnlineUsers = () => {
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const [onlineUsers, setOnlineUsers] = useState<UserOnlineStatusDTO[]>([]);
-  const onUnmount = useCallback(() => setMap(null), []);
   let stompClient: Client;
 
-  //burda tüm userları gösterecez sadece bunu eşleşenleri online diye gösterecez onu da backgroundu yeşil yaparız
 
   useEffect(() => {
     const socket = new SockJS("http://localhost:8080/ws-users");

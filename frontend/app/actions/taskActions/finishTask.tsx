@@ -10,7 +10,7 @@ export async function finishTask(formData: FormData,initialData : TaskDetail) {
 
         const session = cookies().get("session")?.value
         const response = await axios.put(
-            `http://localhost:8080/sensor/finishTask/${initialData.id}`,
+            `http://localhost:8080/worker/updateTaskForFinishing/${initialData.id}`,
             formData,
             {
               headers: {

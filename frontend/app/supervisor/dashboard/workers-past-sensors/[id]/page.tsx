@@ -11,7 +11,7 @@ import { SensorDetailForWorkerPastSensor } from '@/app/supervisor/superVizorData
 
 const page = async ({params} : {params:{id:string}}) => {
     const session =   cookies().get("session")
-    const response = await fetch(`http://localhost:8080/sensors/getPastSensorDetail/${params.id}`, {
+    const response = await fetch(`http://localhost:8080/worker/getPastNonTaskSensorDetail/${params.id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${session?.value}`,

@@ -3,13 +3,13 @@ import axios from 'axios'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import  { useEffect, useState } from 'react'
 
-export const useAllUsers = (session : RequestCookie | undefined) => {
+export const useFetchAllWorkers = (session : RequestCookie | undefined) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<any>(null)
       const [users,setUsers] = useState<UserOnlineStatusDTO[]>([])
 
        useEffect(() => {
-    axios.get(`http://localhost:8080/superVizorSensors/getAllWorker`, {
+    axios.get(`http://localhost:8080/supervizor/getAllWorker`, {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })

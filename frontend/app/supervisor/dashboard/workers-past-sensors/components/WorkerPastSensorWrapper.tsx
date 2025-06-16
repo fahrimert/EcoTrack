@@ -8,7 +8,7 @@ import { SensorSessionWithser } from '@/app/supervisor/superVizorDataTypes/types
 const WorkerPastSensorWrapper = ({session} : {session : RequestCookie | undefined}) => {
   const [sensorListData,setSensorListData] = useState<SensorSessionWithser[]>([])
   useEffect(() => {
-    axios.get("http://localhost:8080/superVizorSensors/getWorkersPastSensors",{
+    axios.get("http://localhost:8080/superVizor/getWorkersPastSensors",{
         headers: {
           'Authorization': `Bearer ${session?.value}`,
           'Content-Type': 'application/json',

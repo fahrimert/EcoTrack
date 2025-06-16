@@ -1,9 +1,10 @@
-package com.example.EcoTrack.service;
+package com.example.EcoTrack.notification.service;
 
-import com.example.EcoTrack.dto.NotificationDTO;
-import com.example.EcoTrack.model.Notification;
-import com.example.EcoTrack.repository.*;
-import com.example.EcoTrack.user.UserRepository;
+import com.example.EcoTrack.notification.dto.NotificationDTO;
+import com.example.EcoTrack.notification.model.Notification;
+import com.example.EcoTrack.notification.repository.NotificationRepository;
+import com.example.EcoTrack.user.repository.UserRepository;
+import com.example.EcoTrack.user.model.User;
 import com.example.EcoTrack.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +22,17 @@ public class NotificationService {
 
     public NotificationRepository notificationRepository;
     public UserService userService;
-    private UserRepository userRepository;
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    public NotificationService(UserService userService, NotificationRepository notificationRepository, UserRepository userRepository, SimpMessagingTemplate messagingTemplate) {
+    public NotificationService(UserService userService, NotificationRepository notificationRepository,  SimpMessagingTemplate messagingTemplate) {
         this.userService = userService;
         this.notificationRepository = notificationRepository;
-        this.userRepository = userRepository;
         this.messagingTemplate = messagingTemplate;
     }
 
+
+    //Sending notification after receiving task module
     public void sendNotification(Notification notification){
             Notification notificationn = new Notification();
 
@@ -68,7 +69,19 @@ public class NotificationService {
 
     }
 
+    //Mark the notification true in worker dashboard notification component
+    public  ResponseEntity<?> markNotificationsOfRead(Long userId){
+        User user = userService.findById(userId);
+        List<Notification> notifications = notificationRepository.findByReceiverIdAndIsReadFalse(userId);
+        for (Notification n : notifications) {
+            n.setIsRead(true);
+        }
+        notificationRepository.saveAll(notifications);
+        return ResponseEntity.ok().build();
+    }
 
+
+    //get notifications for given worker id
     public ResponseEntity<?> getNotificationById( Long userId){
 
         List<NotificationDTO> notificationDTOS =notificationRepository.findByReceiverId(userId).stream().map(a -> {

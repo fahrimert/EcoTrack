@@ -11,7 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Autocomplete from "react-google-autocomplete"; // bunu kullan
+import Autocomplete from "react-google-autocomplete"; 
 
 import {
   Select,
@@ -53,7 +53,6 @@ const ManagerSensorAddLocationComponent = ({sensorListData,onSuccess} : {sensorL
     lng:0,
         }
       });
-const libraries = ['places'];
 
 
         const [locationInput, setLocationInput] = useState("");
@@ -91,7 +90,7 @@ const [isScriptLoaded, setIsScriptLoaded] = useState(false);
     };
     document.head.appendChild(script);
   } else {
-    setIsScriptLoaded(true); // zaten yüklüyse
+    setIsScriptLoaded(true); 
   }
 }, []);
   return (

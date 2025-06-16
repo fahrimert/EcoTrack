@@ -1,4 +1,4 @@
-package com.example.EcoTrack.task.service;
+package com.example.EcoTrack.task.dto;
 
 import lombok.Data;
 

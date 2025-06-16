@@ -5,6 +5,8 @@ import { SensorDataDifferentOne } from '@/app/supervisor/superVizorDataTypes/typ
 
 const page = async ({params} : {params:{id:string} }) => {
     const session = cookies().get('session');
+
+
     const response = await fetch(`http://localhost:8080/sensors/${params.id}`, {
       method: 'GET',
       headers: {
@@ -12,6 +14,7 @@ const page = async ({params} : {params:{id:string} }) => {
         'Content-Type': 'application/json'
       }
     });
+    
     const statuses = await fetch(`http://localhost:8080/sensors/getSensorStatuses`, {
       method: 'GET',
       headers: {

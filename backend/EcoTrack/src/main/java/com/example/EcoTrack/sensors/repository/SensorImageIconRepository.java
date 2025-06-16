@@ -1,4 +1,4 @@
-package com.example.EcoTrack.repository;
+package com.example.EcoTrack.sensors.repository;
 
 import com.example.EcoTrack.sensors.model.SensorIconImage;
 import org.springframework.data.jpa.repository.JpaRepository;

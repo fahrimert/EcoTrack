@@ -1,9 +1,8 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
 @Data
 @AllArgsConstructor
 public class AllSensorSessionDTOForManager {

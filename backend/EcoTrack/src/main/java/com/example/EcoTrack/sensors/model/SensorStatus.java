@@ -1,4 +1,4 @@
-package com.example.EcoTrack.model;
+package com.example.EcoTrack.sensors.model;
 
 import java.util.List;
 

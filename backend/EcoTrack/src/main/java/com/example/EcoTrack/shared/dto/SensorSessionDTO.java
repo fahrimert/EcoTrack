@@ -1,4 +1,4 @@
-package com.example.EcoTrack.dto;
+package com.example.EcoTrack.shared.dto;
 
 import com.example.EcoTrack.sensors.model.SensorStatus;
 import lombok.AllArgsConstructor;

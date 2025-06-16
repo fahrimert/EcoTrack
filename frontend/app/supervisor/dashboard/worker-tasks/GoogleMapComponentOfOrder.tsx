@@ -1,14 +1,10 @@
 "use client"
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { DirectionsRenderer, GoogleMap, MarkerF, OverlayView, OverlayViewF} from '@react-google-maps/api'
+import { DirectionsRenderer, GoogleMap, MarkerF, OverlayView} from '@react-google-maps/api'
 import axios from 'axios'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
-import { SourceContext } from '@/context/SourceContext'
-import { DestinationContext } from '@/context/DestinationContext'
 import { Wrapper } from '@googlemaps/react-wrapper'
-import { MdOutlineSensors } from 'react-icons/md'
-import { cn } from '@/lib/utils'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar } from '@/components/ui/avatar'
 import { WorkerLocationContext } from '@/context/WorkerLocationContext'
 import { SensorDestinationContext } from '@/context/SensorDestinationContext'
 
@@ -24,7 +20,7 @@ const GoogleMapComponentOfOrder = ({session} : {session: RequestCookie | undefin
 
   //useeffect for putting the current user location on map center and setting the source value users location 
  useEffect(() => {
-    axios.get("http://localhost:8080/getUserLocation", {
+    axios.get("http://localhost:8080/user/getUserLocation", {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })

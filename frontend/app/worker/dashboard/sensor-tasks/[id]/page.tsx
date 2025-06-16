@@ -16,7 +16,7 @@ const page = async ({params} : {params:{id:string} }) => {
     });
     
     const stasusesData = await statuses.json() as [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]
-        const user  = await fetch(`http://localhost:8080/user/profile/${session?.value}`, {
+        const user  = await fetch(`http://localhost:8080/worker/getTheDetailOfLoggedWorker/${session?.value}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${session?.value}`,
@@ -40,7 +40,7 @@ const page = async ({params} : {params:{id:string} }) => {
 
 
 
-        const tasks  = await fetch(`http://localhost:8080/tasks/getTasksOfMe/${responseOfUser?.id}`, {
+        const tasks  = await fetch(`http://localhost:8080/worker/getTasksOfMe/${responseOfUser?.id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${session?.value}`,
@@ -59,8 +59,6 @@ const page = async ({params} : {params:{id:string} }) => {
     return notFound()
   }  
 
-
-  console.log(filteredSensorBasedOnParam);
   return (
     <>
   

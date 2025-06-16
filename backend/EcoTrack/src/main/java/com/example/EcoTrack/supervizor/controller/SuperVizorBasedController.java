@@ -1,13 +1,15 @@
-package com.example.EcoTrack.controller;
+package com.example.EcoTrack.supervizor.controller;
 
-import com.example.EcoTrack.dto.*;
-import com.example.EcoTrack.sensors.repository.SensorSessionRepository;
 import com.example.EcoTrack.sensors.model.SensorStatus;
+import com.example.EcoTrack.shared.dto.SensorDTO;
+import com.example.EcoTrack.shared.dto.SensorLocationDTO;
+import com.example.EcoTrack.shared.dto.SensorWithUserProjection;
+import com.example.EcoTrack.supervizor.dto.SensorCountDTO;
+import com.example.EcoTrack.supervizor.dto.SensorDateCountDTO;
 import com.example.EcoTrack.task.model.Task;
 import com.example.EcoTrack.task.service.TaskService;
-import com.example.EcoTrack.user.repository.UserRepository;
 import com.example.EcoTrack.sensors.service.SensorService;
-import com.example.EcoTrack.service.SuperVizorService;
+import com.example.EcoTrack.supervizor.service.SuperVizorService;
 import com.example.EcoTrack.user.dto.UserOnlineStatusDTO;
 import com.example.EcoTrack.user.service.UserService;
 import jakarta.transaction.Transactional;
@@ -22,17 +24,13 @@ import java.util.*;
 
 public class SuperVizorBasedController {
 
-    private  final SensorSessionRepository sensorSessionRepository;
     private  final  SensorService sensorService;
-    private  final UserRepository userRepository;
     private  final UserService userService;
     private final SuperVizorService superVizorService;
     private TaskService taskService;
 
-    public SuperVizorBasedController(SensorSessionRepository sensorSessionRepository, SensorService sensorService, UserRepository userRepository, UserService userService, SuperVizorService superVizorService, TaskService taskService) {
-        this.sensorSessionRepository = sensorSessionRepository;
+    public SuperVizorBasedController( SensorService sensorService,  UserService userService, SuperVizorService superVizorService, TaskService taskService) {
         this.sensorService = sensorService;
-        this.userRepository = userRepository;
         this.userService = userService;
         this.superVizorService = superVizorService;
         this.taskService = taskService;
@@ -95,7 +93,7 @@ public class SuperVizorBasedController {
     @Transactional
     public List<SensorWithUserProjection> getWorkersPastSensors(){
         //tüm sensor sessionlarının sensorlerindeki statlara göre sayıları arttırmamız gerekiyor aslında
-        List<SensorWithUserProjection> sensor = sensorService.getPastSensorsOfWorkers();
+        List<SensorWithUserProjection> sensor = superVizorService.getPastSensorsOfWorkers();
 
         return sensor;
     }
@@ -103,7 +101,7 @@ public class SuperVizorBasedController {
     // end of  past sensors page endpoint
 
 
-    //endpoint for useAllUsersHook
+    //start endpoint for useFetchAllWorkers
     @PreAuthorize("hasAnyAuthority('supervisor:get','manager:get')")
     @CrossOrigin(
             origins = "http://localhost:9595",
@@ -113,9 +111,9 @@ public class SuperVizorBasedController {
 
     @GetMapping("/supervizor/getAllWorker")
     public  List<UserOnlineStatusDTO> getAllWorker(){
-        return  userService.getAllWorker();
+        return  superVizorService.getAllWorker();
     }
-    //end of  useAllUsersHook
+    //end of  useFetchAllWorkers
 
     //Workers-performance-analysis-charts page endpoints
 
@@ -190,7 +188,7 @@ public class SuperVizorBasedController {
     }
     //end of user performance analysis chart endpoints
 
-    //Supervizor Task assigning page endpoint
+    //Supervizor start of the Task assigning page endpoint
     @CrossOrigin(
             origins = "http://localhost:9595", // veya frontend URL’in
             allowedHeaders = "*",
@@ -202,9 +200,10 @@ public class SuperVizorBasedController {
     public ResponseEntity<?> supervizorCreateTaskForWorker (@RequestBody Task task) {
 
 
-        return  taskService.supervizorCreateTaskForWorker(task);
+        return  superVizorService.supervizorCreateTaskForWorker(task);
 
     }
+
 
     //get tasks of ı assigned for supervizor assign task page use purposes
     @CrossOrigin(
@@ -218,8 +217,9 @@ public class SuperVizorBasedController {
     public ResponseEntity<?> supervizorGetTasksOfIAssigned () {
 
 
-        return taskService.getTasksOfIAssigned();
+        return superVizorService.getTasksOfIAssigned();
     }
+
 
     //Supervizor get available sensors for assignin task select component
     @PreAuthorize("hasAuthority('supervisor:get')")
@@ -232,9 +232,13 @@ public class SuperVizorBasedController {
     @Transactional
 
     public  List<SensorDTO> getAllAvailableSensorsForAssigningTaskSelectComponent(){
-        return  sensorService.getAllAvailableSensorsForAssigningTaskSelectComponent();
+        return  superVizorService.getAllAvailableSensorsForAssigningTaskSelectComponent();
     }
-    //Supervizor End Of Task assigning page endpoint
+    //Supervizor end of the Task assigning page endpoint
+
+
+
+
 
 
 

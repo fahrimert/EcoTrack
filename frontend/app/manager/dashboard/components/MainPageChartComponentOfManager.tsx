@@ -1,5 +1,5 @@
 "use client"
-import { FullUserStats, LeaderboardResponse, RadarData, RadarDataForWorker, SensorTypeCount } from '@/app/supervisor/superVizorDataTypes/types';
+import { FullUserStats, RadarData, RadarDataForWorker, SensorTypeCount } from '@/app/supervisor/superVizorDataTypes/types';
 import React, { useEffect, useState } from 'react'
 import BarChart from './BarChart';
 import { ScatterChartt } from './ScatterChartt';
@@ -8,22 +8,22 @@ import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { ChartComponentForWorker } from './ChartComponent';
 import { RadarChartt } from './RadarChart';
 import WorkerSelect from '@/app/supervisor/dashboard/workers-performance-analysis-charts/WorkerSelect';
-import { useAllUsers } from '@/hooks/useAllUsers';
 import { useFetchAllSuperVizors } from '@/hooks/useFetchAllSuperVizors';
 import { RadarChartForWorker } from './RadarChartForWorker';
+import { useFetchAllWorkers } from '@/hooks/useFetchAllWorkers';
 
-const MainPageChartComponentOfManager =  ({session,getWorkerStats} : {
+const MainPageChartComponentOfManager =  ({session,getSupervizorTasks} : {
   session : RequestCookie | undefined
-  getWorkerStats : FullUserStats 
+  getSupervizorTasks : FullUserStats 
   
 }) => {
  
      const [dataForPie,setdataForPie] = useState<SensorTypeCount[]>([])
      
      const { superVizor,  errorForSupervizor } = useFetchAllSuperVizors(session);
-     const { users,  error } = useAllUsers(session);
+     const { users,  error } = useFetchAllWorkers(session);
       useEffect(() => {
-        axios.get(`http://localhost:8080/manager/getSupervizorsAssignedTaskStatusValues`, {
+        axios.get(`http://localhost:8080/manager/getAllAssignedTaskStatusValuesForDoughnutComponent`, {
           headers: { Authorization: `Bearer ${session?.value}` },
           withCredentials: true,
         })
@@ -31,7 +31,7 @@ const MainPageChartComponentOfManager =  ({session,getWorkerStats} : {
         .catch((err) => console.log(err));
       }, []);  
     console.log(dataForPie);
-const transformed = getWorkerStats.map((periodObj) => {
+const transformed = getSupervizorTasks.map((periodObj) => {
   const [periodKey, periodValue] = Object.entries(periodObj)[0];
   return {
     period: periodKey,
@@ -77,7 +77,6 @@ const [superVizorForRadar,setSuperVizorRadar] = useState(1)
   }, [users]);
 
 
-  console.log(radarDataForWorker);
 
   return (
     <div className='gap-[10px] flex flex-col w-fit '>

@@ -1,4 +1,4 @@
-logging:
+qlogging:
   level:
     org:
       springframework:

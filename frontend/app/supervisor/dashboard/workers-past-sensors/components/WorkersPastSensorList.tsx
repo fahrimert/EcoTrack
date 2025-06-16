@@ -6,7 +6,7 @@ import { GroupedSensorData, SensorSessionWithser } from '@/app/supervisor/superV
 import { CustomDataTable } from '@/components/ui/CustomDataTable'
 
 
-const WorkersPastSensorList = ({session , sensorListData }: {session:RequestCookie | undefined, sensorListData:SensorSessionWithser[]| undefined}) => {
+const WorkersPastSensorList = ({ sensorListData }: { sensorListData:SensorSessionWithser[]| undefined}) => {
 
 
   const groupedSensors = sensorListData?.reduce((acc, current) => {

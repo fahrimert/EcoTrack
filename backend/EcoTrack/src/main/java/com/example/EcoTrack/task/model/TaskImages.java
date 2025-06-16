@@ -1,4 +1,4 @@
-package com.example.EcoTrack.model;
+package com.example.EcoTrack.task.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

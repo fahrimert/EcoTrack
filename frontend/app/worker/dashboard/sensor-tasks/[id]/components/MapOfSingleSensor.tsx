@@ -67,7 +67,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
   }, [])
 
   useEffect(() => {
-     axios.get("http://localhost:8080/getUserLocation", {
+     axios.get("http://localhost:8080/user/getUserLocation", {
       headers: { Authorization: `Bearer ${session.value}` },
       withCredentials: true,
     })

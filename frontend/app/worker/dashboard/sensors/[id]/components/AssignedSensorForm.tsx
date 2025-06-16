@@ -1,18 +1,17 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl,  FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import {string, z} from "zod";
+import { useState } from "react";
+import {  useForm } from "react-hook-form";
+import {z} from "zod";
 
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Heading from "./Heading";
-import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,15 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateSensor } from "@/app/actions/sensorActions/updateSensor";
 import toast from "react-hot-toast";
 import { SensorDataDifferentOne } from "@/app/supervisor/superVizorDataTypes/types";
+import { updateSensorForWorker } from "@/app/actions/sensorActions/updateSensorForWorker";
 
-//not eklicez
-//durumunu görmüş olucaz haritasını falan görücez 
-//bitirme zamanını kaydede tıklayınca zaten halleder 
-//foto eklemeyi şimdi yapmicaz 
-//statusunu selectle değiştirsek kaydedince o durumu kaydetse olur aslında completed timeyi de kaydedince ayarlamış oluruz 
 
 
 
@@ -41,13 +35,13 @@ const formSchema = z.object({
       message:"Not must be at least 1 character"
   }),
   statusId: z.string().min(2),
-  files: z.any() // Dosyalar için validasyon
+  files: z.any()
 },
 )
 export type AssignedSensorFormValues = z.infer<typeof formSchema>
 
 
-const AssignedSensorForm= ({initialData,statuses,session} : {session:RequestCookie,initialData: SensorDataDifferentOne, statuses :  [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ] }) => {
+const AssignedSensorForm= ({initialData,statuses} : {session:RequestCookie,initialData: SensorDataDifferentOne, statuses :  [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ] }) => {
     const [loading,setLoading] = useState(false)
     const form = useForm<AssignedSensorFormValues>({
     resolver:zodResolver(formSchema),
@@ -73,7 +67,7 @@ initialData
         }
       }
       try {  
-        const returnData = await updateSensor(formData,initialData)
+        const returnData = await updateSensorForWorker(formData,initialData)
         toast.success(returnData.serverData)
         } catch (error) {
        console.log(error.message);

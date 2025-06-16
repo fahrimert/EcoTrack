@@ -5,7 +5,7 @@ try {
     
     
 
-     await axios.post(`http://localhost:8080/saveUserLocation?lat=${lat}&longtitude=${lng}`,{},
+     await axios.post(`http://localhost:8080/workers/saveWorkersLocation?lat=${lat}&longtitude=${lng}`,{},
         
             {        headers:{Authorization:`Bearer ${session.value}`}
             ,  withCredentials: true,}      )

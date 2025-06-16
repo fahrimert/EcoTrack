@@ -1,4 +1,4 @@
-package com.example.EcoTrack.repository;
+package com.example.EcoTrack.user.repository;
 
 import com.example.EcoTrack.user.model.UserLocation;
 import org.springframework.data.jpa.repository.JpaRepository;

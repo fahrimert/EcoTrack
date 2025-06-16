@@ -40,7 +40,7 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
       console.log(sessionId);
       useEffect(() => {
-        axios.get(`http://localhost:8080/sensors/getPastSensorDetail/${sessionId}`, {
+        axios.get(`http://localhost:8080/worker/getPastNonTaskSensorDetail/${sessionId}`, {
           headers: { Authorization: `Bearer ${session?.value}` },
           withCredentials: true,
         })

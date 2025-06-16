@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Client, over } from "stompjs";
 import { UserProfilea } from "@/app/supervisor/superVizorDataTypes/types";
 import Heading from "@/app/supervisor/dashboard/workers-past-sensors/components/Heading";
 import ManagementSensor from "./ManagementSensor";
@@ -20,7 +19,6 @@ const ManagementSensorList = ({
   stasusesData,
   session,
   sensorListData,
-  userProfile,
 }: {
   stasusesData   :[ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]
   session: RequestCookie;
@@ -29,28 +27,7 @@ const ManagementSensorList = ({
 }) => {
     const [sensorListDataFiltered,setSensorListDataFiltered] = useState<SensorListForManagerUse[]>()
   
-const userBasedsensor = sensorListData?.map((g) => {
-  if (!g.currentSensorSession || !userProfile?.sensorSessions || userProfile.sensorSessions.length === 0) {
-    return false;
-  }
-  return g.currentSensorSession.id === userProfile.sensorSessions[0].id;
-});
-  const customSensorListData = sensorListData?.map((sensor) => {
-    const isUserSensor =   userProfile?.sensorSessions ? userProfile?.sensorSessions.some(
-      (session) => session.id === sensor.currentSensorSession?.id
-    ) : null;
-
-    return {
-      ...sensor,
-      userBasedSensor: isUserSensor, 
-    };
-  });
-
-
-        let stompClient: Client;
-   
-
-         const [filter,setFilter] = useState  ("")
+         const [filter,setFilter] = useState  (0)
 
          useEffect(() => {
     if (filter) {
@@ -58,7 +35,7 @@ const userBasedsensor = sensorListData?.map((g) => {
     } if (!filter || filter == "Hepsi") {
       setSensorListDataFiltered(sensorListData);
     }
-  }, [filter, sensorListData?.map((g) => g.imageResponseDTO)]);
+  }, [filter]);
 
   return (<>
      
@@ -78,6 +55,8 @@ description={"Müdür olarak sensörler arasında güncelleme , yeni sensör ekl
         <SelectValue  placeholder={`Sensor Status Filtresi seçiniz`} />
       </SelectTrigger>
       <SelectContent className="bg-white">
+            <SelectItem value="Hepsi">Hepsi</SelectItem>
+
         {stasusesData.map((role,c) => (
           <SelectItem key={c} value={role} className="text-black">
             {role}

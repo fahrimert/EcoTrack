@@ -1,7 +1,7 @@
 "use client";
 
+import { Task } from "@/app/supervisor/superVizorDataTypes/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { Task } from "../page";
 
 
 

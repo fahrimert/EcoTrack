@@ -4,7 +4,7 @@ import axios from "axios";
 export async function updateNotificationsToIsReadTrue(session:string,userId:string) {
   try {
         const response = await axios.put(
-            `http://localhost:8080/task/updateMarkIsRead/${userId}`,
+            `http://localhost:8080/notifications/workerUpdateNotificationMarkIsRead/${userId}`,
             {},
             {
               headers: {

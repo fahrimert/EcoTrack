@@ -11,7 +11,7 @@ export async function createTask(data: AttachTaskFormValues) {
 
         const session = cookies().get("session")?.value
              const response = await axios.post(
-            `http://localhost:8080/tasks/createTask`,
+            `http://localhost:8080/superVizor/createTask`,
             {superVizorDescription : data.description,
                 superVizorDeadline : data.deadline,
                 assignedTo:{

@@ -29,9 +29,8 @@ open:boolean,
     const [userLocation,setUserLocation] = useState()
     const [address, setAddress] = useState("");
     
-console.log(user);
     useEffect(() => {
-    axios.get(`http://localhost:8080/getUserLocationBasedOnıd/${user.id}`, {
+    axios.get(`http://localhost:8080/user/getUserLocationBasedOnıd/${user.id}`, {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })

@@ -9,7 +9,7 @@ export async function updateTask(worker_on_road_note: string ,initialData : Task
       console.log(worker_on_road_note);
         const session = cookies().get("session")?.value
         const response = await axios.put(
-            `http://localhost:8080/task/updateOnRoad/${initialData.id}`,
+            `http://localhost:8080/worker/updateTaskForOnRoad/${initialData.id}`,
          worker_on_road_note
          ,
             {

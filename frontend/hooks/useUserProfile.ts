@@ -11,7 +11,7 @@ export const useUserProfile = (session : RequestCookie | undefined) => {
     useEffect(() => {
     if (!session) return    
     
-    axios.get(`http://localhost:8080/user/profile/${session?.value}`, {
+    axios.get(`http://localhost:8080/worker/getTheDetailOfLoggedWorker/${session?.value}`, {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })

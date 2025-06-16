@@ -30,7 +30,7 @@ import {
 import { WorkerLocationContext } from "@/context/WorkerLocationContext";
 import { SensorDestinationContext } from "@/context/SensorDestinationContext";
 import { createTask } from "@/app/actions/sensorActions/createTask";
-import { useAllUsers } from "@/hooks/useAllUsers";
+import { useFetchAllWorkers } from "@/hooks/useFetchAllWorkers";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
  interface Sensor {
   id: number;
@@ -67,7 +67,7 @@ const AttachTaskForm= ({session} : {session: RequestCookie | undefined }) => {
 
  const { source ,setSource} = React.useContext(WorkerLocationContext);
   const { destination ,setDestination} = React.useContext(SensorDestinationContext);
-      const { users,  error } = useAllUsers(session);
+      const { users,  error } = useFetchAllWorkers(session);
    
 
   function handleTimeChange(type:"hour" | "minute" | "ampm",value:string){
@@ -98,7 +98,7 @@ const AttachTaskForm= ({session} : {session: RequestCookie | undefined }) => {
   const [sensorListData,setSensorListData] = useState<Sensor[]>()
 
    useEffect(() => {
-    axios.get(`http://localhost:8080/superVizorSensors/getAllAvailableSensors`, {
+    axios.get(`http://localhost:8080/supervizor/getAllAvailableSensorsForAssigningTaskSelectComponent`, {
       headers: { Authorization: `Bearer ${session?.value}` },
       withCredentials: true,
     })

@@ -1,7 +1,7 @@
 import React from 'react'
 import LeftStack from './LeftStack';
 import { Client } from '@googlemaps/google-maps-services-js';
-import { ImageResponseDTO, Sensor, SensorDetailForWorkerPastSensor } from '@/app/supervisor/superVizorDataTypes/types';
+import { SensorDetailForWorkerPastSensor } from '@/app/supervisor/superVizorDataTypes/types';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 

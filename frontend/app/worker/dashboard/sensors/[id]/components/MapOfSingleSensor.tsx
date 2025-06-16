@@ -13,8 +13,6 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
   const [data, setData] = useState({ latitude: 39.9334, longitude: 32.8597 });
   const { source ,setSource} = useContext(SourceContext);
   
-  //
-  const [apiLoaded,setApiLoaded] = useState<google.maps.Map | null >(null)
   const [isApiLoaded, setIsApiLoaded] = useState(false)
 
   const [directionRoutePoints,setDirectionRoutePoints] = useState([])
@@ -35,7 +33,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
   }, [])
 
   useEffect(() => {
-     axios.get("http://localhost:8080/getUserLocation", {
+     axios.get("http://localhost:8080/user/getUserLocation", {
       headers: { Authorization: `Bearer ${session.value}` },
       withCredentials: true,
     })
@@ -48,14 +46,13 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
 
   const [mapKey, setMapKey] = useState(0);
 
-  //centeri source datası yap 
-  //bizim marker f ve overliev userin datası 
+
   const [centerData, setCenterData] = useState({ latitude: initialData?.data.latitude, longitude: initialData?.data.longitude });
     
       useEffect(() => {
         if (source) {
           setCenterData({latitude:source.lat, longitude:source.lng})
-          setMapKey(prev => prev + 1); // Key'i değiştirerek bileşeni yeniden yükle
+          setMapKey(prev => prev + 1);
 
         }
       
@@ -114,14 +111,10 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
                  mapContainerStyle={{ width: '100%', height: '700px', position: 'relative' }}
                  center={ {lat:centerData.latitude,lng:centerData.longitude}}
                    zoom={11}
-                   key={mapKey} // Key değiştiğinde bileşen yeniden yüklenir
+                   key={mapKey}
          
                    onUnmount={onUnmount}
                  >
-                  
-         
-               
-                         {/* burada sessiondaki userin datasını alıp onu */}
                          <MarkerF 
                          position={{lat:data.latitude, lng:data.longitude}}
                        icon={{url:'/images.png',scaledSize:{
@@ -140,10 +133,6 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
                       </div>
                      </OverlayView>
                 
-                   {/* buralarda sensörleri listeleyip tek tek onların locasyonlarını koyucam  */}
-              
-         
-                   {/* Child components, such as markers, info windows, etc. */}
                  <DirectionsRenderer
                   directions={directionRoutePoints}
                   options={{

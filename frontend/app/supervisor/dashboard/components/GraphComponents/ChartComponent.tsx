@@ -11,12 +11,12 @@ interface SensorStatusCounts {
 }
 
 export const ChartComponent = ({
-  sensorfilterBasedStat,
+  responseOfDoughbut,
 }: {
-  sensorfilterBasedStat: SensorStatusCounts;
+  responseOfDoughbut: SensorStatusCounts;
 }) => {
-  const labels = Object.keys(sensorfilterBasedStat);
-  const values = Object.values(sensorfilterBasedStat);
+  const labels = Object.keys(responseOfDoughbut);
+  const values = Object.values(responseOfDoughbut);
 
   const colors = {
     ACTIVE: "#4CAF50",     

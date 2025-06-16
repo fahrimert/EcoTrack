@@ -1,4 +1,4 @@
-package com.example.EcoTrack.user.service;
+package com.example.EcoTrack.user.dto;
 
 import com.example.EcoTrack.user.model.Role;
 import lombok.AllArgsConstructor;

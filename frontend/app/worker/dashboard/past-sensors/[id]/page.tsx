@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Heading from '../components/Heading'
 import SingleSensorFromPastSensors from './components/SingleSensorFromPastSensors'
 import { cookies } from 'next/headers'
@@ -9,7 +9,7 @@ import { GroupedSensorData } from '@/app/supervisor/superVizorDataTypes/types';
 
 const page = async ({params} : {params:{id:string}}) => {
     const session =   cookies().get("session")
-    const response = await fetch(`http://localhost:8080/sensors/getPastSensorDetail/${params.id}`, {
+    const response = await fetch(`http://localhost:8080/worker/getPastNonTaskSensorDetail/${params.id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${session?.value}`,

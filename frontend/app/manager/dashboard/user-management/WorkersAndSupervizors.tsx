@@ -1,20 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useAllWorkerAndSupervizor } from "@/hooks/useAllWorkerAndSupervizor";
 import SingleUserComponent from "./SingleUserComponent";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-
 import {
   Select,
   SelectContent,
@@ -22,7 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LeaderBoardComponent } from "@/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/LeaderBoardComponent/LeaderBoardComponent";
 import LeaderTableForWorker from "./LeaderTableForWorker";
 import LeaderTableForSupervizor from "./LeaderTableForSupervizor";
 
@@ -34,20 +26,17 @@ const WorkersAndSupervizors = ({session} : {session :  RequestCookie | undefined
 
   const { userAndSupervizor,  error } = useAllWorkerAndSupervizor(session);
   
-  console.log(userAndSupervizor);
 
   const [usersAndSupervizors,setUsersAndSupervizors] = useState(userAndSupervizor)
   useEffect(() => {
     if (filter) {
       setUsersAndSupervizors(userAndSupervizor.filter((a) => a.role === filter));
     } if (!filter || filter == "Hepsi") {
-      setUsersAndSupervizors(userAndSupervizor); // filtre yoksa hepsini göster
+      setUsersAndSupervizors(userAndSupervizor); 
     }
   }, [filter, userAndSupervizor]);
 
 
-  console.log(usersAndSupervizors);
-  const [openMainDialog,setOpenMainDialog] = useState(false)
 
   const [openLeaderTableDialog,setOpenLeaderTableDialog] = useState(false)
 

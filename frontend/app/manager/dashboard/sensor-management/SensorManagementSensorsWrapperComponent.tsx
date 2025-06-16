@@ -144,6 +144,8 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
  */
 
 
+
+
   useEffect(() => {
     axios.get("http://localhost:8080/manager/getAllSensorForManagerUse", {
       headers: { Authorization: `Bearer ${session?.value}` },
@@ -161,7 +163,10 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
 
 
- const [sensorId,setSensorId] = useState("")
+ const [sensorId,setSensorId] = useState(1)
+
+
+
 
   const [sensorDataInduvual,setSensorDataInduvual] = useState< {
   success: boolean;
@@ -182,10 +187,10 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
       withCredentials: true,
     })
     .then((res) => setSensorDataInduvual(res.data))
-    .catch((err) => {
+  /*   .catch((err) => {
   console.log("Sensör verisi alınamadı:", err);
   setSensorDataInduvual(null); // fallback
-  })
+  }) */
   }, [sensorId]);
 
   console.log(sensorDataInduvual,sensorId);
@@ -198,7 +203,9 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
 
          <Dialog 
            open={isAddDialogOpen} 
-    onOpenChange={setIsAddDialogOpen}
+    onOpenChange={(open) => {
+      setIsAddDialogOpen(open)
+      if(open) setIsUpdateDialogOpen(false)}}
          modal={false} >
   <DialogTrigger    className="h-full w-full items-start flex flex-col justify-start rounded-[10px] bg-[#edecea] py-[10px] px-[3px] gap-[10px]">
     <h2>
@@ -209,10 +216,10 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
                       </DialogTrigger >
   <DialogContent  
     onInteractOutside={(event) => {
-    event.preventDefault(); // dış tıklamayı engelle
+    event.preventDefault(); 
   }}
   onEscapeKeyDown={(event) => {
-    event.preventDefault(); // ESC tuşuyla kapanmayı da engelle
+    event.preventDefault(); 
   }}
 
   className="bg-white w-fit items-center justify-center flex ">
@@ -240,7 +247,10 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
 
          <Dialog 
            open={isUpdateDialogOpen} 
-    onOpenChange={setIsUpdateDialogOpen}
+   onOpenChange={(open) => {
+    setIsUpdateDialogOpen(open);
+    if (open) setIsAddDialogOpen(false); 
+  }}
          modal={false} >
   <DialogTrigger    className="h-full w-full items-start flex flex-col justify-start rounded-[10px] bg-[#edecea] py-[10px] px-[3px] gap-[10px]">
     <h2>

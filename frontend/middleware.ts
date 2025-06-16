@@ -31,7 +31,6 @@ export async function middleware(request: NextRequest, res: NextResponse) {
     console.log(error);
   }
    
-  /* eğer role supervizorse supervizorde dashboarda gitmesi lazım  */
 
     
     if ( refreshToken == null) {

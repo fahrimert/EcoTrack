@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { useAllUsers } from "@/hooks/useAllUsers";
+import { useFetchAllWorkers } from "@/hooks/useFetchAllWorkers";
 import WorkerSelect from "../../WorkerSelect";
 import WrapperForContext from "./CalendarHeatmapForWorker";
 import { DateTypeCount } from "@/app/supervisor/superVizorDataTypes/types";
@@ -23,7 +23,7 @@ const PerformanceCalendarComponent = ({session } : {session: RequestCookie | und
     .catch((err) => console.log(err));
   }, [usernameForCalendar]);
 
-        const { users,  error } = useAllUsers(session);
+        const { users,  error } = useFetchAllWorkers(session);
   
   return (
       <div className=" bg-white w-fit h-fit flex flex-col justify-start items-start rounded-[20px] p-[20px] gap-[10px] ">

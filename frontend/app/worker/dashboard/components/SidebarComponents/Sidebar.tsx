@@ -10,9 +10,8 @@ import {  MdOutlineWaterDrop, MdTask } from "react-icons/md";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import Link from "next/link";
 import { MdGroups2 } from "react-icons/md";
-import { logOut } from "../../actions/authActions/signout";
+import { logOut } from "../../../../actions/authActions/signout";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useUserProfile } from "@/hooks/useUserProfile";
 

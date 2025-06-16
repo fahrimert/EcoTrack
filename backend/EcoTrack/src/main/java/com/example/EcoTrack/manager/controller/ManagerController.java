@@ -1,9 +1,13 @@
-package com.example.EcoTrack.controller;
+package com.example.EcoTrack.manager.controller;
 
-import com.example.EcoTrack.dto.*;
-import com.example.EcoTrack.service.ManagerGraphService;
+import com.example.EcoTrack.manager.dto.TaskCountDTO;
+import com.example.EcoTrack.manager.service.ManagerService;
+import com.example.EcoTrack.sensors.dto.AllSensorForManagerDTO;
+import com.example.EcoTrack.sensors.dto.CreateSensorLocationRequestDTO;
 import com.example.EcoTrack.sensors.service.SensorService;
+import com.example.EcoTrack.shared.dto.ApiResponse;
 import com.example.EcoTrack.user.dto.UserOnlineStatusDTO;
+import com.example.EcoTrack.user.dto.UserAndSupervizorsDTO;
 import com.example.EcoTrack.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +22,20 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class ManagerController {
 
-public ManagerGraphService managerGraphService;
+public ManagerService managerGraphService;
     public UserService userService;
     public SensorService sensorService;
 
-    public ManagerController(ManagerGraphService managerGraphService,UserService userService,SensorService sensorService) {
+    public ManagerController(ManagerService managerGraphService,UserService userService,SensorService sensorService) {
         this.managerGraphService= managerGraphService;
         this.userService = userService;
         this.sensorService = sensorService;
     }
 
+    //Manager dashboard Graph Endpoints
+
+
+    //Get The Bar Chart graph data  for Manager Dashboard Page
     @GetMapping("/manager/getSuperVizorTasks")
     @PreAuthorize("hasAuthority('manager:get')")
     @CrossOrigin(
@@ -41,6 +49,49 @@ public ManagerGraphService managerGraphService;
         return  managerGraphService.getSuperVizorTasks();
     }
 
+    //Get the sensor name counts for dougnhut component
+
+    @GetMapping("/manager/getAllAssignedTaskStatusValuesForDoughnutComponent")
+    @PreAuthorize("hasAuthority('manager:get')")
+    @CrossOrigin(
+            origins = "http://localhost:9595",
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    public List<TaskCountDTO>  getAllSupervizorAssignedTaskNamesValuesForDoughnutComponent(){
+        return  managerGraphService.getSensorNameCounts();
+
+    }
+
+    //Manager dashboard page radar chart component endpoints for supervizor
+    @GetMapping("/manager/getSuperVizorPropertiesForRadarChart/{userId}")
+    @PreAuthorize("hasAuthority('manager:get')")
+    @CrossOrigin(
+            origins = "http://localhost:9595",
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    @Transactional
+    public   List<Map<String, Long>> getSuperVizorPropertiesForRadarChart(@PathVariable Long userId){
+        //tüm sensor sessionlarının sensorlerindeki statlara göre sayıları arttırmamız gerekiyor aslında
+        return  managerGraphService.getSuperVizorPropertiesForRadarChart(userId);
+    }
+
+    //Manager dashboard page radar chart component endpoints for worker
+    @GetMapping("/manager/getWorkerPropertiesForRadarChart/{userId}")
+    @PreAuthorize("hasAuthority('manager:get')")
+    @CrossOrigin(
+            origins = "http://localhost:9595",
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    @Transactional
+    public   List<Map<String, Long>> getWorkerPropertiesForRadarChart(@PathVariable Long userId){
+        //tüm sensor sessionlarının sensorlerindeki statlara göre sayıları arttırmamız gerekiyor aslında
+        return  managerGraphService.getWorkerPropertiesForRadarChart(userId);
+    }
+
+    //Scatter Chart Component Endpoint
     @GetMapping("/manager/getAverageTaskMinsOfLastMonth")
     @Transactional
     @PreAuthorize("hasAnyAuthority('supervisor:get','manager:get')")
@@ -54,6 +105,39 @@ public ManagerGraphService managerGraphService;
 
     }
 
+    //end of manager dashboard graph endpoints
+
+    //Start of a User management page endpoints
+
+    //Delete user by id endpoint
+
+    @PreAuthorize("hasAuthority('manager:delete')")
+    @CrossOrigin(
+            origins = "http://localhost:9595", // veya frontend URL’in
+            allowedHeaders = "*",
+            methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    @DeleteMapping("/manager/deleteUserById/{userId}")
+    public void  deleteUserById(@PathVariable Long userId){
+        userService.deleteUserById(userId);
+    }
+
+    //Deactivate User By id endpoint
+
+    @PreAuthorize("hasAuthority('manager:delete')")
+    @CrossOrigin(
+            origins = "http://localhost:9595", // veya frontend URL’in
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+
+    @DeleteMapping("/manager/deactivateUser/{userId}")
+    public void  deactivateUser(@PathVariable Long userId){
+        userService.deactivateUserById(userId);
+    }
+
+    //user management page performance chart component endpoints
+
     @GetMapping("/manager/getTheSupervizorPerformanceCharts")
     @Transactional
 
@@ -63,23 +147,14 @@ public ManagerGraphService managerGraphService;
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    public List<Map<String, Map<String, Long>>>     getThePerformanceTableForSupervizor(){
+    public List<Map<String, Map<String, Long>>> getThePerformanceTableForSupervizor(){
         return  managerGraphService.getThePerformanceTableForSupervizor();
-
     }
 
 
-    @GetMapping("/manager/getSupervizorsAssignedTaskStatusValues")
-    @PreAuthorize("hasAuthority('manager:get')")
-    @CrossOrigin(
-            origins = "http://localhost:9595",
-            allowedHeaders = "*",
-            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
-    public List<TaskCountDTO>  getAllSensorStatusMetricValues(){
-        return  managerGraphService.getSensorNameCounts();
+    //end of a User Management page endpoints
 
-    }
+    // start of  useGetAllSupervizorhook endpoint and usegetAllSupervizorsAndUsers endpoint
     @PreAuthorize("hasAuthority('manager:get')")
     @CrossOrigin(
             origins = "http://localhost:9595", // veya frontend URL’in
@@ -106,7 +181,10 @@ public ManagerGraphService managerGraphService;
         return  userService.getAllSupervizorAndWorker();
     }
 
+    // end of  useGetAllSupervizorhook endpoint and usegetAllSupervizorsAndUsers endpoint
 
+
+    //start of an get all sensors for sensor management page endpoint
     @PreAuthorize("hasAuthority('manager:get')")
     @CrossOrigin(
             origins = "http://localhost:9595", // veya frontend URL’in
@@ -120,34 +198,16 @@ public ManagerGraphService managerGraphService;
         return  sensorService.getAllSensorForManagerUse();
     }
 
-
-
-    @PreAuthorize("hasAuthority('manager:delete')")
-    @CrossOrigin(
-            origins = "http://localhost:9595", // veya frontend URL’in
-            allowedHeaders = "*",
-            methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
-
-    @DeleteMapping("/manager/deleteUserById/{userId}")
-    public void  deleteUserById(@PathVariable Long userId){
-        userService.deleteUserById(userId);
-    }
-
-
-    @PreAuthorize("hasAuthority('manager:delete')")
+    @GetMapping("/sensors/sensormanagement/{sensorId}")
     @CrossOrigin(
             origins = "http://localhost:9595", // veya frontend URL’in
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-
-    @DeleteMapping("/manager/deactivateUser/{userId}")
-    public void  deactivateUser(@PathVariable Long userId){
-        userService.deleteUserById(userId);
+    @Transactional
+    public ResponseEntity<ApiResponse> getJustDetailOfSensorForManagerManageSensorUsage(@PathVariable Long sensorId){
+        return  sensorService.getJustDetailOfSensorForManagerManageSensorUsage(sensorId);
     }
-
-
     @PreAuthorize("hasAuthority('manager:write')")
     @CrossOrigin(
             origins = "http://localhost:9595", // veya frontend URL’in
@@ -161,47 +221,52 @@ public ManagerGraphService managerGraphService;
     }
 
 
-//    @PreAuthorize("hasAuthority('manager:write')")
-//    @CrossOrigin(
-//            origins = "http://localhost:9595", // veya frontend URL’in
-//            allowedHeaders = "*",
-//            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-//    )
-//    @PostMapping("/manager/updateSensorLocations")
-//    public ResponseEntity<?> managerUpdateSensorLocation(CreateSensorLocationRequestDTO createSensorLocationRequestDTO){
-//        System.out.println(createSensorLocationRequestDTO.getLongitude());
-//        System.out.println(createSensorLocationRequestDTO.getLatitude());
-//        return  sensorService.getJustDetailOfSensorForManagerManageSensorUsage(createSensorLocationRequestDTO);
-//    }
-
-
-
-
-    @GetMapping("/manager/getSuperVizorPropertiesForRadarChart/{userId}")
-    @PreAuthorize("hasAuthority('manager:get')")
+    @PreAuthorize("hasAuthority('manager:write')")
     @CrossOrigin(
-            origins = "http://localhost:9595",
+            origins = "http://localhost:9595", // veya frontend URL’in
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    @Transactional
-    public   List<Map<String, Long>> getSuperVizorPropertiesForRadarChart(@PathVariable Long userId){
-        //tüm sensor sessionlarının sensorlerindeki statlara göre sayıları arttırmamız gerekiyor aslında
-        return  managerGraphService.getSuperVizorPropertiesForRadarChart(userId);
+    @PostMapping("/manager/updateSensorLocations")
+    public ResponseEntity<?> managerUpdateSensorLocation(CreateSensorLocationRequestDTO createSensorLocationRequestDTO){
+        System.out.println(createSensorLocationRequestDTO.getLongitude());
+        System.out.println(createSensorLocationRequestDTO.getLatitude());
+        return  sensorService.managerUpdateSensorLocation(createSensorLocationRequestDTO);
     }
 
-    @GetMapping("/manager/getWorkerPropertiesForRadarChart/{userId}")
-    @PreAuthorize("hasAuthority('manager:get')")
+    //manager update Induvual Sensor
+    @PreAuthorize("hasAuthority('manager:write')")
     @CrossOrigin(
-            origins = "http://localhost:9595",
+            origins = "http://localhost:9595", // veya frontend URL’in
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    @Transactional
-    public   List<Map<String, Long>> getWorkerPropertiesForRadarChart(@PathVariable Long userId){
-        //tüm sensor sessionlarının sensorlerindeki statlara göre sayıları arttırmamız gerekiyor aslında
-        return  managerGraphService.getWorkerPropertiesForRadarChart(userId);
+
+    @PostMapping("/manager/managerUpdateSensor")
+    public ResponseEntity<?> managerUpdateSensor(@RequestParam String sensorId ,@RequestParam String sensorName, @RequestParam MultipartFile files){
+        return  sensorService.managerUpdateInduvualSensor(sensorId,sensorName,files);
     }
+
+
+    @PreAuthorize("hasAuthority('manager:delete')")
+    @CrossOrigin(
+            origins = "http://localhost:9595", // veya frontend URL’in
+            allowedHeaders = "*",
+            methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    @DeleteMapping("/manager/deleteSensorById/{sensorId}")
+    public void  deleteSensorById(@PathVariable Long sensorId){
+        sensorService.deleteSensorById(sensorId);
+    }
+
+
+
+    //end  of an get all sensors for sensor management page endpoint
+
+
+
+
+
 
 
 }

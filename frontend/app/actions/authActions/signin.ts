@@ -1,8 +1,7 @@
 "use server";
 import { SignİnFormSchema, FormState } from "@/lib/definitions";
 import axios from "axios";
-import jwt from "jsonwebtoken";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function signin(state: FormState, formData: FormData) {
@@ -21,7 +20,7 @@ export async function signin(state: FormState, formData: FormData) {
       };
     }
   if(validatedFields.success){
-      const data = await axios.post("http://localhost:8080/login",{
+      const data = await axios.post("http://localhost:8080/auth/login",{
         "email":validatedFields.data.email,
         "firstName":validatedFields.data.name,
         "password":validatedFields.data.password
@@ -33,8 +32,7 @@ export async function signin(state: FormState, formData: FormData) {
       
       cookies().set("session",session,{httpOnly:true,})
       cookies().set("refresh",refresh,{httpOnly:true,})
-      console.log(data);
-   
+      
       return{
         serverSuccess: "Successfully Logged In"
       }

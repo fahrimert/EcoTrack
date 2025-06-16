@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import WorkerSelect from "../WorkerSelect";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { useAllUsers } from "@/hooks/useAllUsers";
+import { useFetchAllWorkers } from "@/hooks/useFetchAllWorkers";
 
 const PerformanceLineChart = ({
   session,
@@ -21,7 +21,7 @@ const PerformanceLineChart = ({
     if (!userName) return;
     axios
       .get(
-        `http://localhost:8080/superVizorSensors/getScatterPlotGraphDataOfWorkerTasks/${userName}`,
+        `http://localhost:8080/supervizor/getScatterPlotGraphDataOfWorkerTasks/${userName}`,
         {
           headers: { Authorization: `Bearer ${session?.value}` },
           withCredentials: true,
@@ -32,7 +32,7 @@ const PerformanceLineChart = ({
   }, [userName]);
 
   console.log(durations);
-   const { users, loading, error } = useAllUsers(session);
+   const { users, loading, error } = useFetchAllWorkers(session);
  
   return (
     <div className="relative w-[70%] h-fit flex flex-col justify-between items-center  bg-white p-[20px] gap-[10px] rounded-[30px] ">

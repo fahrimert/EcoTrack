@@ -1,4 +1,4 @@
-package com.example.EcoTrack.repository;
+package com.example.EcoTrack.sensors.repository;
 
 import com.example.EcoTrack.sensors.model.SensorSessionImages;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface SensorSessionImagesRepository extends JpaRepository<SensorSessionImages,Long> {
-    List<SensorSessionImages> findAllBySensorSessions_Id(Long id);
 
 
     Optional<SensorSessionImages> findByName(String name);

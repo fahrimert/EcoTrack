@@ -3,12 +3,12 @@
 import axios from "axios";
 import { cookies} from "next/headers";
 
-export async function updateSensor(formData: FormData) {
+export async function updateSensorManager(formData: FormData) {
   try {
 console.log(formData);
          const session = cookies().get("session")?.value
         const response = await axios.post(
-            `http://localhost:8080/manager/managerCreateSensor`,
+            `http://localhost:8080/manager/managerUpdateSensor`,
             formData,
             {
               headers: {

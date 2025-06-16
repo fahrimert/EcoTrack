@@ -1,6 +1,6 @@
-package com.example.EcoTrack.auth.security.principal;
+package com.example.EcoTrack.security.principal;
 
-import com.example.EcoTrack.model.Role;
+import com.example.EcoTrack.user.model.Role;
 import com.example.EcoTrack.user.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

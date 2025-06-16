@@ -1,12 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import Sensor from "./SingleUserAndTheirSensor";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import React from "react";
 import SingleUserAndTheirSensor from "./SingleUserAndTheirSensor";
-import { SourceContext } from "@/context/SourceContext";
-import { DestinationContext } from "@/context/DestinationContext";
-import { HoverContext } from "@/context/HoverContext";
+
 
 //interface for sensorlist
 export interface SensorList {
@@ -43,7 +38,6 @@ export interface UserProfile {
     id: number;
   };
   role: string;
-  twoFactorCode: null;
   sensorSessions: [
     {
       id: number;
@@ -58,14 +52,11 @@ export interface UserProfile {
       note: null;
     }
   ];
-  twoFactorAuthbeenverified: boolean;
 }
 
 const SensorListAndUsers = ({
-  session,
   sensorListData,
 }: {
-  session: RequestCookie;
   sensorListData:  [{
     id: number;
     name: string;

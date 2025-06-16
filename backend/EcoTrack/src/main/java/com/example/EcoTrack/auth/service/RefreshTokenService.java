@@ -1,10 +1,9 @@
-package com.example.EcoTrack.service;
+package com.example.EcoTrack.auth.service;
 
-import com.example.EcoTrack.model.RefreshToken;
+import com.example.EcoTrack.auth.model.RefreshToken;
 import com.example.EcoTrack.user.model.User;
-import com.example.EcoTrack.repository.RefreshTokenRepository;
-import com.example.EcoTrack.auth.service.JwtService;
-import com.example.EcoTrack.user.UserRepository;
+import com.example.EcoTrack.auth.repository.RefreshTokenRepository;
+import com.example.EcoTrack.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
@@ -29,9 +28,9 @@ public class RefreshTokenService  {
     private static final long EXPIRATION_MS = 7 * 24 * 60 * 1000; // 7 gün
 
     Date expiryDate = new Date(now.getTime() + EXPIRATION_MS);
+
+    //Create Refresh Token OnLogin For User
     public  String  createRefreshToken(String username, User dbUser, UserRepository userRepository){
-
-
 
         RefreshToken existingRefreshToken = refreshTokenRepository.findByUser(dbUser);
 
@@ -61,7 +60,6 @@ public class RefreshTokenService  {
 
         if (prevToken != null){
             return  jwtService.generateToken(usera.getFirstName());
-            //access token döndürmemiz lazım yeni
         }
         else {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -77,7 +75,7 @@ public class RefreshTokenService  {
 
         if (refreshToken.getExpiresAt().before(now)){
           refreshTokenRepository.deleteById(refreshToken.getId());
-          throw  new RuntimeException("Refresh Token Expired");
+          throw  new RuntimeException("Refresh Token Zamanı Doldu");
         }
         else {
             return  refreshToken;

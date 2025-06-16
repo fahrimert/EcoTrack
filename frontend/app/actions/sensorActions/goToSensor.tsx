@@ -1,15 +1,12 @@
 "use server";
-import { SignİnFormSchema, FormState } from "@/lib/definitions";
-import axios from "axios";
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export async function goToSensor(sensorId: string) {
  
   try {
 
         const session = cookies().get("session")?.value
-        const responseData = await fetch(`http://localhost:8080/sensor/repair/${sensorId}`, {
+        const responseData = await fetch(`http://localhost:8080/sensor/goToThesensorSessionNotTheTask/${sensorId}`, {
           method: 'PUT',
           headers: {
             'Authorization': `Bearer ${session}`,

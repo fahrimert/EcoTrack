@@ -1,7 +1,6 @@
-package com.example.EcoTrack.service;
+package com.example.EcoTrack.auth.service;
 
-import com.example.EcoTrack.model.User;
-import com.example.EcoTrack.repository.UserRepository;
+import com.example.EcoTrack.user.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.*;
 import io.jsonwebtoken.security.*;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
 public class JwtService {
     private  String secretKey="";
     private UserRepository userRepository;
-    private JwtService jwtService;
     private UserDetailsService userDetailService;
     private SecretKey getKey(){
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -37,12 +35,9 @@ public class JwtService {
             throw new RuntimeException(e);
         }
     }
-    private static final long EXPIRATION_MS = 2 * 60 * 60 * 1000 ; // 2 SAAT (test için)
+    private static final long EXPIRATION_MS = 2 * 60 * 60 * 1000 ;
 
 
-    //ezberlemek gerekebilir
-    //zorunlu alanlar subject expiration issuedAt diğerleri opsiyonel
-    //signwith e algoritma ile imzalayıp güvenli hale getiiyor herhalde o yüzden
     public String generateToken(String firstName) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_MS);
@@ -51,7 +46,6 @@ public class JwtService {
         Collection<? extends GrantedAuthority> authorities = userDetailService.loadUserByUsername(firstName).getAuthorities();
         claims.put("authorities" , authorities.stream().map(authority ->  authority.getAuthority()).collect(Collectors.toList()) );
 
-        User user  = userRepository.findByFirstName(firstName);
         return  Jwts.builder()
                 .claims()
                 .add(claims)
@@ -72,6 +66,7 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+
         if(userRepository.findByFirstName(claims.getSubject()) == null) {
             throw new JwtException("User not found");
         }

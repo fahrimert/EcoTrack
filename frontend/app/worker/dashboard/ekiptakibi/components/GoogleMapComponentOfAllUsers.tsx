@@ -1,21 +1,17 @@
 "use client"
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { DirectionsRenderer, GoogleMap, MarkerF, OverlayView, OverlayViewF, useJsApiLoader } from '@react-google-maps/api'
-import axios from 'axios'
-import { cookies } from 'next/headers'
+import React, { useCallback, useContext, useEffect,  useState } from 'react'
+import { GoogleMap, MarkerF, OverlayView, OverlayViewF } from '@react-google-maps/api'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { SourceContext } from '@/context/SourceContext'
-import { DestinationContext } from '@/context/DestinationContext'
 import { Wrapper } from '@googlemaps/react-wrapper'
-import { AdvancedMarker, ControlPosition, MapControl, useAdvancedMarkerRef, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 import { MdOutlineSensors } from 'react-icons/md'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import { SensorList } from '@/app/components/SensorComponents/SensorList'
+import { SensorList } from '../../components/SensorComponents/SensorList'
 
 
 
-const GoogleMapComponentOfAllUsers = ({usersAndTheirSensors,session,sensorListData} : { usersAndTheirSensors: {
+const GoogleMapComponentOfAllUsers = ({usersAndTheirSensors,sensorListData} : { usersAndTheirSensors: {
       id: number;
   name: string;
   latitude: number;
@@ -128,11 +124,11 @@ mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                   mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                 >
                             <div className={cn(`w-fit h-fit  text-nowrap inline-block p-[5px] rounded-[3px]`)}
-                              style={{ backgroundColor: a.color_code }}
+                              style={{ backgroundColor: a.colorCode }}
         
                             >
         
-                             <MdOutlineSensors  color={a.color_code}/>
+                             <MdOutlineSensors  color={a.colorCode}/>
                <h2 className=' w-fit h-fit text-[12px] text-white '> {a.sensorName}</h2>
                </div>
               </OverlayViewF>
