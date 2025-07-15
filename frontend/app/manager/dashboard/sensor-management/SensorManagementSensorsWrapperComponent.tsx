@@ -72,16 +72,7 @@ export interface SensorListForManagerUse {
 }
 
 
-export interface Notification {
-  supervizorDescription: string;
-  superVizorDeadline: string; 
-  createdAt: string;          
-  senderId: number;
-  receiverId: number;
-  taskId: number;
-  isread: boolean,
-  id: number;
-}
+
 
 export interface TaskSensorWithTask {
   id: number;
@@ -283,7 +274,7 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
      stasusesData = {stasusesData}
        sensorListData= {sensorListData } 
        session = {session}
-        userProfile ={userProfile}/> 
+      /> 
       </div>
     </div>
     </>

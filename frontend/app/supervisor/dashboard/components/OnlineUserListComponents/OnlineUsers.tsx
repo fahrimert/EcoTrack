@@ -1,11 +1,11 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Client, over } from "stompjs";
 import SockJS from "sockjs-client";
 import OnlineUser from "./OnlineUser";
-import { UserOnlineStatusDTO } from "../../../superVizorDataTypes/types";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { UserOnlineStatusDTO } from "@/app/sharedTypes";
 
 
 

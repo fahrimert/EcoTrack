@@ -5,7 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@Builder
 public class TaskDTO {
         private  Long Id;
         private String superVizorDescription;

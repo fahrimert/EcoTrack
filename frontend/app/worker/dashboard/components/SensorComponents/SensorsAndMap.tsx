@@ -15,16 +15,6 @@ import SensorList from "./SensorList";
 import { useUserProfile } from "@/hooks/useUserProfile";
 
 
-export interface Notification {
-  supervizorDescription: string;
-  superVizorDeadline: string; 
-  createdAt: string;          
-  senderId: number;
-  receiverId: number;
-  taskId: number;
-  isread: boolean,
-  id: number;
-}
 
 export interface TaskSensorWithTask {
   id: number;

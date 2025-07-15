@@ -1,18 +1,13 @@
 import { cookies } from "next/headers";
 import React from "react";
-import SensorsAndMap, {
-  Notification,
-} from "./components/SensorComponents/SensorsAndMap";
-import {
-  UserOnlineStatusDTO,
-  UserProfilea,
-} from "@/app/supervisor/superVizorDataTypes/types";
 import NotificationComponentWrapper from "./components/NotificationComponent/NotificationComponentWrapper";
+import { DifferentUserProfileType, Notification, UserOnlineStatusDTO } from "@/app/sharedTypes";
+import SensorsAndMap from "./components/SensorComponents/SensorsAndMap";
 const page = async () => {
   const session = cookies().get("session");
 
   const responseProfileUser = await fetch(
-    `http://localhost:8080/worker/getTheDetailOfLoggedInWorker/${session?.value}`,
+    `http://localhost:8080/user/me`,
     {
       method: "GET",
       headers: {
@@ -23,9 +18,10 @@ const page = async () => {
   );
 
   const responseProfileUserdata =
-    (await responseProfileUser.json()) as UserProfilea;
+    (await responseProfileUser.json()) as DifferentUserProfileType;
+
   const response = await fetch(
-    `http://localhost:8080/notifications/getNotifications/${responseProfileUserdata?.id}`,
+    `http://localhost:8080/user/getNotifications/${responseProfileUserdata?.id}`,
     {
       method: "GET",
       headers: {
@@ -34,7 +30,6 @@ const page = async () => {
       },
     }
   );
-
 
 
 

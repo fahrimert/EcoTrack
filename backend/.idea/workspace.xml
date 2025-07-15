@@ -5,189 +5,131 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e3eb0bd-d057-4c1b-b69e-863abc37bb95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/controller/AuthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/controller/RefreshTokenController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/service/AuthService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/supervizor/controller/SuperVizorBasedController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/announecements/model/Announcement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/announecements/model/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/announecements/repository/AnnounecementsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/announecements/service/AnnounecementService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/dto/ManagerNotificationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/type/NotificationType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/pdfReports/dto/PdfRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/pdfReports/model/PdfReports.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/pdfReports/repository/PdfRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/pdfReports/service/PdfReportService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/AuthTests/AuthControllerUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/AuthTests/AuthIntegrationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/AuthTests/AuthServiceUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/AuthTests/UserRepositoryUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/ManagerTests/ManagerControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/ManagerTests/ManagerIntegrationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/ManagerTests/ManagerServiceUnitTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/ManagerTests/didntdoit" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/NotificationTests/NotificationUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/SensorTests/PastNonTaskSensorApiResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/SensorTests/SensorControllerUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/SensorTests/SensorIntegrationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/SensorTests/SensorServiceUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/SuperVizorBasedTests/SuperVisorBasedServiceUnitTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/SuperVizorBasedTests/SuperVizorControllerUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/SuperVizorBasedTests/SupervizorIntegrationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/SuperVizorBasedTests/othertests" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/TaskTests/TaskServiceUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/TestAuthUtils/TestAuthUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/UserTests/PastNonTaskSensorApiResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/UserTests/TestSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/UserTests/UserControllerIntegrationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/UserTests/UserControllerUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/UserTests/UserIntegrationTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/UserTests/UserRepositoryUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/Tests/UserTests/UserServiceUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/GlobalExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/LocationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/ManageBasedController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/manager/controller/ManagerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SensorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/controller/SensorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/SuperVizorBasedController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/controller/TaskController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/AllSensorForManagerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/dto/AllSensorForManagerDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/AllSensorSessionDTOForManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/dto/AllSensorSessionDTOForManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/ApiResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/CreateSensorLocationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/dto/CreateSensorLocationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/CreateSensorLocationRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/dto/CreateSensorLocationRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/HeartbeatDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/HeartbeatDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ImageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/ImageDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ImageMetadata.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/ImageResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/ImageResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/NotificationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/dto/NotificationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorAllAndTaskDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/SensorAllAndTaskDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorCountDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorDateCountDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/supervizor/dto/SensorDateCountDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorDetailForManagerDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/dto/SensorDetailForManagerDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorFilterBasedOnStatsDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorFixDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorFixDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorLocationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorLocationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorSessionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorSessionDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorStatusDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/supervizor/dto/SensorCountDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorTaskDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/SensorTaskDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorWithUserDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SensorWithUserProjection.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorWithUserProjection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/SessionImageDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/SessionImageDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/TaskCountDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/manager/dto/TaskCountDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/TaskDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/TaskDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserAndSessionSensorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/dto/UserAndSessionSensorDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserAndSupervizorsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/dto/UserAndSupervizorsDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/dto/UserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserLocationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/dto/UserLocationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserOnlineStatusDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/dto/UserOnlineStatusDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/dto/UserRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/dto/UserTaskDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/UserTaskDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/model/Notification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/RefreshToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/model/RefreshToken.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/Sensor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/SensorFix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorIconImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/SensorIconImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/SensorLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorSessionImages.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/SensorSessionImages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/SensorStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/SensorStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/model/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/TaskImages.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/model/TaskImages.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/TwoFactorCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/UserLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/UserLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/model/UserOnlineStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/UserOnlineStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/LocationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/repository/LocationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/NotificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/repository/NotificationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/RefreshTokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/repository/RefreshTokenRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorImageIconRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/repository/SensorImageIconRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/repository/SensorRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorSessionImagesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/repository/SensorSessionImagesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/SensorSessionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/repository/SensorSessionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/TaskImagesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/repository/TaskImagesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/repository/TaskRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/UserOnlineStatusRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/repository/UserOnlineStatusRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/repository/twoFactorRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/dto/UserRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/dto/UserRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/service/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/manager/controller/ManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/manager/controller/ManagerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/manager/service/ManagerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/manager/service/ManagerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/dto/NotificationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/dto/NotificationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/model/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/model/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/repository/NotificationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/repository/NotificationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/service/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/service/NotificationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/customUserDetail/CustomUserDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/customUserDetail/CustomUserDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/filters/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/filters/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/principal/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/security/principal/UserPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/seedcommands" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensorseedcommands" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/service/JwtService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/ManagerGraphService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/manager/service/ManagerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/notification/service/NotificationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/OTPService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/OnlineStatusService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/RefreshTokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/auth/service/RefreshTokenService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/service/SensorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SensorSessionImageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/service/SensorSessionImageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SpatialConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/config/SpatialConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/SuperVizorGraphsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/supervizor/service/SuperVizorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TaskImageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/service/TaskImageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/service/TaskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/TwoFactorTokenService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserLocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/service/UserLocationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/controller/SensorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/controller/SensorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/Sensor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/SensorFix.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/model/SensorFix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/repository/SensorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/repository/SensorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/service/SensorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/sensors/service/SensorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorFixDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorFixDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorSessionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/shared/dto/SensorSessionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/supervizor/controller/SuperVizorBasedController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/supervizor/controller/SuperVizorBasedController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/supervizor/service/SuperVizorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/supervizor/service/SuperVizorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/SensorTaskDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/SensorTaskDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/TaskDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/TaskDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/UserTaskDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/dto/UserTaskDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/repository/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/repository/TaskRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/task/service/TaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/dto/UserOnlineStatusDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/dto/UserOnlineStatusDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/UserLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/UserLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/UserOnlineStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/model/UserOnlineStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/service/UserLocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/service/UserLocationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/java/com/example/EcoTrack/user/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/EcoTrack/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/authActions/signin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/authActions/signin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/authActions/signout.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/authActions/signout.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/notificationActions/updateNotificationsToIsReadTrue.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/notificationActions/updateNotificationsToIsReadTrue.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/createTask.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/createTask.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/goToSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/goToSensor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/updateSensor.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/updateSensor.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/taskActions/finishTask.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/taskActions/finishTask.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/taskActions/updateTask.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/taskActions/updateTask.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/userActions/createUserLocation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/userActions/createUserLocation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EcoTrack/src/test/java/com/example/EcoTrack/EcoTrackApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/createSensorManager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/sensorActions/createSensorManager.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/userActions/managerDeactivateUser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/userActions/managerDeactivateUser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/actions/userActions/managerDeleteUserAction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/actions/userActions/managerDeleteUserAction.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/authentication/components/LoginComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/authentication/components/LoginComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/badge.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/components/popover.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/components/MainPageChartComponentOfManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/components/MainPageChartComponentOfManager.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/components/ScatterChartt.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/components/ScatterChartt.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/components/SidebarManager.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/components/SidebarManager.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/ManagementSensorList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/ManagementSensorList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/ManagerSensorAddLocationComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/ManagerSensorAddLocationComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/ManagerSensorUpdateComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/ManagerSensorUpdateComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/SensorManagementSensorsWrapperComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/SensorManagementSensorsWrapperComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/LeaderTableForSupervizor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/LeaderTableForSupervizor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/LeaderTableForWorker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/LeaderTableForWorker.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/UserSheetComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/UserSheetComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/WorkersAndSupervizors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/WorkersAndSupervizors.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/a.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/ChartComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/HeatMap.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/HeatMapComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/LineChart.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/MainPageChartsComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/MainPageChartsComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUser.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUsers.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/Sensor.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SensorList.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SidebarSuperVizor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/SidebarSuperVizor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/SensorSheetComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/sensor-management/SensorSheetComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/SingleUserComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/manager/dashboard/user-management/SingleUserComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUserListComponents/OnlineUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUserListComponents/OnlineUser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUserListComponents/OnlineUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/components/OnlineUserListComponents/OnlineUsers.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/AttachTask.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/AttachTask.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/GoogleMapComponentOfOrder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/GoogleMapComponentOfOrder.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/TaskListDataTableComponents/columns.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/TaskListDataTableComponents/columns.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/TasksList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/TasksList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/worker-tasks/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/PastSensorsForReportWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/PastSensorsForReportWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/calendarComponentsForPdfSheet/Heading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/calendarComponentsForPdfSheet/Heading.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/PastSensorsForReport.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/PastSensorsForReport.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/calendarComponentsForPdfSheet/Calendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/calendarComponentsForPdfSheet/Calendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/calendarComponentsForPdfSheet/GridCalendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/calendarComponentsForPdfSheet/GridCalendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/DetailsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/DetailsPage.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/LeftStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-calendar-reports/components/detailComponentsForPdfSheet/LeftStack.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/components/LeftStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/components/LeftStack.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/components/SingleSensorFromPastSensors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/components/SingleSensorFromPastSensors.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/PastSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/PastSensor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/PastSensor.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/WorkerPastSensorWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/WorkerPastSensorWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/WorkersPastSensorList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-past-sensors/components/WorkersPastSensorList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/CalendarHeatmapComponents/PerformanceCalendarComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/CalendarHeatmapComponents/PerformanceCalendarComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/PerformanceChartComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/PerformanceChartComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/PerformanceHeatmapComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/PerformanceHeatmapComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/PerformanceLeaderTableComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/PerformanceLeaderTableComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/PerformanceLineChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/PerformanceCharts/PerformanceLineChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/WorkerSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/WorkerSelect.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/WorkerSelectDifferentForHeatmap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/dashboard/workers-performance-analysis-charts/WorkerSelectDifferentForHeatmap.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/supervisor/superVizorDataTypes/types.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/supervisor/superVizorDataTypes/types.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/NotificationComponent.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/NotificationComponentWrapper.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/Sidebar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/SidebarProvider.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/NotificationComponent/NotificationComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/NotificationComponent/NotificationComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/NotificationComponent/NotificationComponentWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/NotificationComponent/NotificationComponentWrapper.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SearchComponents/InputItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SearchComponents/InputItem.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/GoogleMapComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/GoogleMapComponent.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/SensorList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/SensorList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/SensorsAndMap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/SensorsAndMap.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/TaskSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/components/SensorComponents/TaskSensor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/components/GoogleMapComponentOfAllUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/components/GoogleMapComponentOfAllUsers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/components/SensorAndMapOFAllUSers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/components/SensorAndMapOFAllUSers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/components/SensorListAndUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/components/SensorListAndUsers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/components/SingleUserAndTheirSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/components/SingleUserAndTheirSensor.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/ekiptakibi/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/components/LeftStack.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/components/LeftStack.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensorList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensorList.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensorWrapper.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/PastSensorWrapper.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskFormForOnRoad.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskFormForOnRoad.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskFormForSolving.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/AssignedTaskFormForSolving.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/MapOfSingleSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/components/MapOfSingleSensor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensor-tasks/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/AssignedSensorForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/AssignedSensorForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/MapOfSingleSensor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/MapOfSingleSensor.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/UserActivityDetector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/components/UserActivityDetector.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/sensors/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/hooks/useAllUsers.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/columns.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/app/worker/dashboard/past-sensors/components/columns.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/hooks/useAllWorkerAndSupervizor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/hooks/useAllWorkerAndSupervizor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/hooks/useFetchAllSuperVizors.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/hooks/useFetchAllSuperVizors.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/hooks/useFetchAllWorkers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/hooks/useFetchAllWorkers.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/hooks/useUserProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/hooks/useUserProfile.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/lib/lib.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/lib/lib.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/middleware.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/schema.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,6 +142,7 @@
         <option value="Enum" />
         <option value="Kotlin Interface" />
         <option value="Interface" />
+        <option value="Record" />
         <option value="Class" />
       </list>
     </option>
@@ -210,9 +153,13 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.jdks/openjdk-23.0.1/lib/src.zip!/java.base/java/lang/String.java" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/locationtech/jts/jts-core/1.18.2/jts-core-1.18.2.jar!/org/locationtech/jts/geom/Coordinate.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/3.4.4/spring-data-commons-3.4.4.jar!/org/springframework/data/repository/CrudRepository.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/3.4.4/spring-data-commons-3.4.4.jar!/org/springframework/data/repository/ListCrudRepository.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-config/6.4.4/spring-security-config-6.4.4.jar!/org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.4.4/spring-security-core-6.4.4.jar!/org/springframework/security/authentication/AuthenticationManager.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/6.4.4/spring-security-core-6.4.4.jar!/org/springframework/security/authentication/UsernamePasswordAuthenticationToken.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-test/6.2.5/spring-test-6.2.5.jar!/org/springframework/mock/web/MockMultipartFile.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/6.2.5/spring-web-6.2.5.jar!/org/springframework/http/HttpStatus.class" root0="SKIP_INSPECTION" />
     <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/6.2.5/spring-web-6.2.5.jar!/org/springframework/http/ResponseEntity.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
@@ -229,33 +176,367 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.EcoTrackApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;authentication&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/EcoTrack/backend/EcoTrack/src/main/java/com/example/EcoTrack/model&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.EcoTrackApplication.executor": "Run",
+    "JUnit.AuthControllerUnitTest.executor": "Run",
+    "JUnit.AuthControllerUnitTest.loginShoulReturn200_whenValidRequest.executor": "Run",
+    "JUnit.AuthControllerUnitTest.loginShouldRetudn403_whenInvalidCredentials.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_FirstNameWithEmoji_ShouldReturn400.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_InvalidCredentials_ShouldReturn403.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_LessThanMinSizeFirstname_ShouldReturnError.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_NullEmailRequest_ShouldReturnEmailCannotBeNull.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_NullFirstNameRequest_ShouldReturnFirstNameCannotBeNull.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_NullFirstnameRequestAndEmail_ShouldReturnBothNullFirstnameAndNullEmailError.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_NullFirstnameRequestAndPassword_ShouldReturnBothNullFirstnameAndPasswordIsNullError.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_NullFirstnameRequestAndPasswordandEmail_ShouldReturnBothNullFirstnameAndPasswordAndEmailIsNullError.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_NullPasswordRequestAndEmail_ShouldReturnBothNullEmailAndNullPasswordError.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_NullPasswordRequest_ShouldPasswordCannotBeNull.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_ValidRequest_ShouldReturn200.executor": "Debug",
+    "JUnit.AuthControllerUnitTest.login_greaterThanMaxFirstname_ShouldReturnError.executor": "Run",
+    "JUnit.AuthControllerUnitTest.login_wrongFormatEmailRequest_ShouldReturnEmailFormatWrong.executor": "Run",
+    "JUnit.AuthIntegrationTest.loginShouldReturn200_whenValidRequest.executor": "Run",
+    "JUnit.AuthIntegrationTest.loginShouldReturn403_whenInvalidCredentials.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_FirstNameWithEmoji_ShouldReturn400.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_LessThanMinSizeFirstname_ShouldReturnError.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_NullEmailRequest_ShouldReturnEmailCannotBeNull.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_NullFirstnameRequestAndEmail_ShouldReturnBothNullFirstnameAndNullEmailError.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_NullFirstnameRequestAndPassword_ShouldReturnBothNullFirstnameAndPasswordIsNullError.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_NullPasswordRequestAndEmail_ShouldReturnBothNullEmailAndNullPasswordError.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_NullPasswordRequest_ShouldPasswordCannotBeNull.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_WhenAllFieldsBlank_ShouldReturnAllValidationErrors.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_greaterThanMaxFirstname_ShouldReturnError.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_withValidWorkerCredentials_ReturnAccessToken.executor": "Run",
+    "JUnit.AuthIntegrationTest.login_wrongFormatEmailRequest_ShouldReturnEmailFormatWrong.executor": "Run",
+    "JUnit.AuthIntegrationTest.shoulReturn_UnauthorizedStatusCode_And_CredentialsAreWrong_Login.executor": "Run",
+    "JUnit.AuthIntegrationTest.shoulReturn_UnauthorizedStatusCode_And_UserDeactivated_Login.executor": "Run",
+    "JUnit.AuthIntegrationTest.shoulReturn_UnauthorizedStatusCode_And_UserNotFound_Login.executor": "Run",
+    "JUnit.AuthServiceUnitTest.login_shouldReturn403_whenUserIsNotActive.executor": "Run",
+    "JUnit.ManagerControllerTest.getAllSupervizorAssignedTaskNamesValuesForDoughnutComponent.executor": "Run",
+    "JUnit.ManagerControllerTest.getSuperVizorTasks.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldDectivateUserByID.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldDeletUserByID.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldManagerCreateSensor.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldManagerDeleteSensorById.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldManagerGetAllPdfReportsBasedOnSupervizor.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldManagerUpdateInduvualSensor.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldManagerUpdateSensorLocation.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldManagergetAllSupervizorPdfReportBySupervizorId.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldManagergetNotificationById.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldManagergetPdfReportInduvualSensor.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldNotDectivateUserByID.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldNotDectivateUserByIDBecauseOfUserNotFound.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldReturnAllSensorsForManagerUse.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldReturnAllSupervizors.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldReturnAllSupervizorsAndUsers.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldReturnJustDetailOfSensorForManagerManageSensorUsage.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldReturnSuccess_getScatterPlotGraphDataOfWorkerTasks.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldReturnSupervizorPerformanceCharts.executor": "Run",
+    "JUnit.ManagerControllerTest.shouldcreatePdfReportAndSendToManager.executor": "Run",
+    "JUnit.ManagerControllerUnitTest.getSuperVizorTasks.executor": "Run",
+    "JUnit.ManagerControllerUnitTest.getSuperVizorTasks_shouldWork.executor": "Run",
+    "JUnit.ManagerIntegrationTest.deactivateUserById.executor": "Run",
+    "JUnit.ManagerIntegrationTest.deleteUserById.executor": "Run",
+    "JUnit.ManagerIntegrationTest.getSensorSessionsOfLastMonth.executor": "Run",
+    "JUnit.ManagerIntegrationTest.getSuperVizorPropertiesForRadarChart.executor": "Run",
+    "JUnit.ManagerIntegrationTest.getWorkerPropertiesForRadarChart.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldGetAllSupervizorReports.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldGetNotificationById.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldGetSensorNameCounts.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldGetSuperVizorTasks.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldGetThePerformanceTableForSupervizor.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldManagerCreateSensor.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldManagerDeleteSensor.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldManagerUpdateSensorLocation.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldgetAllSensorForManagerUse.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldgetAllSuperVizor.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldgetAllSupervizorsAndUsers.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldgetJustDetailOfSensorForManagerManageSensorUsage.executor": "Run",
+    "JUnit.ManagerIntegrationTest.shouldmanagerUpdateSensor.executor": "Run",
+    "JUnit.ManagerServiceUnitTest.shouldGetSupervizorTaskStats.executor": "Run",
+    "JUnit.ManagerServiceUnitTests.shouldGetSuperVizorPropertiesForRadarChart.executor": "Run",
+    "JUnit.ManagerServiceUnitTests.shouldgetAllPdfReportsBasedOnSupervizor.executor": "Run",
+    "JUnit.ManagerServiceUnitTests.shouldgetSensorNameCounts.executor": "Run",
+    "JUnit.ManagerServiceUnitTests.shouldgetTheAverageTaskCompletedTimeForWorkerChart.executor": "Run",
+    "JUnit.ManagerServiceUnitTests.testTaskCountDTOMapping.executor": "Run",
+    "JUnit.NotificationControllerTest.shouldReturnNotificationsByUserId.executor": "Run",
+    "JUnit.NotificationControllerUnitTest.shouldReturnNotificationsByUserId (1).executor": "Run",
+    "JUnit.NotificationControllerUnitTest.shouldReturnNotificationsByUserId.executor": "Run",
+    "JUnit.NotificationUnitTest.shouldGetNotificationsOfManagerById.executor": "Run",
+    "JUnit.NotificationUnitTest.shouldSendNotification.executor": "Run",
+    "JUnit.SensorControllerUnitTest.shouldHandleNullValuesSafely.executor": "Run",
+    "JUnit.SensorControllerUnitTest.shouldReturnAllSensors.executor": "Run",
+    "JUnit.SensorControllerUnitTest.shouldReturnEmptyListWhenNoSensors.executor": "Run",
+    "JUnit.SensorControllerUnitTest.shouldgetInduvualSensorWithProtectionForWorker.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldCreateIconImage.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldGetGetInduvualSensor.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldGetInduvualSensor.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldGetInduvualSensorLocations.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldGetSensors.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldReturnSensorNotFound_WhenGettingInduvualSensor.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldReturnUserDontHaveSessions_WhenGettingInduvualSensor.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldReturnUserNotFound_WhenGettingInduvualSensor.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldUpdateIconImage.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldgetImageBySessionId.executor": "Run",
+    "JUnit.SensorIntegrationTest.shouldgetInduvualSensorWithProtectionForWorker_WhenGettingInduvualSensor.executor": "Run",
+    "JUnit.SensorServiceUnitTest.getJustDetailOfSensorForManagerManageSensorUsage.executor": "Run",
+    "JUnit.SensorServiceUnitTest.goToSensorSessionNotTheTask_whenSensorNotFound_shouldReturnError.executor": "Run",
+    "JUnit.SensorServiceUnitTest.goToSensorSessionNotTheTask_whenSensorStatusInRepaır_shouldReturnError.executor": "Run",
+    "JUnit.SensorServiceUnitTest.goToThesensorSessionNotTheTask_whenSensorInRepairByOtherWorker_shouldReturnConflict.executor": "Run",
+    "JUnit.SensorServiceUnitTest.shouldManagerCreateSensor.executor": "Run",
+    "JUnit.SensorServiceUnitTest.shouldReturnSensorNotFoundError.executor": "Run",
+    "JUnit.SensorServiceUnitTest.shouldgoToTheSensorSessionNotTheTask.executor": "Run",
+    "JUnit.SensorServiceUnitTest.shouldmanagerUpdateInduvualSensor.executor": "Run",
+    "JUnit.SensorServiceUnitTest.shouldmanagerUpdateSensorLocation.executor": "Run",
+    "JUnit.SensorServiceUnitTest.updateNonTaskSensor_whenSensorSolvingComponent.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.getAllAvailableSensorsForAssigningTaskSelectComponent.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.getAllWorker.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.getNonTaskSessionSolvingSensorNames.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldGetAllSensorStatusMetricValues.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldGetAllWorker.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldGetFaultyLocationsForSupervizorDashboardHeatmapComponent.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldGetNonTaskHeatmapComponentForSupervizorDashboardPage.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldGetNonTaskSessionSolvingSensorNames.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldGetSensorSessionsOfLastMonth.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldGetTaskIAssigned.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldGetTimeBasedSessionWorkerStatsForBarChartData.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldMapToDateCount.executor": "Run",
+    "JUnit.SuperVisorBasedServiceUnitTests.shouldSupervizorCreateTaskForWorker.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.getAllManager.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.getMetrics_ShouldReturnStatusCounts.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.getSuperVizorTasks.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnForbiddenWhenGetReturnMetricsValuesForDougnhutComponent.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnSuccessWhenGetReturnMetricsValuesForDougnhutComponent.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnSuccess_WhenGetReturnMetricsValuesFor_BarChartComponent.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnSuccess_getAllWorkers.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnSuccess_getDatesAndBasedOnTheirSessionCounts.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnSuccess_getFaultyLocationsForSupervizorDashboardHeatmapComponent.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnSuccess_getNonTaskHeatmapComponentForSupervizorDashboardPage.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnSuccess_getNonTaskSessionSolvingSensorNames.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldReturnSuccess_getScatterPlotGraphDataOfWorkerTasks.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.shouldgetMetricsValuesForDoughnutComponent.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.supervizorGetAllAvailableSensors.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.supervizorGetTasksOfIAssigned.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.supervizorShouldCreateTaskSuccessfully.executor": "Run",
+    "JUnit.SuperVizorControllerUnitTest.supervizorcreatePdfReportAndSendToManager.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldCreatePdfReport.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldCreatePdfReportAndSendToManager.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldGetAllAvailableSensorsForAssigningTaskSelectComponent.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldGetAllManager.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldGetAllSensorStatusMetricValuesForDoughnutComponent.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldGetTimeBasedSessionWorkerStatsForBarChartData.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldPersistData.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldReturnFaultyLocations.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldSaveUsersCorrectly.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldSupervizorCreateTaskForWorker.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldSupervizorGetTasksOfIAssigned.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldgetAllWorkers.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldgetDatesAndBasedOnTheirSessionCounts.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldgetFaultyLocationsForSupervizorDashboardHeatmapComponent.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldgetNonTaskHeatmapComponent.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldgetNonTaskSessionSolvingSensorNames.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldgetThePerformanceTableForWorker.executor": "Run",
+    "JUnit.SupervizorIntegrationTests.shouldgetWorkersPastSensors.executor": "Run",
+    "JUnit.TaskServiceUnitTest.returnSuccess_whenUpdateTaskForOnRoad.executor": "Run",
+    "JUnit.TaskServiceUnitTest.returnTaskSensorUpdated_whenUpdateTaskForFinishing.executor": "Run",
+    "JUnit.UserControllerIntegrationTest.shouldReturnNotificationsByUserId.executor": "Run",
+    "JUnit.UserControllerUnitTest.executor": "Run",
+    "JUnit.UserControllerUnitTest.getLocation_ShouldGetLocationAndReturnSuccess.executor": "Run",
+    "JUnit.UserControllerUnitTest.getNotifications_shouldReturnNotificationByUserId.executor": "Run",
+    "JUnit.UserControllerUnitTest.getPastSensors_shouldHandleServiceException.executor": "Run",
+    "JUnit.UserControllerUnitTest.getPastSensors_shouldReturnEmptyListWhenNoSensors.executor": "Run",
+    "JUnit.UserControllerUnitTest.getPastSensors_shouldReturnWorkersPastSensors.executor": "Run",
+    "JUnit.UserControllerUnitTest.getTasksOfMe_ShouldReturnTasks.executor": "Run",
+    "JUnit.UserControllerUnitTest.getUserLocation_ShouldReturnLocationDTO.executor": "Run",
+    "JUnit.UserControllerUnitTest.getWorkers_shouldReturnWorkersByUserId.executor": "Run",
+    "JUnit.UserControllerUnitTest.get_detailOfLoggedInUser_ShouldReturnUserDTO.executor": "Run",
+    "JUnit.UserControllerUnitTest.goToSensorSessionNotTheTask_shouldReturnConflictWhenActiveSessionExists.executor": "Run",
+    "JUnit.UserControllerUnitTest.saveLocation_ShouldSaveLocationAndReturnSuccess.executor": "Run",
+    "JUnit.UserControllerUnitTest.saveUserLocation.executor": "Run",
+    "JUnit.UserControllerUnitTest.saveUserLocation_ShouldFail_WhenUserNotExists.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldHandleNullResponseFromService.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnAllWorkersWithSensorSessionsAndLocations.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnEmptyListWhenNoWorkersFound.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnNotFound_whenInValidSensorIdProvided.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnNotFound_whenNullSensorIdProvided.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnNotificationsByUserId.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnPastNonTaskSensorDetail_whenValidSensorIdProvided.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnSuccessWithEmptyData_whenNoSensorFound.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnTasksOfMe.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldReturnWorkersByUserId.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldSaveWorkerLocation.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldUpdateNonTaskSensorToFinal_ShouldReturnInternalServerError_WhenServiceThrowsException.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldUpdateNotificationMarkIsRead.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldUpdate_NonTaskSensorSolvingComponent.executor": "Run",
+    "JUnit.UserControllerUnitTest.shouldgoToTheSensorSessionNotTheTask.executor": "Run",
+    "JUnit.UserControllerUnitTest.updateTaskForFinishing_shouldReturnTaskSensorUpdated.executor": "Run",
+    "JUnit.UserControllerUnitTest.updateTaskForOnRoad_shouldReturnForbiddenIfTaskAlreadyUpdated.executor": "Run",
+    "JUnit.UserControllerUnitTest.updateTaskForOnRoad_shouldReturnSuccessFullyUpdated.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldGetAllWorkersSessionSensorAndTheirLocation.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldGetCurrentLoggedInUserDetails.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldGetNotificationById.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldGetSensorListFromTasksOfSingleUser.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldGetUserLocation.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldGetWorkerPastSensors.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldGoToThesensorSessionNotTheTask.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldUpdateNonTaskSensorFinalState.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldUpdateNonTaskSensorToFinalSuccessfully.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldUpdateNotificationMarkIsRead.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldWorkerUpdateNonTaskToFinal.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldWorkerUpdateTaskToFinal.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldWorkerUpdateTasksOnRoadNote.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldgetProfilesOfWorkers.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldgetTheUserLocationBasedOnTheirId.executor": "Run",
+    "JUnit.UserIntegrationTest.shouldsaveWorkersLocation.executor": "Run",
+    "JUnit.UserRepositoryUnitTest.executor": "Run",
+    "JUnit.UserRepositoryUnitTest.findByUsername_ShouldReturnNullWhenUserDoesntExist.executor": "Run",
+    "JUnit.UserRepositoryUnitTest.findByUsername_ShouldReturnUser.executor": "Run",
+    "JUnit.UserRepositoryUnitTest.save_ShouldUpdateLastLoginTime.executor": "Run",
+    "JUnit.UserServiceTest.shouldReturnUserDTO_whenGivenCorrectAccessToken.executor": "Run",
+    "JUnit.UserServiceUnitTest.getAllWorkersWithSensorSessionAndLocations.executor": "Run",
+    "JUnit.UserServiceUnitTest.getNotFound_whenInValidIdProvided_shouldReturnNotFound.executor": "Run",
+    "JUnit.UserServiceUnitTest.getNotFound_whenNullIdProvided_shouldReturnNotFound.executor": "Run",
+    "JUnit.UserServiceUnitTest.getNotifications_shouldReturnNotificationByUserId.executor": "Run",
+    "JUnit.UserServiceUnitTest.getPastSensorsOfWorker_whenUserExistsAndHasCompletedSensors_shouldReturnSensorList.executor": "Run",
+    "JUnit.UserServiceUnitTest.getProfilesOfAllWorkers_shouldReturnAllWorkers.executor": "Run",
+    "JUnit.UserServiceUnitTest.getWorkersPastNonTaskSensorDetail.executor": "Run",
+    "JUnit.UserServiceUnitTest.getWorkersPastNonTaskSensorDetail_whenValidIdProvided_shouldReturnSuccessfullyGotsensor.executor": "Run",
+    "JUnit.UserServiceUnitTest.goToThesensorSessionNotTheTask_whenSensorInRepairByOtherWorker_shouldReturnConflict.executor": "Run",
+    "JUnit.UserServiceUnitTest.handleNullResponse_getAllWorkersSessionSensorAndTheirLocation.executor": "Run",
+    "JUnit.UserServiceUnitTest.returnNotFound_whenNoWorkersFound.executor": "Run",
+    "JUnit.UserServiceUnitTest.saveLocation_ShouldSaveLocationAndReturnSuccess.executor": "Run",
+    "JUnit.UserServiceUnitTest.shouldDeactivateUserById.executor": "Run",
+    "JUnit.UserServiceUnitTest.shouldDeleteUserById.executor": "Run",
+    "JUnit.UserServiceUnitTest.shouldGetAllSupervizor.executor": "Run",
+    "JUnit.UserServiceUnitTest.shouldGetAllSupervizorAndWorker.executor": "Run",
+    "JUnit.UserServiceUnitTest.shouldMarkNotificationIsReadTrue.executor": "Run",
+    "JUnit.UserServiceUnitTest.shouldReturnSuccessWithEmptyData_whenNoSensorFound.executor": "Run",
+    "JUnit.UserServiceUnitTest.shouldReturnUserDTO_whenGivenCorrectAccessToken.executor": "Run",
+    "JUnit.UserServiceUnitTest.userLocationShouldReturnUserLocationDTO.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "authentication",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/EcoTrack/backend/EcoTrack/src/main/java/com/example/EcoTrack/announecements",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.EcoTrack.sensors.service" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\announecements" />
+      <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\announecements\" />
+      <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\announecements\model" />
       <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\model" />
       <recent name="C:\EcoTrack\backend\EcoTrack\src\main\java\com\example\EcoTrack\service" />
     </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.EcoTrack.dto" />
-      <recent name="com.example.EcoTrack.repository" />
-      <recent name="com.example.EcoTrack.service" />
-      <recent name="com.example.EcoTrack.model" />
-      <recent name="com.example.EcoTrack.controller" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\EcoTrack\backend\EcoTrack\src\test\resources" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.EcoTrack.AuthTests.SensorTests" />
+      <recent name="com.example.EcoTrack.AuthTests.SuperVizorBasedTests" />
+      <recent name="com.example.EcoTrack.AuthTests.NotificationUnitTests" />
+      <recent name="com.example.EcoTrack" />
+      <recent name="com.example.EcoTrack.announecements.model" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.UserIntegrationTest.shouldGetNotificationById">
+    <configuration name="UserIntegrationTest.shouldGetNotificationById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EcoTrack" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EcoTrack.Tests.UserTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EcoTrack.Tests.UserTests" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EcoTrack.Tests.UserTests.UserIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldGetNotificationById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserIntegrationTest.shouldUpdateNonTaskSensorFinalState" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EcoTrack" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EcoTrack.Tests.UserTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EcoTrack.Tests.UserTests" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EcoTrack.Tests.UserTests.UserIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldUpdateNonTaskSensorFinalState" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserIntegrationTest.shouldUpdateNonTaskSensorToFinalSuccessfully" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EcoTrack" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EcoTrack.Tests.UserTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EcoTrack.Tests.UserTests" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EcoTrack.Tests.UserTests.UserIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldUpdateNonTaskSensorToFinalSuccessfully" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserIntegrationTest.shouldUpdateNotificationMarkIsRead" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EcoTrack" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EcoTrack.Tests.UserTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EcoTrack.Tests.UserTests" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EcoTrack.Tests.UserTests.UserIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldUpdateNotificationMarkIsRead" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserIntegrationTest.shouldWorkerUpdateNonTaskToFinal" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="EcoTrack" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.EcoTrack.Tests.UserTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.EcoTrack.Tests.UserTests" />
+      <option name="MAIN_CLASS_NAME" value="com.example.EcoTrack.Tests.UserTests.UserIntegrationTest" />
+      <option name="METHOD_NAME" value="shouldWorkerUpdateNonTaskToFinal" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UserIntegrationTest.shouldGetNotificationById" />
+        <item itemvalue="JUnit.UserIntegrationTest.shouldUpdateNotificationMarkIsRead" />
+        <item itemvalue="JUnit.UserIntegrationTest.shouldUpdateNonTaskSensorFinalState" />
+        <item itemvalue="JUnit.UserIntegrationTest.shouldUpdateNonTaskSensorToFinalSuccessfully" />
+        <item itemvalue="JUnit.UserIntegrationTest.shouldWorkerUpdateNonTaskToFinal" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -285,6 +566,10 @@
         <breakpoint enabled="true" type="java-exception">
           <properties class="org.springframework.data.mapping.PropertyReferenceException" package="org.springframework.data.mapping" />
           <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.springframework.transaction.UnexpectedRollbackException" package="org.springframework.transaction" />
+          <option name="timeStamp" value="4" />
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>

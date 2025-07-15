@@ -23,8 +23,8 @@ public class UserLocation {
     private Point location;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "userLocation")
-    @JoinColumn(name = "user_location_code_id")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Date createdAt;

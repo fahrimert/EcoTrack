@@ -3,7 +3,6 @@
 import { Flex, Text, VStack, Box } from "@chakra-ui/react";
 import { Grid } from "@chakra-ui/react";
 import { useState } from "react";
-import { VscPerson } from "react-icons/vsc";
 import React from "react";
 import GridCalendar from "./GridCalendar";
 import { useUserProfile } from "@/hooks/useUserProfile";

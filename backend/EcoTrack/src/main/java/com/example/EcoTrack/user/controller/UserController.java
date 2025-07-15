@@ -1,11 +1,14 @@
 package com.example.EcoTrack.user.controller;
 
+import com.example.EcoTrack.auth.service.JwtService;
+import com.example.EcoTrack.notification.dto.NotificationDTO;
 import com.example.EcoTrack.notification.service.NotificationService;
 import com.example.EcoTrack.sensors.model.SensorFix;
 import com.example.EcoTrack.sensors.model.SensorStatus;
 import com.example.EcoTrack.sensors.service.SensorService;
 import com.example.EcoTrack.shared.dto.ApiResponse;
 import com.example.EcoTrack.shared.dto.HeartbeatDTO;
+import com.example.EcoTrack.task.dto.SensorAllAndTaskDTO;
 import com.example.EcoTrack.task.service.TaskService;
 import com.example.EcoTrack.user.dto.UserAndSessionSensorDTO;
 import com.example.EcoTrack.user.dto.UserDTO;
@@ -37,15 +40,16 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 public class UserController {
-    private UserService userService;
-    private SensorService sensorService;
-    private TaskService taskService;
-    private UserRepository userRepository;
-    private UserOnlineStatusRepository userOnlineStatusRepository;
-    private SimpMessagingTemplate messagingTemplate;
-    private UserLocationService userLocationService;
-    private NotificationService notificationService;
-    public UserController(UserService userService, SensorService sensorService, TaskService taskService, UserRepository userRepository, UserOnlineStatusRepository userOnlineStatusRepository, SimpMessagingTemplate messagingTemplate, UserLocationService userLocationService, NotificationService notificationService) {
+    private final UserService userService;
+    private final SensorService sensorService;
+    private final TaskService taskService;
+    private final UserRepository userRepository;
+    private final UserOnlineStatusRepository userOnlineStatusRepository;
+    private final SimpMessagingTemplate messagingTemplate;
+    private final UserLocationService userLocationService;
+    private final NotificationService notificationService;
+    private final JwtService jwtService;
+    public UserController(UserService userService, SensorService sensorService, TaskService taskService, UserRepository userRepository, UserOnlineStatusRepository userOnlineStatusRepository, SimpMessagingTemplate messagingTemplate, UserLocationService userLocationService, NotificationService notificationService, JwtService jwtService) {
         this.userService = userService;
         this.sensorService = sensorService;
         this.taskService = taskService;
@@ -54,14 +58,17 @@ public class UserController {
         this.messagingTemplate = messagingTemplate;
         this.userLocationService = userLocationService;
         this.notificationService = notificationService;
+        this.jwtService = jwtService;
     }
 
     //Currently Logged In Worker  Detail data endpoint
-        @GetMapping("/worker/getTheDetailOfLoggedInWorker/{accessToken}")
-    @Transactional
-    public UserDTO getTheDetailOfLoggedInWorkerController(HttpServletRequest request , HttpServletResponse response , @PathVariable String accessToken){
-        return userService.getTheDetailOfLoggedInWorker(accessToken);
-    }
+    //bunu değiştir
+            @GetMapping("/user/me")
+        @Transactional
+        public UserDTO getTheDetailOfALoggedInUserController(HttpServletRequest request , HttpServletResponse response ){
+            String token = jwtService.extractTokenFromHeader(request);
+            return userService.getTheDetailOfALoggedInUser(token);
+        }
 
 
     //User Location Controller Based On A Given User Id endpoint  worker or supervizor
@@ -73,7 +80,7 @@ public class UserController {
     )
     @Transactional
     public UserLocationDTO getUserLocationBasedOnTheirIdController(@PathVariable Long userId) {
-    return  userService.getTheUserLocationBasedOnTheirId(userId);
+        return  userService.getTheUserLocationBasedOnTheirId(userId);
     }
 
 
@@ -81,18 +88,10 @@ public class UserController {
     @PostMapping("/worker/getProfilesOfWorkers")
     @Transactional
     public List<UserOnlineStatusDTO> getProfilesOfWorkers(@RequestBody List<Long> userIds) {
-        List<User> users = userService.findAllByIds(userIds);
-
-        return users.stream().map(user -> {
-            UserOnlineStatusDTO dto = new UserOnlineStatusDTO();
-            dto.setId(user.getId());
-            dto.setFirstName(user.getFirstName());
-            dto.setSurName(user.getSurName());
-            dto.setRole(user.getRole());
-            dto.setUserOnlineStatus(user.getUserOnlineStatus());
-            return dto;
-        }).collect(Collectors.toList());
+      return  userService.getProfilesOfAllWorkers(userIds);
     }
+
+
 
     //Endpoint About saving Worker Location
     @CrossOrigin(
@@ -113,7 +112,7 @@ public class UserController {
 
 
     //Get the logged ın user location endpoint
-    @GetMapping("/user/getUserLocation")
+        @GetMapping("/user/getUserLocation")
     @Transactional
 
     public UserLocationDTO getUserLocation(){
@@ -141,7 +140,7 @@ public class UserController {
     //Worker Task Section
 
 
-    //Worker update the given task for on road section endpoint
+    //Worker update the given task for "on road section endpoint
     @PutMapping("/worker/updateTaskForOnRoad/{taskId}")
     @CrossOrigin(
             origins = "http://localhost:9595",
@@ -162,8 +161,8 @@ public class UserController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    public void workerUpdateTaskToFinal(@RequestParam String solvingNote, @RequestParam SensorStatus statusID, @PathVariable Long taskId, @RequestParam List<MultipartFile> files){
-        taskService.workerUpdateTaskToFinal(solvingNote,statusID,taskId,files);
+    public ResponseEntity<String> workerUpdateTaskToFinal(@RequestParam String solvingNote, @RequestParam SensorStatus statusID, @PathVariable Long taskId, @RequestParam List<MultipartFile> files){
+        return  taskService.workerUpdateTaskToFinal(solvingNote,statusID,taskId,files);
     }
 
 
@@ -175,7 +174,7 @@ public class UserController {
     )
     @GetMapping("/worker/getTasksOfMe/{userId}")
     @Transactional
-    public ResponseEntity<?> getSensorListFromTasksOfSingleUser (@PathVariable Long userId) {
+    public ResponseEntity  <List<SensorAllAndTaskDTO>> getSensorListFromTasksOfSingleUser (@PathVariable Long userId) {
         return  taskService.getSensorListFromTasksOfSingleUser(userId);
     }
 
@@ -236,8 +235,8 @@ public class UserController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    public void updateNonTaskSensorToFinal(@RequestParam String note,@RequestParam SensorStatus statusID, @PathVariable Long sensorId,@RequestParam List<MultipartFile> files){
-        sensorService.updateNonTaskSensorFinalState(note,statusID,sensorId,files);
+    public ResponseEntity<String> updateNonTaskSensorToFinal(@RequestParam String note,@RequestParam SensorStatus statusID, @PathVariable Long sensorId,@RequestParam List<MultipartFile> files){
+        return  sensorService.updateNonTaskSensorFinalState(note,statusID,sensorId,files);
     }
 
     //Get the past non task sensor detail endpoint based on given sensor ıd for worker
@@ -259,17 +258,8 @@ public class UserController {
 
 
     //start of user notification endpoints
-//user get notification endpoint
-    @CrossOrigin(
-            origins = "http://localhost:9595", // veya frontend URL’in
-            allowedHeaders = "*",
-            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
-    @GetMapping("/notifications/getNotifications/{userId}")
-    @Transactional
-    public ResponseEntity<?> getNotificationById (@PathVariable Long userId) {
-        return  notificationService.getNotificationById(userId);
-    }
+
+
 
     //worker update notification to read endpoint
     @PutMapping("/notifications/workerUpdateNotificationMarkIsRead/{userId}")
@@ -285,6 +275,17 @@ public class UserController {
         return notificationService.markNotificationsOfRead(userId);
     }
 
+
+    @CrossOrigin(
+            origins = "http://localhost:9595", // veya frontend URL’in
+            allowedHeaders = "*",
+            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+    )
+    @GetMapping("/user/getNotifications/{userId}")
+    @Transactional
+    public ResponseEntity<List<NotificationDTO>> getNotificationById (@PathVariable Long userId) {
+        return  userService.getNotificationById(userId);
+    }
 
     //end of user notification endpoints
 

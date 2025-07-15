@@ -22,16 +22,16 @@ public class SensorController {
     }
 
     //Get all sensors endpoint
-    @GetMapping("/sensors")
-    @CrossOrigin(
-            origins = "http://localhost:9595",
-            allowedHeaders = "*",
-            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
-    public List<SensorDTO> getSensors(
-    ){
-        return  sensorService.getAllSensor();
-    }
+        @GetMapping("/sensors")
+        @CrossOrigin(
+                origins = "http://localhost:9595",
+                allowedHeaders = "*",
+                methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+        )
+        public List<SensorDTO> getSensors(
+        ){
+            return  sensorService.getAllSensor();
+        }
 
     @GetMapping("/sensors/location/{sensorId}")
     @CrossOrigin(
@@ -43,7 +43,6 @@ public class SensorController {
     public ResponseEntity<ApiResponse> getInduvualSensorLocation(@PathVariable Long sensorId){
         return  sensorService.getInduvualSensorLocation(sensorId);
     }
-
 
 
     @GetMapping("/sensors/{sensorId}")
@@ -91,7 +90,6 @@ public class SensorController {
     public void updateIconImage( @PathVariable Long sensorId,@RequestParam("image")  MultipartFile file) throws IOException {
         sensorService.updateIconImage(file,sensorId);
     }
-
 
 
 

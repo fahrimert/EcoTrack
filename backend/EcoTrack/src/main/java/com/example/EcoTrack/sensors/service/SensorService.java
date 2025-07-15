@@ -1,5 +1,6 @@
     package com.example.EcoTrack.sensors.service;
 
+    import com.example.EcoTrack.notification.dto.SinglePdfReportDTO;
     import com.example.EcoTrack.sensors.dto.AllSensorForManagerDTO;
     import com.example.EcoTrack.sensors.dto.CreateSensorLocationRequestDTO;
     import com.example.EcoTrack.sensors.dto.SensorDetailForManagerDTO;
@@ -14,6 +15,7 @@
     import com.example.EcoTrack.user.repository.UserRepository;
     import com.example.EcoTrack.user.service.UserService;
     import com.example.EcoTrack.util.ImageUtil;
+    import jakarta.persistence.EntityNotFoundException;
     import org.locationtech.jts.geom.Coordinate;
     import org.locationtech.jts.geom.GeometryFactory;
     import org.locationtech.jts.geom.Point;
@@ -58,8 +60,6 @@
 
         //Start Of Manager Sensor Functions
         public List<AllSensorForManagerDTO> getAllSensorForManagerUse() {
-
-
             List<AllSensorForManagerDTO> sensorlistDTO  = sensorRepository.findAll().stream().map(a ->
             {
                 SensorFix currentSession = a.getCurrentSensorSession();
@@ -97,7 +97,7 @@
             }).collect(Collectors.toList());
             return  sensorlistDTO;
         }
-        public ResponseEntity<?> managerCreateSensor (String sensorName, MultipartFile files) {
+        public ResponseEntity managerCreateSensor (String sensorName, MultipartFile files) {
 
             try {
                 if (sensorName == null){
@@ -133,7 +133,7 @@
 
         }
 
-        public ResponseEntity<?> managerUpdateInduvualSensor (String sensorId, String sensorName, MultipartFile files) {
+        public ResponseEntity managerUpdateInduvualSensor (String sensorId, String sensorName, MultipartFile files) {
 
             try {
                 if (sensorName == null){
@@ -150,7 +150,6 @@
                 sensor.setStatus(SensorStatus.ACTIVE);
                 sensor.setLastUpdatedAt(now);
                 sensor.setInstallationDate(now);
-                Sensor updatedSensor = sensorRepository.save(sensor);
 
 
                 updateIconImage(files,Long.parseLong(sensorId));
@@ -167,7 +166,7 @@
 
 
         //manager sensor management page update sensor location component in add sensor section
-        public ResponseEntity<?> managerUpdateSensorLocation (CreateSensorLocationRequestDTO sensorLocationDTO )  {
+        public ResponseEntity managerUpdateSensorLocation (CreateSensorLocationRequestDTO sensorLocationDTO )  {
 
             try {
 
@@ -178,8 +177,6 @@
                 double longitude = sensorLocationDTO.getLongitude();
 
                 Point location = geometryFactory.createPoint(new Coordinate(latitude, longitude));
-                System.out.println(sensorLocationDTO.getLatitude());
-                System.out.println(sensorLocationDTO.getLongitude());
 
                 SensorLocation sensorLocation = new SensorLocation();
 
@@ -214,12 +211,16 @@
         public ResponseEntity<String> updateNonTaskSensorFinalState(String note, SensorStatus statusID, Long id, List<MultipartFile> files){
             try {
                 Sensor sensor = sensorRepository.findById(id).orElseThrow(() -> new RuntimeException("Sensor Not Found"));
-                SensorFix sensorFix = sensorSessionRepository.findByUserAndCompletedTimeIsNull(sensor.getCurrentSensorSession().getUser()).orElseThrow();
-
+                SensorFix sensorFix = sensorSessionRepository.findByUserAndCompletedTimeIsNull(sensor.getCurrentSensorSession().getUser()).get();
+                if (sensorFix.getSensor().getCurrentSensorSession().getUser() == null) {
+                    return ResponseEntity.ok("Sensor has no active session."); // veya null da dönebilirsin
+                }
                 sensorFix.setNote(note);
                 sensorSessionImageService.uploadImage(files,sensorFix.getId());
 
                 Date now = new Date();
+
+
                 sensorFix.setCompletedTime(now);
                 sensor.setStatus(statusID);
 
@@ -237,7 +238,7 @@
                 List<SensorDTO> sensors = getAllSensor();
                 messagingTemplate.convertAndSend("/topic/sensors", sensors);
 
-                return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Sensor Updated" + sensor.getSensorName());
+                    return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Sensor Updated" + sensor.getSensorName());
 
             }catch (Exception e){
                 System.out.println(e.getMessage());
@@ -250,8 +251,24 @@
         //Get the past non task sensor detail function based on given sensor ıd for worker
         public ResponseEntity<ApiResponse>  getWorkersPastNonTaskSensorDetail(Long id) {
 
-
+            if (id == null ){
+                return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false,"Sensor doesnt exists.",null,null,404));
+            }
             Optional<SensorFix> sensor = sensorSessionRepository.findById(id);
+
+            if (sensor == null ){
+                return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false,"Sensor doesnt exists.",null,null,404));
+            }
+
+            if (sensor.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse(false, "Sensor doesnt exists.", null, null, 404));
+            }
+            if (id < 0){
+                return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(false,"Invalid Sensor id.",null,null,404));
+
+            }
+
 
             List<SensorSessionImages> images = sensorSessionImagesRepository.findBySensorSessionsId(sensor.get().getId());
             List<ImageResponseDTO> imageResponseDTOS = images.stream()
@@ -286,52 +303,64 @@
 
         }
         //this function for user session  solving page (not the task solving page)  get the sensor with given id
-        public ResponseEntity<ApiResponse> getInduvualSensor(Long id) {
-            Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
-            String username = securityContextHolder.getName();
+            public ResponseEntity<ApiResponse> getInduvualSensor(Long id) {
+                Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
+                String username = securityContextHolder.getName();
 
-            User user = userService.findByUsername(username);
+                Optional<Sensor> sensor = sensorRepository.findById(id);
 
-            Optional<Sensor> sensor = sensorRepository.findById(id);
-            if (user.getSensorSessions().stream().map(a -> a.getSensor().getId()).collect(Collectors.toList()).contains(id) == false) {
-                return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(false,"You are not Authorized to enter here .",null,null,500));
+                Sensor sensorEntity = sensor.orElse(null);
+
+                if (sensorEntity == null) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                            .body(new ApiResponse(false, "Sensor not found", null, null, 404));
+                }
+                User user = userService.findByUsername(username);
+                if (user == null){
+                    return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(false,"User Not Found",null,null,500));
+
+                }
+
+                if (user.getSensorSessions() == null){
+                    return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(false,"User dont have sensor sessions",null,null,500));
+
+                }
+
+
+                if (user.getSensorSessions().stream().map(a -> a.getSensor().getId()).collect(Collectors.toList()).contains(id) == false) {
+                    return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(false,"You are not Authorized to enter here .",null,null,500));
+
+                }
+
+
+                SensorFix currentSession = sensorEntity.getCurrentSensorSession();
+                SensorStatus status = sensorEntity.getStatus();
+                SensorLocation location = sensorEntity.getSensorLocation();
+                SensorDTO sensorDTO = new SensorDTO(
+                        sensorEntity.getId(),
+                        sensorEntity.getSensorName(),
+                        status != null ? status.getDisplayName() : null,
+                        status != null ? status.getColorCode() : null,
+                        location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
+                        location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0,
+
+                        new SensorFixDTO(
+                                currentSession != null ? currentSession.getId() : null,
+                                sensorEntity.getSensorName(),
+                                status != null ? status.getDisplayName() : null,
+                                status != null ? status.getColorCode() : null,
+                                currentSession != null ? currentSession.getNote() : null,
+                                currentSession != null ? currentSession.getStartTime() : null,
+                                currentSession != null ? currentSession.getCompletedTime() : null,
+                                location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
+                                location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0
+                        )
+                );
+                return  ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse(true,"Successfully got sensor",
+                        sensorDTO,null,200));
+
 
             }
-            Sensor sensorEntity = sensor.orElse(null);
-
-            if (sensorEntity == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse(false, "Sensor not found", null, null, 404));
-            }
-
-            SensorFix currentSession = sensorEntity.getCurrentSensorSession();
-            SensorStatus status = sensorEntity.getStatus();
-            SensorLocation location = sensorEntity.getSensorLocation();
-            SensorDTO sensorDTO = new SensorDTO(
-                    sensorEntity.getId(),
-                    sensorEntity.getSensorName(),
-                    status != null ? status.getDisplayName() : null,
-                    status != null ? status.getColorCode() : null,
-                    location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
-                    location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0,
-
-                    new SensorFixDTO(
-                            currentSession != null ? currentSession.getId() : null,
-                            sensorEntity.getSensorName(),
-                            status != null ? status.getDisplayName() : null,
-                            status != null ? status.getColorCode() : null,
-                            currentSession != null ? currentSession.getNote() : null,
-                            currentSession != null ? currentSession.getStartTime() : null,
-                            currentSession != null ? currentSession.getCompletedTime() : null,
-                            location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
-                            location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0
-                    )
-            );
-            return  ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse(true,"Successfully got sensor",
-                    sensorDTO,null,200));
-
-
-        }
 
         //management sensor management page for update sensor component initialdata purposes module same as the upper module without protection detail
         public ResponseEntity<ApiResponse> getJustDetailOfSensorForManagerManageSensorUsage(Long id) {
@@ -363,50 +392,53 @@
 
        //worker sensor functions
        //Worker Dashboard Page Go To The sensor session not the task sensor
-       public ResponseEntity<String> goToThesensorSessionNotTheTask( Long id ){
-           try {
-               Sensor sensor = sensorRepository.findById(id).orElseThrow(() -> new RuntimeException("Sensor Not Found"));
-               Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
-               String username = securityContextHolder.getName();
+           public ResponseEntity<String> goToThesensorSessionNotTheTask( Long id ){
+               try {
+                   Sensor sensor = sensorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Sensor Not Found"));
+                   Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
+                   String username = securityContextHolder.getName();
 
-               User user = userService.findByUsername(username);
-               Optional<SensorFix> existingSession = sensorSessionRepository.findByUserAndCompletedTimeIsNull(user);
-               if (existingSession.isPresent()) {
-                   return ResponseEntity.status(HttpStatus.CONFLICT).body("You already have an active repair session.");
+                   User user = userService.findByUsername(username);
+                   Optional<SensorFix> existingSession = sensorSessionRepository.findByUserAndCompletedTimeIsNull(user);
+                   if (existingSession.isPresent()) {
+                       return ResponseEntity.status(HttpStatus.CONFLICT).body("You already have an active repair session.");
+                   }
+
+
+                   if (sensor.getCurrentSensorSession() != null && sensor.getStatus() == SensorStatus.IN_REPAIR) {
+                       return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sensor is already in another worker hand");
+                   }
+
+                   sensor.setStatus(SensorStatus.IN_REPAIR);
+                   SensorFix sensorSession = new SensorFix();
+                   sensorSession.setSensor(sensor);
+                   Date now = new Date();
+
+
+
+                   sensorSession.setUser(user);
+
+                   sensorSession.setStartTime(now);
+                   sensor.setCurrentSensorSession(sensorSession);
+                   sensorSessionRepository.save(sensorSession);
+                   sensorRepository.save(sensor);
+                   List<SensorDTO> sensors = getAllSensor();
+                   messagingTemplate.convertAndSend("/topic/sensors", sensors);
+
+                   return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Now you are repairing" + sensor.getSensorName());
+
+               }
+               catch (EntityNotFoundException e ){
+                   return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sensor Not Found");
+               }
+               catch (Exception e){
+                   return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+
                }
 
 
-               if (sensor.getCurrentSensorSession() != null && sensor.getStatus() == SensorStatus.IN_REPAIR) {
-                   return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sensor is already in another worker hand");
-               }
 
-               sensor.setStatus(SensorStatus.IN_REPAIR);
-               SensorFix sensorSession = new SensorFix();
-               sensorSession.setSensor(sensor);
-               Date now = new Date();
-
-
-
-               sensorSession.setUser(user);
-
-               sensorSession.setStartTime(now);
-               sensor.setCurrentSensorSession(sensorSession);
-               sensorSessionRepository.save(sensorSession);
-               sensorRepository.save(sensor);
-               List<SensorDTO> sensors = getAllSensor();
-               messagingTemplate.convertAndSend("/topic/sensors", sensors);
-
-               return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Now you are repairing" + sensor.getSensorName());
-
-           }
-           catch (Exception e){
-               return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
-
-           }
-
-
-
-       };
+           };
         //Worker past-sensors page get past  sensors of a logged ın worker
         public List<SensorFix> getPastSensorsOfWorker() {
             try{
@@ -462,7 +494,7 @@
                 return  sensorlistDTO;
        }
 
-        public List<ImageResponseDTO> getImagesBySessionId(Long sessionId) {
+        public List<ImageResponseDTO>  getImagesBySessionId(Long sessionId) {
             List<SensorSessionImages> images = sensorSessionImagesRepository.findBySensorSessionsId(sessionId);
 
             return images.stream()
@@ -529,12 +561,67 @@
             }
         }
 
-        public void deleteSensorById(Long sensorId) {
+        public ResponseEntity deleteSensorById(Long sensorId) {
                 try {
-                    sensorRepository.deleteById(sensorId);
+                    Optional<Sensor> sensor = sensorRepository.findById(sensorId);
+                    if (sensor.isPresent()){
+
+                        sensorRepository.deleteById(sensorId);
+                        return ResponseEntity.status(HttpStatus.OK)
+                                .body(ApiResponse.success(
+                                        "Sensor Successfully deleted"
+                                ));
+                    }
+                    else {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(ApiResponse.error(
+                                        "Error",
+                                        List.of("No sensor Found"),
+                                        HttpStatus.NOT_FOUND
+                                ));
+
+                    }
                 }
                 catch (Exception e){
-                    System.out.println(e.getMessage());
-                }
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(ApiResponse.error(
+                                    "Server Error",
+                                    List.of("Unexpected server error" + e.getMessage()),
+                                    HttpStatus.INTERNAL_SERVER_ERROR
+                            ));                }
             }
+
+
+        //integrasyon testinin bi bu methodu kaldı sadece
+        public ResponseEntity<ApiResponse>  getPdfReportInduvualSensor(String sensorId) {
+
+
+            Sensor sensor = sensorRepository.findById(Long.parseLong(sensorId)).orElseThrow();
+            List<SensorSessionImages> images = sensorSessionImagesRepository.findBySensorSessionsId(sensor.getId());
+            List<ImageResponseDTO> imageResponseDTOS = images.stream()
+                    .map(img -> {
+                        String base64 = Base64.getEncoder().encodeToString(ImageUtil.decompressImage(img.getImage()));
+                        return new ImageResponseDTO(img.getName(), img.getType(), base64);
+                    })
+                    .collect(Collectors.toList());
+
+            SensorIconImage sensorIconImage = sensorImageIconRepository.findBySensorId(sensor.getId());
+            String base64 = Base64.getEncoder().encodeToString(ImageUtil.decompressImage(sensorIconImage.getImage()));
+
+            ImageResponseDTO ıconImageResponse = new ImageResponseDTO(sensorIconImage.getName(), sensorIconImage.getType(), base64);
+            SinglePdfReportDTO singlePdfReportDTO = new SinglePdfReportDTO(  sensor.getId(),
+                    sensor.getSensorName(),
+                    sensor.getStatus().getDisplayName(),
+
+                    sensor.getStatus().getColorCode(),
+                    imageResponseDTOS,
+                    ıconImageResponse
+            );
+
+            return  ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse(true,"Successfully got sensor",
+
+                    singlePdfReportDTO   ,null,200));
+
+        }
+
     }

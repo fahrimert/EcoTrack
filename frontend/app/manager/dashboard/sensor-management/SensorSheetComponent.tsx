@@ -6,7 +6,6 @@ import { UserAndSupervizorsDTO } from "@/app/supervisor/superVizorDataTypes/type
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { useUserProfile } from "@/hooks/useUserProfile";
 import axios from "axios";
 import { format } from "date-fns";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -30,7 +29,6 @@ open:boolean,
   } , ) => {
 
   const [address, setAddress] = useState("");
-   const { userProfile, loading, error } = useUserProfile(session);
     
    console.log(sensors);
 

@@ -11,11 +11,11 @@ import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { SensorList } from './SensorList'
 import { TaskSensorWithTask } from './SensorsAndMap'
-import { UserProfilea } from '@/app/supervisor/superVizorDataTypes/types'
+import { DifferentUserProfileType } from '@/app/sharedTypes'
 
 
 
-const GoogleMapComponent = ({session,sensorListData,userProfile,taskSensorListData} : {session : RequestCookie, sensorListData:SensorList[] | undefined,userProfile : UserProfilea | undefined, taskSensorListData: TaskSensorWithTask[]}) => {
+const GoogleMapComponent = ({session,sensorListData,userProfile,taskSensorListData} : {session : RequestCookie, sensorListData:SensorList[] | undefined,userProfile : DifferentUserProfileType | undefined, taskSensorListData: TaskSensorWithTask[]}) => {
   const [centerStateData, setCenterStateData] = useState({ latitude: 39.9334, longitude: 32.8597 });
   
   //source and destination context states

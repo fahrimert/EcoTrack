@@ -24,7 +24,6 @@ console.log(formData);
              return {
             serverData: "Sensor Başarıyla Kuruldu",
           }; 
-  console.log(responseJsonStatus);
   
 
 }

@@ -7,8 +7,9 @@ import { tr } from "date-fns/locale"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { GroupedSensorData } from "@/app/supervisor/superVizorDataTypes/types";
+import { SensorTaskDetail } from "./PastSensorList";
 
-export const columns: ColumnDef<GroupedSensorData>[] = [
+export const columns: ColumnDef<SensorTaskDetail>[] = [
   {
     accessorKey: "sensorName",
     header: "Sensör Adı",
@@ -30,7 +31,7 @@ export const columns: ColumnDef<GroupedSensorData>[] = [
       )
     }
   },
-  {
+   {
     accessorKey: "installationDate",
     header: "Kurulum Tarihi",
     cell: ({ row }) => {
@@ -54,7 +55,7 @@ export const columns: ColumnDef<GroupedSensorData>[] = [
               </AccordionTrigger>
             </div>
             <AccordionContent className="pb-0">
-              <div className="space-y-2 mt-2">
+          <div className="space-y-2 mt-2">
                 {sensor.sessions.map(session => (
                   <div key={session.id} className="p-3  border rounded-lg bg-gray-50">
                     <div className="flex justify-between">
@@ -73,7 +74,7 @@ export const columns: ColumnDef<GroupedSensorData>[] = [
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> 
             </AccordionContent>
           </AccordionItem>
         </Accordion>

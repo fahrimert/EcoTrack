@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { UserProfilea } from "@/app/supervisor/superVizorDataTypes/types";
 import Heading from "@/app/supervisor/dashboard/workers-past-sensors/components/Heading";
 import ManagementSensor from "./ManagementSensor";
 import { SensorListForManagerUse } from "./SensorManagementSensorsWrapperComponent";
@@ -14,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DifferentUserProfileType } from "@/app/sharedTypes";
 
 const ManagementSensorList = ({
   stasusesData,
@@ -23,7 +23,6 @@ const ManagementSensorList = ({
   stasusesData   :[ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]
   session: RequestCookie;
   sensorListData: SensorListForManagerUse[] | undefined;
-  userProfile: UserProfilea | undefined;
 }) => {
     const [sensorListDataFiltered,setSensorListDataFiltered] = useState<SensorListForManagerUse[]>()
   

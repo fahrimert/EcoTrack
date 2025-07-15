@@ -2,6 +2,7 @@ package com.example.EcoTrack.supervizor.service;
 
 import com.example.EcoTrack.notification.model.Notification;
 import com.example.EcoTrack.notification.service.NotificationService;
+import com.example.EcoTrack.notification.type.NotificationType;
 import com.example.EcoTrack.sensors.model.Sensor;
 import com.example.EcoTrack.sensors.model.SensorLocation;
 import com.example.EcoTrack.sensors.repository.SensorRepository;
@@ -41,7 +42,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Service
 public class SuperVizorService {
-    public UserService userService;
+    private final UserService userService;
     private  final UserRepository userRepository;
     private  final SensorRepository sensorRepository;
     private  final SensorSessionRepository sensorSessionRepository;
@@ -49,7 +50,8 @@ public class SuperVizorService {
     private  final NotificationService notificationService;
     private SimpMessagingTemplate messagingTemplate;
 
-    public SuperVizorService(UserRepository userRepository, SensorRepository sensorRepository, SensorSessionRepository sensorSessionRepository, TaskRepository taskRepository, NotificationService notificationService, SimpMessagingTemplate messagingTemplate) {
+    public SuperVizorService(UserService userService, UserRepository userRepository, SensorRepository sensorRepository, SensorSessionRepository sensorSessionRepository, TaskRepository taskRepository, NotificationService notificationService, SimpMessagingTemplate messagingTemplate) {
+        this.userService = userService;
         this.userRepository = userRepository;
         this.sensorRepository = sensorRepository;
         this.sensorSessionRepository = sensorSessionRepository;
@@ -63,7 +65,7 @@ public class SuperVizorService {
 
     //Getting all non task sensor session datas for workers and count them for dashboard doughnut component graph
     @Transactional
-    public    Map<SensorStatus,Long> getAllSensorStatusMetricValuesForDoughnutComponent(){
+    public    ResponseEntity<Map<SensorStatus,Long>> getAllSensorStatusMetricValuesForDoughnutComponent(){
         List<SensorFix> sensorSessions = sensorSessionRepository.findAll();
 
         Map<SensorStatus,Long> statusCounts = sensorSessions.stream().map(sensor -> sensor.getFinalStatus())
@@ -72,7 +74,8 @@ public class SuperVizorService {
                         Function.identity(),
                         Collectors.counting()
                 ));
-        return statusCounts;
+
+        return ResponseEntity.ok(statusCounts);
     }
 
 
@@ -94,7 +97,6 @@ public class SuperVizorService {
         Date oneDayAgo = calendarOfLastDay.getTime();
 
         List<Map<String, Map<String, Long>>> result = new ArrayList<>();
-        //hayatımda böyle bişe görmedim
 
         Map<String,   Map<String, Long>> weekdata = new HashMap<>();
         Map<String, Map<String, Long> > monthData = new HashMap<>();
@@ -156,9 +158,6 @@ public class SuperVizorService {
 
     public List<SensorWithUserProjection> getPastSensorsOfWorkers() {
         try {
-            Role workerRole = Role.WORKER;
-            List<User> workers = userRepository.findAllByRole(workerRole);
-            List<SensorWithUserProjection> responseList = new ArrayList<>();
             return sensorSessionRepository
                     .findCompletedSensorsWithUserDetails("WORKER");
 
@@ -196,45 +195,45 @@ public class SuperVizorService {
 
 
     //last month performance graph for workers
-    public         Map<Long, Map<String, Object>>   getSensorSessionsOfLastMonth( Long userId){
-        LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
-        List<SensorFix> data = sensorSessionRepository.findLastMonthDataByUserId(userId, oneMonthAgo);
-        //sadece completed zamanı ve idsi lazım
+        public  Map<Long, Map<String, Object>>   getSensorSessionsOfLastMonth( Long userId){
+            LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+            List<SensorFix> data = sensorSessionRepository.findLastMonthDataByUserId(userId, oneMonthAgo);
+            //sadece completed zamanı ve idsi lazım
 
-        //yada direk id ye göre yapak id completed time şekli
-        Map<Long, Map<String, Object>> completedTimeLastMonth = data.stream().collect(Collectors.toMap(
-                sensor -> {return  sensor.getId();}
-                ,
-                sensor -> {
+            //yada direk id ye göre yapak id completed time şekli
+            Map<Long, Map<String, Object>> completedTimeLastMonth = data.stream().collect(Collectors.toMap(
+                    sensor -> {return  sensor.getId();}
+                    ,
+                    sensor -> {
 
-                    Date start = sensor.getStartTime();
-                    Date end = sensor.getCompletedTime();
+                        Date start = sensor.getStartTime();
+                        Date end = sensor.getCompletedTime();
 
-                    long diffMilis = end.getTime() - start.getTime();
-                    long diffSeconds = diffMilis / 1000;
-                    long diffdays = diffSeconds / (24*3600);
+                        long diffMilis = end.getTime() - start.getTime();
+                        long diffSeconds = diffMilis / 1000;
+                        long diffdays = diffSeconds / (24*3600);
 
-                    diffSeconds %= (24*3600);
-                    long hours = diffSeconds / 3600 ;
+                        diffSeconds %= (24*3600);
+                        long hours = diffSeconds / 3600 ;
 
-                    diffSeconds %= 3600;
-                    long minutes = diffSeconds /60;
+                        diffSeconds %= 3600;
+                        long minutes = diffSeconds /60;
 
-                    long seconds = diffSeconds % 60;
+                        long seconds = diffSeconds % 60;
 
-                    Map<String,Object> durationInfo = new HashMap<>();
+                        Map<String,Object> durationInfo = new HashMap<>();
 
-                    durationInfo.put("rawMinutes", diffMilis / (60 * 1000));
-                    durationInfo.put("formatted", String.format("%02d gün %02d saat %02d dakika %02d saniye", diffdays, hours, minutes, seconds));
+                        durationInfo.put("rawMinutes", diffMilis / (60 * 1000));
+                        durationInfo.put("formatted", String.format("%02d gün %02d saat %02d dakika %02d saniye", diffdays, hours, minutes, seconds));
 
-                    return  durationInfo;
-                }
-        ));;
+                        return  durationInfo;
+                    }
+            ));;
 
 
-        return completedTimeLastMonth;
+            return completedTimeLastMonth;
 
-    }
+        }
     //Get The workers non-task session solving Sensor Name counts function for worker-performance-analysis-chart page dougnut component
 
     public List<SensorCountDTO> getNonTaskSessionSolvingSensorNames(Long userId){
@@ -266,8 +265,12 @@ public class SuperVizorService {
 
 
     private  Map<LocalDate,Long> mapToDateCount(List<SensorFix> sessions){
-        Map<LocalDate,Long> nameCounts = sessions.stream().map(sensor -> sensor.getCompletedTime()
+
+        Map<LocalDate,Long> nameCounts = sessions.stream()
+                .filter(sf -> sf.getCompletedTime() != null)
+                .map(sensor -> sensor.getCompletedTime()
                         .toInstant()
+
                         .atZone(ZoneId.systemDefault())
                         .toLocalDate()
                 )
@@ -282,9 +285,9 @@ public class SuperVizorService {
 
     public  List<SensorDateCountDTO> getDatesAndBasedOnTheirSessionCounts(Long userId){
         //tüm sensor sessionlarının sensorlerindeki statlara göre sayıları arttırmamız gerekiyor aslında
-        User user = userService.findById(userId);
+        Optional<User> user = userRepository.findById(userId);
 
-        List<SensorFix> sensorSessions = sensorSessionRepository.findAllByUserAndCompletedTimeIsNotNull(user);
+        List<SensorFix> sensorSessions = sensorSessionRepository.findAllByUserAndCompletedTimeIsNotNull(user.get());
 
 
         //o tarih ve sayılarını almamız lazım
@@ -424,7 +427,7 @@ public class SuperVizorService {
 
     //Supervizor assignin task functions
 
-    public ResponseEntity<?> supervizorCreateTaskForWorker (Task task){
+    public ResponseEntity supervizorCreateTaskForWorker (Task task){
 
         //burada atanan useri bulup o userda eğer aynı sensör ona atanmışsa zaten atanmasın aynı görev biaha
         UserTaskDTO userTaskDTOassignedto = new UserTaskDTO();
@@ -500,8 +503,6 @@ public class SuperVizorService {
 
         taskRepository.save(taskk);
 
-        Authentication securityContextHolderr = SecurityContextHolder.getContext().getAuthentication();
-        String usernamee = securityContextHolderr.getName();
 
 
 
@@ -510,6 +511,7 @@ public class SuperVizorService {
         notificationn.setSupervizorDescription(taskk.getSuperVizorDescription());
         notificationn.setSuperVizorDeadline(taskk.getSuperVizorDeadline());
         notificationn.setUserNotifications(assignedToUser);
+        notificationn.setType(NotificationType.TASK);
         notificationn.setReceiverId(assignedToUser.getId());
         notificationn.setSenderId(assignedBy.getId());
         notificationn.setTaskId(taskk.getId());
@@ -528,50 +530,52 @@ public class SuperVizorService {
     }
 
     //get my assigned tasks for supervizor function
-    public  ResponseEntity<?> getTasksOfIAssigned(){
-        Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
-        String username = securityContextHolder.getName();
+        public  ResponseEntity getTasksOfIAssigned(){
+            Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
+            String username = securityContextHolder.getName();
 
-        User user = userRepository.findByFirstName(username);
+            User user = userRepository.findByFirstName(username);
 
-        List<Task> usersTask = userService.getAllTask(user.getId());
+            List<Task> usersTask = userService.getAllTask(user.getId());
 
+            if (usersTask.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Supervizor doesnt have any assigned tasks ");
+            }
+            List<TaskDTO> taskDTOList = usersTask.stream()
+                    .filter(task -> task.getSensor() != null)
 
-        List<TaskDTO> taskDTOList = usersTask.stream()
-                .filter(task -> task.getSensor() != null)
+                    .map(a -> {
+                        UserTaskDTO userTaskDTOassignedto = new UserTaskDTO();
+                        userTaskDTOassignedto.setId(a.getAssignedTo().getId());
+                        userTaskDTOassignedto.setFirstName(a.getAssignedTo().getFirstName());
+                        userTaskDTOassignedto.setSurName(a.getAssignedTo().getSurName());
 
-                .map(a -> {
-                    UserTaskDTO userTaskDTOassignedto = new UserTaskDTO();
-                    userTaskDTOassignedto.setId(a.getAssignedTo().getId());
-                    userTaskDTOassignedto.setFirstName(a.getAssignedTo().getFirstName());
-                    userTaskDTOassignedto.setSurName(a.getAssignedTo().getSurName());
+                        UserTaskDTO userTaskDTOassignedBy = new UserTaskDTO();
+                        userTaskDTOassignedBy.setId(a.getAssignedBy().getId());
+                        userTaskDTOassignedBy.setFirstName(a.getAssignedBy().getFirstName());
+                        userTaskDTOassignedBy.setSurName(a.getAssignedBy().getSurName());
 
-                    UserTaskDTO userTaskDTOassignedBy = new UserTaskDTO();
-                    userTaskDTOassignedBy.setId(a.getAssignedBy().getId());
-                    userTaskDTOassignedBy.setFirstName(a.getAssignedBy().getFirstName());
-                    userTaskDTOassignedBy.setSurName(a.getAssignedBy().getSurName());
+                        SensorTaskDTO sensorTaskDTO = new SensorTaskDTO();
+                        sensorTaskDTO.setId(a.getSensor().getId());
+                        sensorTaskDTO.setSensorName(a.getSensor().getSensorName());
+                        sensorTaskDTO.setLatitude(a.getSensor().getSensorLocation().getLocation().getX());
+                        sensorTaskDTO.setLongitude(a.getSensor().getSensorLocation().getLocation().getY());
 
-                    SensorTaskDTO sensorTaskDTO = new SensorTaskDTO();
-                    sensorTaskDTO.setId(a.getSensor().getId());
-                    sensorTaskDTO.setSensorName(a.getSensor().getSensorName());
-                    sensorTaskDTO.setLatitude(a.getSensor().getSensorLocation().getLocation().getX());
-                    sensorTaskDTO.setLongitude(a.getSensor().getSensorLocation().getLocation().getY());
+                        return new TaskDTO(
+                                a.getId(),
+                                a.getSuperVizorDescription(),
+                                a.getSuperVizorDeadline(),
+                                userTaskDTOassignedto,
+                                userTaskDTOassignedBy,
+                                sensorTaskDTO,
+                                a.getWorkerArriving(),
+                                a.getWorkerArrived()
+                        );
+                    }).collect(Collectors.toList());
 
-                    return new TaskDTO(
-                            a.getId(),
-                            a.getSuperVizorDescription(),
-                            a.getSuperVizorDeadline(),
-                            userTaskDTOassignedto,
-                            userTaskDTOassignedBy,
-                            sensorTaskDTO,
-                            a.getWorkerArriving(),
-                            a.getWorkerArrived()
-                    );
-                }).collect(Collectors.toList());
+            return ResponseEntity.ok(taskDTOList);
 
-        return ResponseEntity.ok(taskDTOList);
-
-    }
+        }
 
     public List<SensorDTO> getAllAvailableSensorsForAssigningTaskSelectComponent() {
 

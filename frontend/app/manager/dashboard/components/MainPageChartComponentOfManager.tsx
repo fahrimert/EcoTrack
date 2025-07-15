@@ -20,7 +20,7 @@ const MainPageChartComponentOfManager =  ({session,getSupervizorTasks} : {
  
      const [dataForPie,setdataForPie] = useState<SensorTypeCount[]>([])
      
-     const { superVizor,  errorForSupervizor } = useFetchAllSuperVizors(session);
+     const { superVizorList,  errorForSupervizor } = useFetchAllSuperVizors(session);
      const { users,  error } = useFetchAllWorkers(session);
       useEffect(() => {
         axios.get(`http://localhost:8080/manager/getAllAssignedTaskStatusValuesForDoughnutComponent`, {
@@ -98,7 +98,7 @@ const [superVizorForRadar,setSuperVizorRadar] = useState(1)
    <div className=" bg-white w-full  h-fit flex flex-col justify-center items-center rounded-[20px] p-[30px] ">
       <div className='w-full h-[400px] flex flex-col '>
         <WorkerSelect 
-        users = {superVizor}
+        users = {superVizorList}
           onChange={e => setSuperVizorRadar(e)}
         value={superVizorForRadar}
         label="Supervizor Seçiniz"

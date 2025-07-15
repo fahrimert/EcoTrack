@@ -1,5 +1,6 @@
 package com.example.EcoTrack.user.service;
 
+import com.example.EcoTrack.shared.dto.ApiResponse;
 import com.example.EcoTrack.user.dto.UserAndSessionSensorDTO;
 import com.example.EcoTrack.user.dto.UserLocationDTO;
 import com.example.EcoTrack.sensors.model.Sensor;
@@ -12,11 +13,14 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class UserLocationService {
@@ -29,7 +33,7 @@ public class UserLocationService {
         this.messagingTemplate = messagingTemplate;
     }
 
-    public   String  saveUserLocation(String username , Double lat , Double longtitude){
+        public   String     saveUserLocation(String username , Double lat , Double longtitude){
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
 
         double latitude = lat;
@@ -41,16 +45,18 @@ public class UserLocationService {
         userLocation.setLocation(location);
         Date now = new Date();
 
-        userLocation.setCreatedAt(now);
-        User user = userRepository.findByFirstName(username);
-        userLocation.setUser(user);
-        user.setUserLocation(userLocation);
+
+
+            userLocation.setCreatedAt(now);
+            User user = userRepository.findByFirstName(username);
+            userLocation.setUser(user);
+            user.setUserLocation(userLocation);
 
 
         UserLocation userLocation1 = locationRepository.save(userLocation);
 
         UserLocationDTO userLocationn = getLocation(username);
-        messagingTemplate.convertAndSend("/topic/locations", userLocationn);
+//        messagingTemplate.convertAndSend("/topic/locations", userLocationn);
 
         return  "User location details saved successfully" ;
 
@@ -58,6 +64,13 @@ public class UserLocationService {
 
     public UserLocationDTO getLocation(String username) {
         User user = userRepository.findByFirstName(username);
+        if (user == null) {
+            throw new RuntimeException("Kullanıcı bulunamadı: " + username);
+        }
+
+        if (user.getUserLocation() == null) {
+            throw new RuntimeException("Kullanıcıya ait lokasyon bilgisi yok: " + username);
+        }
 
         Point point =   user.getUserLocation().getLocation();
 
@@ -70,7 +83,13 @@ public class UserLocationService {
 
         List<UserAndSessionSensorDTO> dtoList = usersLocationList.stream()
                 .map(user -> {
+                    if (user.getUserLocation() == null || user.getUserLocation().getLocation() == null) {
+                        return null;
+                    }
                     Point userPoint = user.getUserLocation().getLocation();
+                    if (user.getSensorSessions() == null || user.getSensorSessions().isEmpty()) {
+                        return null;
+                    }
 
                     Optional<SensorFix> optionalSession = user.getSensorSessions().stream()
                             .filter(a -> a.getCompletedTime() != null)
@@ -96,6 +115,12 @@ public class UserLocationService {
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+
+
+
+        if (dtoList.isEmpty()){
+            return List.of();
+        }
 
         return dtoList;
     }

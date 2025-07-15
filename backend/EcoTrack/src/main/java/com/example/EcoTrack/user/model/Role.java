@@ -8,7 +8,7 @@ public enum Role {
             "WORKER",
             List.of("worker:write", "worker:put","worker:get","worker:delete")
             ),
-    SUPERVISOR("SUPERVİSOR",
+    SUPERVISOR("SUPERVISOR",
             List.of("supervisor:write", "supervisor:put","supervisor:get","supervisor:delete")
     ),
     MANAGER("MANAGER",

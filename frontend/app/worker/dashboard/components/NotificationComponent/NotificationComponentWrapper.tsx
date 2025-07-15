@@ -4,33 +4,14 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 import { Client, over } from "stompjs";
-import { UserOnlineStatusDTO } from "@/app/supervisor/superVizorDataTypes/types";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { NotificationComponentWrapperNotificationList } from "@/app/worker/types/types";
 const NotificationComponent = dynamic(() => import('./NotificationComponent'), { ssr: false });
 
-const NotificationComponentWrapper = ({session,enrichedNotifications} : {session:RequestCookie | undefined , enrichedNotifications: {
-    sender: UserOnlineStatusDTO | undefined;
-    supervizorDescription: string;
-    superVizorDeadline: string;
-    createdAt: string;
-    senderId: number;
-    receiverId: number;
-    taskId: number;
-    isread:boolean
-    id: number;
-}[]    }) => {
-  const [notification,setNotification] = useState<{
-    sender: UserOnlineStatusDTO | undefined;
-    supervizorDescription: string;
-    superVizorDeadline: string;
-    createdAt: string;
-    senderId: number;
-    receiverId: number;
-    taskId: number;
-    isread:boolean
-    id: number;
-} []>(enrichedNotifications || [])
+const NotificationComponentWrapper = ({session,enrichedNotifications} : {session:RequestCookie | undefined , enrichedNotifications:  NotificationComponentWrapperNotificationList
+  }) => {
+  const [notification,setNotification] = useState<NotificationComponentWrapperNotificationList>(enrichedNotifications || [])
 
     let stompClient: Client;
        const { userProfile, loading, error } = useUserProfile(session);
@@ -47,12 +28,12 @@ const NotificationComponentWrapper = ({session,enrichedNotifications} : {session
             const exists = prevTasks.some(notif => notif.id === updatedNotification.id);
         if (exists) return prevTasks;
 
-        return [updatedNotification, ...prevTasks]; // En başa eklemek için
+        return [updatedNotification, ...prevTasks];
          }
 );
       });
     }, (error) => {
-      console.error("WebSocket bağlantı hatası:", error);
+      console.error("WebSocket  hatası var ", error);
     });
 
    

@@ -1,4 +1,4 @@
-import { UserOnlineStatusDTO } from '@/app/supervisor/superVizorDataTypes/types'
+import { UserOnlineStatusDTO } from '@/app/sharedTypes'
 import axios from 'axios'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import  { useEffect, useState } from 'react'

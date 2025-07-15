@@ -24,17 +24,7 @@ export type workerTimeBasedStatsGraph = {
     data: unknown[];
 }[]
 
-export interface UserOnlineStatusDTO {
-  id: number;
-  firstName: string;
-  surName: string;
-  role: "ADMIN" | "WORKER" | "MANAGER" | "SUPERVISOR";
-  userOnlineStatus: {
-    id: number;
-    isOnline: boolean;
-    createdAt: string | null;
-  } | null;
-}
+
 
 export interface UserAndSupervizorsDTO {
   id: number;
@@ -195,33 +185,7 @@ interface SensorData {
   imageResponseDTO: ImageResponseDTO[];
 }
 
-export interface UserProfilea {
-  id: number;
-  email: string;
-  firstName: string;
-  surName: string;
-  password: string;
-  refreshToken: {
-    token: string;
-    expiresAt: string;
-    id: number;
-  };
-  role: string;
-  sensorSessions: [
-    {
-      id: number;
-      sensor: {
-        id: number;
-        sensorName: string;
-        status: string;
-        installationDate: number;
-      };
-      startTime: string;
-      completedTime: string;
-      note: null;
-    }
-  ] | undefined;
-}
+
 export interface UserProfile {
    id: number;
   firstName: string;

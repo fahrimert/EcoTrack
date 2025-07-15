@@ -8,14 +8,6 @@ api:
 spring:
   application:
     name: EcoTrack
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            clientId: Iv23liNxyANmCWGR3DOO
-            clientSecret: 15f037dad7348da2e22fcaa06c5019992d425ac3
-
   datasource:
     url: jdbc:postgresql://localhost:5432/ecotrack
     username: root

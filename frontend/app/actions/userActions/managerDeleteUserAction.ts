@@ -6,7 +6,7 @@ export async function managerDeleteUserAction(id:string ){
 try {
     const session = cookies().get("session");
   
-         await axios.delete(`/manager/deleteUserById/${id}`,
+         await axios.delete(`http://localhost:8080/manager/deleteUserById/${id}`,
             {        headers:{Authorization:`Bearer ${session?.value}`}
             ,  withCredentials: true,}      )
     console.log(id + "user");

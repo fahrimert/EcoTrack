@@ -6,7 +6,7 @@ import { SensorData } from './PastSensorList';
 import { formatDuration, intervalToDuration } from 'date-fns';
 import { tr } from 'date-fns/locale';
 
-const PastSensor = ({sensor,session} : {
+const PastSensor = ({sensor} : {
   sensor: SensorData
 session: RequestCookie
 

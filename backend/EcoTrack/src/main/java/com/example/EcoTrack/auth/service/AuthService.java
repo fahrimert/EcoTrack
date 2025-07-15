@@ -9,6 +9,7 @@ import com.example.EcoTrack.user.repository.UserRepository;
 import com.example.EcoTrack.user.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +45,7 @@ public class AuthService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
     //Login functionality
-    public ResponseEntity<ApiResponse<?>> login (@RequestBody UserRequestDTO user){
+    public ResponseEntity<ApiResponse<?>> login (  @RequestBody UserRequestDTO user){
         // proper user validations
         User dbUser = userRepository.findByFirstName(user.getFirstName());
         if (dbUser == null ) {
@@ -55,6 +56,7 @@ public class AuthService {
                             HttpStatus.FORBIDDEN
                     ));
         }
+
         if (dbUser.getIsActive() == false){
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(ApiResponse.error(
@@ -87,19 +89,6 @@ public class AuthService {
                             HttpStatus.FORBIDDEN
                     ));
         }
-//        if (dbUser.isTwoFactorAuthbeenverified() == false) {
-//            otpService.sendCodeToEmail(dbUser);
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-//                    .body(ApiResponse.error(
-//                            "2FA required",
-//                            List.of("Please check your email for 2 factor authentication"),
-//                            HttpStatus.FORBIDDEN
-//                    ));
-//        } else {
-//
-//            normally this is the part authenticate user if their 2 factor validation is true
-//        }
-        //authenticate user
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dbUser.getFirstName(),
@@ -118,7 +107,7 @@ public class AuthService {
         userRepository.save(dbUser);
 
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success(
                         Map.of(
                                 "accessToken", token,

@@ -19,10 +19,10 @@ export interface SensorData {
   note: string;
 }
 
-interface GroupedSensorData {
+export type SensorTaskDetail = {
   id: number;
   sensorName: string;
-  status: string;
+  status: 'ACTIVE' | 'INACTIVE' | string;
   installationDate: string;
   sessions: {
     id: number;
@@ -30,35 +30,33 @@ interface GroupedSensorData {
     completedTime: string;
     note: string;
   }[];
-}
+};
 const PastSensorList = ({session , sensorListData }: {session:RequestCookie, sensorListData:SensorData[]| undefined}) => {
+const groupedSensors = sensorListData?.reduce((acc, current) => {
+  const existingSensor = acc.find(s => s.id === current.sensor.id);
 
-  const groupedSensors = sensorListData?.reduce((acc, current) => {
-    const existingSensor = acc.find(s => s.id === current.sensor.id);
-    
-    if (existingSensor) {
-      existingSensor.sessions.push({
-        id: current.id,
-        startTime: current.startTime,
-        completedTime: current.completedTime,
-        note: current.note
-      });
-    } else {
-      acc.push({
-        id: current.sensor.id,
-        sensorName: current.sensor.sensorName,
-        status: current.sensor.status,
-        installationDate: current.sensor.installationDate,
-        sessions: [{
-          id: current.id,
-          startTime: current.startTime,
-          completedTime: current.completedTime,
-          note: current.note
-        }]
-      });
-    }
-    return acc;
-  }, [] as GroupedSensorData[]);
+  const session = {
+    id: current.id,
+    startTime: current.startTime,
+    completedTime: current.completedTime,
+    note: current.note
+  };
+
+  if (existingSensor) {
+    existingSensor.sessions.push(session);
+  } else {
+    acc.push({
+      id: current.sensor.id,
+      sensorName: current.sensor.sensorName,
+      status: current.sensor.status,
+      installationDate: current.sensor.installationDate,
+      sessions: [session]
+    });
+  }
+
+  return acc;
+}, [] as SensorTaskDetail[]);
+
   return (
     <div className=" w-full h-fit items-start justify-start   p-[10px]   gap-[5px] rounded-[30px]">
           <CustomDataTable

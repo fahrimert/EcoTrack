@@ -43,6 +43,7 @@ export const ScatterChartt = ({session} : {session : RequestCookie| undefined })
       .catch((err) => console.log(err));
   }, [userName,session?.value]);
 
+  console.log(dataForAverageTaskMinutesChart);
 
   const transformedDataForScatterChart = dataForAverageTaskMinutesChart?.averageChartData &&
   Object.entries(dataForAverageTaskMinutesChart.averageChartData).map(([user,minutes]) => ({

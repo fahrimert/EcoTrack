@@ -120,11 +120,11 @@ const SidebarManager:React.FC<NewSidebar> = ({children,session} ) => {
               </Link>
 
         <Link
-                href={"/management/dashboard/annonucements"}
+                href={"/manager/dashboard/annonucements"}
                 className={cn(
                   "relative w-full h-fit flex flex-row justify-start items-center  hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200 ",
 
-                  path === "/management/dashboard/annonucements" &&
+                  path === "/manager/dashboard/annonucements" &&
                     " text-white dark:text-black  bg-[#6c6f8542] rounded-[5px]"
                 )}
               >
@@ -250,11 +250,11 @@ const SidebarManager:React.FC<NewSidebar> = ({children,session} ) => {
               </Link>
 
         <Link
-                href={"/management/dashboard/annonucements"}
+                href={"/manager/dashboard/annonucements"}
                 className={cn(
                   "relative w-full h-fit flex flex-row justify-start items-center  hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200 ",
 
-                  path === "/management/dashboard/annonucements" &&
+                  path === "/manager/dashboard/annonucements" &&
                     " text-white dark:text-black  bg-[#6c6f8542] rounded-[5px]"
                 )}
               >
@@ -266,7 +266,7 @@ const SidebarManager:React.FC<NewSidebar> = ({children,session} ) => {
                 </div>
               </Link>
       
-            
+                
   
             </div>
         </div>

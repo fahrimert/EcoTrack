@@ -2,9 +2,7 @@ import { cookies } from "next/headers";
 import React from "react";
 import MainPageChartsComponent from "./components/MainPageChartsComponent";
 
-
  
-
 const page = async () => {
   const session = cookies().get("session");
 
@@ -19,7 +17,7 @@ const page = async () => {
 
     const responseOfDoughbut = await response.json()
 
-
+    console.log(responseOfDoughbut);
      const responsegetWorkerStats = await fetch(`http://localhost:8080/superVizor/getTimeBasedSessionWorkerStatsForBarChartData`, {
       method: "GET",
       headers: {

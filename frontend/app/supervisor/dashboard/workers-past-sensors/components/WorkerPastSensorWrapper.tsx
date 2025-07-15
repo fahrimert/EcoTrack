@@ -18,6 +18,7 @@ const WorkerPastSensorWrapper = ({session} : {session : RequestCookie | undefine
     .catch((err) => console.log(err));
   }, []);
   
+  console.log(sensorListData);
   return (
     <WorkersPastSensorList session={session} sensorListData={sensorListData} />
   )

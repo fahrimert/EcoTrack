@@ -51,7 +51,7 @@ public class TaskService {
     }
 
     //get the tasks of user based on given id for worker pages use case function
-    public  ResponseEntity<?> getSensorListFromTasksOfSingleUser(Long userId){
+    public  ResponseEntity  <List<SensorAllAndTaskDTO>> getSensorListFromTasksOfSingleUser(Long userId){
 
         User user = userRepository.findById(userId).orElse(null);
         List<Task> usersTask = userService.getAllTaskOfMe(user.getId());
@@ -111,6 +111,8 @@ public class TaskService {
     //worker update the task and add on road note  function
     public  ResponseEntity<ApiResponse<?>>  workerUpdateTasksOnRoadNote (Long taskId, String workerNote){
         Task task = taskRepository.findById(taskId).orElse(null);
+
+
 
         Boolean idInTaskList = taskRepository.findAll().stream().map(a ->a.getId()).collect(Collectors.toList()).contains(taskId);
 
@@ -182,68 +184,68 @@ public class TaskService {
 
     //worker update the task to final function
     @Transactional
-    public ResponseEntity<String> workerUpdateTaskToFinal(String workerNote,SensorStatus statusID,  Long taskId, List<MultipartFile> files){
+        public ResponseEntity<String> workerUpdateTaskToFinal(String workerNote,SensorStatus statusID,  Long taskId, List<MultipartFile> files){
 
-        try {
+            try {
 
-            Task taskk = taskRepository.findById(taskId).orElseThrow();
-            Sensor sensor = sensorRepository.findById(taskk.getSensor().getId()).orElseThrow(() -> new RuntimeException("Sensor Not Found"));
+                Task taskk = taskRepository.findById(taskId).orElseThrow();
+                Sensor sensor = sensorRepository.findById(taskk.getSensor().getId()).orElseThrow(() -> new RuntimeException("Sensor Not Found"));
 
-            taskk.setSolvingNote(workerNote);
-            taskk.setFinalStatus(statusID);
+                taskk.setSolvingNote(workerNote);
+                taskk.setFinalStatus(statusID);
 
-            taskImageService.uploadTaskImage(files,taskId);
-            taskk.setWorkerArrived(true);
-
-
-            sensor.setStatus(SensorStatus.SOLVED);
-
-            Date now = new Date();
-            taskk.setTaskCompletedTime(now);
-
-            sensorRepository.save(sensor);
-            Task savedTask = taskRepository.save(taskk);
+                taskImageService.uploadTaskImage(files,taskId);
+                taskk.setWorkerArrived(true);
 
 
-            UserTaskDTO userTaskDTOassignedto = new UserTaskDTO();
-            userTaskDTOassignedto.setId(savedTask.getAssignedTo().getId());
-            userTaskDTOassignedto.setFirstName(savedTask.getAssignedTo().getFirstName());
-            userTaskDTOassignedto.setSurName(savedTask.getAssignedTo().getSurName());
+                sensor.setStatus(SensorStatus.SOLVED);
 
-            UserTaskDTO userTaskDTOassignedBy = new UserTaskDTO();
-            userTaskDTOassignedBy.setId(savedTask.getAssignedBy().getId());
-            userTaskDTOassignedBy.setFirstName(savedTask.getAssignedBy().getFirstName());
-            userTaskDTOassignedBy.setSurName(savedTask.getAssignedBy().getSurName());
+                Date now = new Date();
+                taskk.setTaskCompletedTime(now);
 
-            SensorTaskDTO sensorTaskDTO = new SensorTaskDTO();
-            sensorTaskDTO.setId(savedTask.getSensor().getId());
-            sensorTaskDTO.setSensorName(savedTask.getSensor().getSensorName());
-            sensorTaskDTO.setLatitude(savedTask.getSensor().getSensorLocation().getLocation().getX());
-            sensorTaskDTO.setLongitude(savedTask.getSensor().getSensorLocation().getLocation().getY());
-            TaskDTO taskDTO =new TaskDTO(
-                    savedTask.getId(),
-                    savedTask.getSuperVizorDescription(),
-                    savedTask.getSuperVizorDeadline(),
-                    userTaskDTOassignedto,
-                    userTaskDTOassignedBy,
-                    sensorTaskDTO,
-                    savedTask.getWorkerArriving(),
-                    savedTask.getWorkerArrived()
-            );
-             notificationRepository.deleteBytaskId(taskId);
-
-            messagingTemplate.convertAndSend("/topic/tasks", taskDTO);
-
-            return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Task Sensor Updated" + taskk.getSensor().getSensorName());
-
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-
-        }
+                sensorRepository.save(sensor);
+                Task savedTask = taskRepository.save(taskk);
 
 
-    };
+                UserTaskDTO userTaskDTOassignedto = new UserTaskDTO();
+                userTaskDTOassignedto.setId(savedTask.getAssignedTo().getId());
+                userTaskDTOassignedto.setFirstName(savedTask.getAssignedTo().getFirstName());
+                userTaskDTOassignedto.setSurName(savedTask.getAssignedTo().getSurName());
+
+                UserTaskDTO userTaskDTOassignedBy = new UserTaskDTO();
+                userTaskDTOassignedBy.setId(savedTask.getAssignedBy().getId());
+                userTaskDTOassignedBy.setFirstName(savedTask.getAssignedBy().getFirstName());
+                userTaskDTOassignedBy.setSurName(savedTask.getAssignedBy().getSurName());
+
+                SensorTaskDTO sensorTaskDTO = new SensorTaskDTO();
+                sensorTaskDTO.setId(savedTask.getSensor().getId());
+                sensorTaskDTO.setSensorName(savedTask.getSensor().getSensorName());
+                sensorTaskDTO.setLatitude(savedTask.getSensor().getSensorLocation().getLocation().getX());
+                sensorTaskDTO.setLongitude(savedTask.getSensor().getSensorLocation().getLocation().getY());
+                TaskDTO taskDTO =new TaskDTO(
+                        savedTask.getId(),
+                        savedTask.getSuperVizorDescription(),
+                        savedTask.getSuperVizorDeadline(),
+                        userTaskDTOassignedto,
+                        userTaskDTOassignedBy,
+                        sensorTaskDTO,
+                        savedTask.getWorkerArriving(),
+                        savedTask.getWorkerArrived()
+                );
+                 notificationRepository.deleteBytaskId(taskId);
+
+                messagingTemplate.convertAndSend("/topic/tasks", taskDTO);
+
+                    return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Task Sensor Updated" + taskk.getSensor().getSensorName());
+
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+            }
+
+
+        };
 
 
 

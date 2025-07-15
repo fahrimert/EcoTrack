@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { UserOnlineStatusDTO } from "../../superVizorDataTypes/types"
 import {
   Select,
   SelectContent,
@@ -8,6 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { HeatMapSelectWorkerContext } from "@/context/HeatMapSelectWorkerContext";
+import { UserOnlineStatusDTO } from "@/app/sharedTypes";
 
 
 const WorkerSelectDifferentForHeatmap = ({users,label} : {

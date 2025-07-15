@@ -40,6 +40,7 @@ public class SensorFix {
     @JsonBackReference
     private User user;
 
+
     private  SensorStatus finalStatus;
 
     private Date startTime;

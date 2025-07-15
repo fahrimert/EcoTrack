@@ -1,5 +1,6 @@
 package com.example.EcoTrack.sensors.model;
 
+import com.example.EcoTrack.pdfReports.model.PdfReports;
 import com.example.EcoTrack.task.model.Task;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -38,6 +39,11 @@ public class Sensor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sensor_icon_image_id",referencedColumnName = "id")
     private SensorIconImage sensorIconImage;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sensor")
+    private List<PdfReports> pdfReports;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)

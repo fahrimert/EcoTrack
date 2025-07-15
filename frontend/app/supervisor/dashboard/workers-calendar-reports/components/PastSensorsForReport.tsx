@@ -9,7 +9,7 @@ import { columns } from './detailComponentsForPdfSheet/columns'
 
 const PastSensorsForReport = ({session , sensorListData }: {session:RequestCookie | undefined, sensorListData:SensorSessionWithser[]| undefined}) => {
     const { date, setDate } = useContext(DateContext);
-     const defaultList = sensorListData.filter((d) => new Date(d.startTime).getDate() == date )
+     const defaultList = sensorListData?.filter((d) => new Date(d.startTime).getDate() == date )
 
   const defaultListt = defaultList?.reduce((acc, current) => {
     const existingSensor = acc.find(s => s.id === current.sensorsid);

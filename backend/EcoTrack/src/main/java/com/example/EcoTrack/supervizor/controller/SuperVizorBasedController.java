@@ -1,5 +1,8 @@
 package com.example.EcoTrack.supervizor.controller;
 
+import com.example.EcoTrack.pdfReports.dto.PdfRequestDTO;
+import com.example.EcoTrack.pdfReports.model.PdfReports;
+import com.example.EcoTrack.pdfReports.service.PdfReportService;
 import com.example.EcoTrack.sensors.model.SensorStatus;
 import com.example.EcoTrack.shared.dto.SensorDTO;
 import com.example.EcoTrack.shared.dto.SensorLocationDTO;
@@ -12,7 +15,9 @@ import com.example.EcoTrack.sensors.service.SensorService;
 import com.example.EcoTrack.supervizor.service.SuperVizorService;
 import com.example.EcoTrack.user.dto.UserOnlineStatusDTO;
 import com.example.EcoTrack.user.service.UserService;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,17 +29,17 @@ import java.util.*;
 
 public class SuperVizorBasedController {
 
-    private  final  SensorService sensorService;
-    private  final UserService userService;
     private final SuperVizorService superVizorService;
-    private TaskService taskService;
-
-    public SuperVizorBasedController( SensorService sensorService,  UserService userService, SuperVizorService superVizorService, TaskService taskService) {
-        this.sensorService = sensorService;
-        this.userService = userService;
+    private  final PdfReportService pdfReportService;
+    private  final  UserService userService;
+    public SuperVizorBasedController(SuperVizorService superVizorService, PdfReportService pdfReportService, UserService userService) {
         this.superVizorService = superVizorService;
-        this.taskService = taskService;
+        this.pdfReportService = pdfReportService;
+        this.userService = userService;
     }
+    @Autowired
+    private EntityManager entityManager; // Bunu sınıfa ekleyin
+
 
     //Supervizor dashboard Graph Endpoints
 
@@ -47,7 +52,7 @@ public class SuperVizorBasedController {
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
     public
-    Map<SensorStatus,java. lang. Long>  getAllSensorStatusMetricValuesForDoughnutComponent(){
+    ResponseEntity<Map<SensorStatus,java. lang. Long>>  getAllSensorStatusMetricValuesForDoughnutComponent(){
         return  superVizorService.getAllSensorStatusMetricValuesForDoughnutComponent();
 
     }
@@ -145,6 +150,10 @@ public class SuperVizorBasedController {
         return  superVizorService.getNonTaskSessionSolvingSensorNames(userId);
     }
 
+
+    //en son bunun integrasyon testinde kaldım
+
+    
     //Get The workers non-task session solving dates and solving counts based on their dates
     @GetMapping("/superVizorSensors/getSensorDatesAndSessionCounts/{userId}")
     @PreAuthorize("hasAuthority('supervisor:get')")
@@ -197,7 +206,7 @@ public class SuperVizorBasedController {
     @PreAuthorize("hasAuthority('supervisor:write')")
     @PostMapping("/superVizor/createTask")
     @Transactional
-    public ResponseEntity<?> supervizorCreateTaskForWorker (@RequestBody Task task) {
+    public ResponseEntity supervizorCreateTaskForWorker (@RequestBody Task task) {
 
 
         return  superVizorService.supervizorCreateTaskForWorker(task);
@@ -211,10 +220,10 @@ public class SuperVizorBasedController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    @PreAuthorize("hasAuthority('supervisor:write')")
+    @PreAuthorize("hasAuthority('supervisor:get')")
     @GetMapping("/supervizor/getTasksOfIAssigned")
     @Transactional
-    public ResponseEntity<?> supervizorGetTasksOfIAssigned () {
+    public ResponseEntity supervizorGetTasksOfIAssigned () {
 
 
         return superVizorService.getTasksOfIAssigned();
@@ -239,6 +248,18 @@ public class SuperVizorBasedController {
 
 
 
+    //supervizor create pdf report and send to manager notifications
+        @CrossOrigin(
+                origins = "http://localhost:9595",
+                allowedHeaders = "*",
+                methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+        )
+        @PostMapping("/supervizor/createPdfReportAndSendToManager")
+        @Transactional
+
+        public  ResponseEntity createPdfReportAndSendToManager(@ModelAttribute PdfRequestDTO pdfRequestDTO){
+            return  pdfReportService.createPdfAndSendNotificationToManager(pdfRequestDTO);
+        }
 
 
 

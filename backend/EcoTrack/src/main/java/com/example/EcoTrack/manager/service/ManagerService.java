@@ -1,7 +1,14 @@
 package com.example.EcoTrack.manager.service;
 
+import com.example.EcoTrack.pdfReports.dto.PdfRequestDTO;
+import com.example.EcoTrack.pdfReports.model.PdfReports;
+import com.example.EcoTrack.pdfReports.repository.PdfRepository;
+import com.example.EcoTrack.sensors.dto.AllSensorForManagerDTO;
+import com.example.EcoTrack.sensors.model.SensorFix;
+import com.example.EcoTrack.sensors.model.SensorLocation;
 import com.example.EcoTrack.sensors.model.SensorStatus;
 import com.example.EcoTrack.task.model.Task;
+import com.example.EcoTrack.user.dto.AllSensorSessionDTOForManager;
 import com.example.EcoTrack.user.model.Role;
 import com.example.EcoTrack.manager.dto.TaskCountDTO;
 import com.example.EcoTrack.task.repository.TaskRepository;
@@ -9,7 +16,10 @@ import com.example.EcoTrack.user.model.User;
 import com.example.EcoTrack.user.repository.UserRepository;
 import com.example.EcoTrack.user.service.UserService;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -21,19 +31,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class ManagerService {
-    public UserRepository userRepository;
-    public TaskRepository taskRepository;
-    public UserService userService;
+    private final UserRepository userRepository;
+    private final TaskRepository taskRepository;
+    private final UserService userService;
+    private final PdfRepository pdfRepository;
 
-    public ManagerService(UserRepository userRepository,TaskRepository taskRepository,UserService userService) {
+    public ManagerService(UserRepository userRepository, TaskRepository taskRepository, UserService userService, PdfRepository pdfRepository) {
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
         this.userService = userService;
+        this.pdfRepository = pdfRepository;
     }
     //Start of Manager dashboard Graph functions
 
     //Get The Bar Chart graph data  function for Manager Dashboard Page
-    private Map<String, Long> getSinceDateForSuperVizorTaskStat(Date sinceDate, List<User> users){
+        private Map<String, Long> getSinceDateForSuperVizorTaskStat(Date sinceDate, List<User> users){
         return users.stream()
                 .collect(Collectors.toMap(
                         user -> user.getFirstName(),
@@ -98,7 +110,6 @@ public class ManagerService {
     public List<TaskCountDTO> getSensorNameCounts(){
         List<Task> supervizorTasks = taskRepository.findAll();
 
-        //aynısının statüslü değil de sensor isimlisini yapsak mantıklı olabilir aslında usera göre bulup,,
 
         Map<SensorStatus,Long> statusCounts = supervizorTasks.stream().map(task->
                         task.getFinalStatus())
@@ -123,7 +134,7 @@ public class ManagerService {
 
                     if (completedTime == null || deadline == null) return  false;
 
-                    Instant deadlineInstant = session.getSuperVizorDeadline().atZone(ZoneId.systemDefault()).toInstant(); // LocalDateTime -> Instant
+                    Instant deadlineInstant = session.getSuperVizorDeadline().atZone(ZoneId.systemDefault()).toInstant();
                     Date deadlineDate = Date.from(deadlineInstant);
                     return  completedTime.after(deadlineDate);
                 }).count();
@@ -299,9 +310,9 @@ public class ManagerService {
         return result;
     }
 
-
     //Scatter Chart Component Endpoint
     public  Map<String,   Map<String, Long>> getTheAverageTaskCompletedTimeForWorkerChart(){
+        userRepository.flush();
         List<User> users = userRepository.findAllByRole(Role.WORKER);
 
         Calendar calendarOfLastMonth = Calendar.getInstance();
@@ -352,8 +363,7 @@ public class ManagerService {
         return averageTimeChartData;
     }
 
-
-    //End  of Manager dashboard Graph functions
+        //End  of Manager dashboard Graph functions
 
     //start of user management page tendpoints
 
@@ -467,8 +477,34 @@ public class ManagerService {
         return result;
     }
 
+    public ResponseEntity getAllPdfReportsBasedOnSupervizor(Long supervisorId) {
+        try{
+            List<PdfRequestDTO> reports  = pdfRepository.findBySupervisorId(supervisorId).stream().map(a ->
+            {
+                return  new PdfRequestDTO(
+                        a.getSensor().getId(),
+                        a.getSensorName(),
+                        a.getTechnicianNote(),
+                        a.getStartTime(),
+                        a.getCompletedTime(),
+                    a.getLatitude(),
+                        a.getLongitude(),
+                        a.getManager().getId(),
+                        a.getSupervisor().getId());
+                }).toList();
+
+            return  ResponseEntity.ok(reports);
+        } catch (Exception e) {
+
+            return  ResponseEntity.status(HttpStatus.CONFLICT).body("Pdf Report Couldnt be found");
+
+        }
+    }
+
 
     //end of user management page tendpoints
+
+
 
 
 

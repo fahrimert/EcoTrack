@@ -49,20 +49,21 @@ const SigninComponent = ({session } : {session: RequestCookie | undefined}) => {
       <div className=" w-fit h-screen flex flex-col justify-center items-center    pt-[50px]   ">
             
 
-              <h2 className={`w-fit h-fit text-[32px]   leading-[38px] text-white `}>
-                Eco Track 
-              </h2>
+            
             <div className=" relative h-[700px] w-[450px] shadow-[0px_14px_32px_0px_rgba(250, 250, 250, 0.795)] bg-[#1a1a2e] mx-auto my-[50px] rounded-[7px_7px_7px_7px]; /* VIA CSS MATIC https://goo.gl/cIbnS */ flex flex-col justify-center items-center gap-[30px]  max-lg:items-center  rounded-[20px]">
-            <h2 className={`w-fit h-fit text-[32px]   leading-[38px] text-white `}>
-                Giriş Yapın 
-              </h2>
+    
               <form
-                className=" relative w-fit h-fit flex flex-col justify-center items-center   max-lg:items-center "
+                className=" relative w-full h-full flex flex-col justify-center items-center   max-lg:items-center "
                 action={action}
               >
-                <div className=" relative w-full h-fit flex flex-col justify-center items-start gap-[30px]  ">
+                  <h2 className={`w-full h-[30%] text-[32px] flex items-center justify-center   leading-[38px] text-white `}>
+                Eco Track 
+              </h2>
+                <div className=" relative w-fit h-full flex flex-col justify-center items-center gap-[30px]  ">
                   <div className=" relative h-fit flex flex-col justify-center items-start gap-[15px]">
-                
+                        <h2 className={`w-full h-fit text-[18px]   leading-[38px] text-white `}>
+                Giriş Yapın 
+              </h2>
                     <input
 
                     

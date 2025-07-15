@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { UserAndSupervizorsDTO, UserOnlineStatusDTO } from "@/app/supervisor/superVizorDataTypes/types";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { UserAndSupervizorsDTO, } from "@/app/supervisor/superVizorDataTypes/types";
 import DetailsComponentOfUser from "./DetailsComponentOfUser";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 

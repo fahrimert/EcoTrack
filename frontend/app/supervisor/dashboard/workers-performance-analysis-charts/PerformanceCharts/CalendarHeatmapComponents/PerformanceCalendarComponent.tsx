@@ -23,6 +23,7 @@ const PerformanceCalendarComponent = ({session } : {session: RequestCookie | und
     .catch((err) => console.log(err));
   }, [usernameForCalendar]);
 
+  console.log(dataForCalendar);
         const { users,  error } = useFetchAllWorkers(session);
   
   return (

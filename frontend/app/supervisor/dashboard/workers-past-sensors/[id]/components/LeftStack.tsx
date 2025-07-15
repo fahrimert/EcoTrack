@@ -20,8 +20,6 @@
   import { AddressComponent } from "@googlemaps/google-maps-services-js";
   import { format } from "date-fns";
   import { Separator } from "@/components/ui/separator";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { SensorDetailForWorkerPastSensor } from "@/app/supervisor/superVizorDataTypes/types";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";

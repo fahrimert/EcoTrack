@@ -1,4 +1,4 @@
-import { UserOnlineStatusDTO } from "../../superVizorDataTypes/types"
+import { UserOnlineStatusDTO } from "@/app/sharedTypes";
 import {
   Select,
   SelectContent,

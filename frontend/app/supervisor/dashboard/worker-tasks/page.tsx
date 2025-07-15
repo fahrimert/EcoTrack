@@ -17,10 +17,10 @@ const WorkerTasksPage = async () => {
             "Content-Type": "application/json",
           },
         });
-    
+        console.log(response);
         const sensorfilterBasedStat = await response.json() as Task[]
         
-    
+        console.log(sensorfilterBasedStat);
   return (
     <div className='w-full h-fit flex flex-col'>
 

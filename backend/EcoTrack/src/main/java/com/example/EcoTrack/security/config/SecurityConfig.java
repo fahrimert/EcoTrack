@@ -43,6 +43,8 @@ public class SecurityConfig {
         this.jwtService = jwtService;
         this.userRepository = userRepository;
     }
+
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -50,12 +52,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // << Bunu EKLE
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 .csrf(csrf -> csrf.disable())
                 .logout(customizer-> customizer.logoutUrl("/logout") )
                 .authorizeHttpRequests(
-                        authorize -> authorize.requestMatchers( "/auth/login","/oauth2","/refreshToken/**","/ws/**", "/ws-users/**").permitAll()
+                        authorize -> authorize.requestMatchers( "/auth/login","/refreshToken/**","/ws/**", "/ws-users/**").permitAll()
 
                                 //hem rol hem authority mevzusunu yapıyor authority yapınca admini korumuş oluyor
                                 //authorities kısmında ise

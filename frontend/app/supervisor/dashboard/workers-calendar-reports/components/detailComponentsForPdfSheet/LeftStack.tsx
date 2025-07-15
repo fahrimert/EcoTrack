@@ -17,7 +17,7 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
   } , ) => {
 
   const { userProfile, loading, error } = useUserProfile(session);
-
+    
   
       const [data,setData] = useState<  {data:{
         id: number,
