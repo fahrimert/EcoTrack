@@ -106,3 +106,114 @@ EcoTrack, saha ekiplerinin sensör arızalarını tespit edip çözebildiği, ro
 - Görev ve çözüm süreçleri tüm roller için otomatik senkronize edilir.
 
 ---
+## Test Kapsamı
+
+Proje içerisinde backend katmanındaki önemli modüller için kapsamlı entegrasyon testleri yazılmıştır. Testler hem **happy path** senaryolarını hem de **edge case** durumlarını içermektedir. Bu sayede uygulamanın güvenilirliği ve hata dayanıklılığı artırılmıştır.
+
+### Test Edilen Modüller ve Kapsamları
+
+- **Auth Controller**  
+  - Kullanıcı kimlik doğrulama akışlarının tüm ana senaryoları  
+  - Hatalı giriş, yetkisiz erişim gibi edge case durumları  
+  - Token oluşturma, yenileme ve geçersiz token kontrolleri  
+
+- **Integration Servis & Repository & Manager**  
+  - Veri katmanının doğru çalışması  
+  - Servislerin iş mantığının doğrulanması  
+  - Repository ile veri tabanı etkileşimlerinin test edilmesi  
+
+- **Controller, Service, Integration Testleri**  
+  - **Notification Modülü:** Bildirim gönderim mekanizmasının doğru tetiklenmesi ve edge case senaryoları  
+  - **Sensor Modülü:** Sensör verilerinin doğruluğu, sensör ekleme, güncelleme ve silme işlemlerinin testi  
+  - **Supervizör ve User Rolleri:**  
+    - Yetkilendirme kontrolleri  
+    - Rol bazlı erişim testleri  
+    - Kullanıcı ve süpervizör işlemlerinde happy path ve edge case senaryolarının kapsamlı testi  
+
+### Test Süreci ve Araçları
+
+- Testler, JUnit ve Mockito kullanılarak yazılmıştır.  
+- Mocklama ile servis bağımlılıkları izole edilmiştir.  
+
+---
+
+Bu kapsamlı test yaklaşımı, uygulamanın beklenen işleyişine uygunluğunu garanti altına alırken olası hata senaryolarında da sağlamlık sağlar.
+
+## Teknoloji Stack
+
+### 🌐 Frontend
+
+**Çekirdek Teknolojiler**  
+- Framework: Next.js v13.4+ (App Router)  
+- Dil: TypeScript v4.9+  
+
+**Durum Yönetimi**  
+- React Context API  
+- Zustand (Hafif global state yönetimi)  
+
+**UI & Stil**  
+- Bileşen Kütüphaneleri:  
+  - Chakra UI v2.8+  
+  - shadcn/ui (Radix tabanlı)  
+- CSS Framework:  
+  - Tailwind CSS v3.3+  
+  - CSS Modules  
+
+**Veri Görselleştirme**  
+- Grafikler: Recharts v2.6+  
+- Haritalar:  
+  - Google Maps API  
+  - @react-google-maps/api  
+
+**Form Yönetimi**  
+- React Hook Form v7.43+  
+- Zod (Schema validation)  
+- Zod Resolver (Form validation)  
+
+**Veri İşleme**  
+- Axios (HTTP istekleri)  
+- date-fns (Tarih işlemleri)  
+- html2pdf.js (PDF oluşturma)  
+
+**Tablo ve Veri Gösterimi**  
+- TanStack Table (React Table)  
+- React Data Grid  
+
+---
+
+### ⚙️ Backend
+
+**Çekirdek Teknolojiler**  
+- Framework: Spring Boot v3.1+  
+- Dil: Java 17+  
+- Build Tool: Maven  
+
+**Veritabanı**  
+- PostgreSQL 15+ (Ana veritabanı)  
+- Hibernate ORM (JPA implementasyonu)  
+- Liquibase (Database migration)  
+
+**Güvenlik**  
+- JWT (Kimlik doğrulama)  
+- Spring Security  
+- CORS Yapılandırması  
+
+**API Özellikleri**  
+- RESTful API tasarımı  
+- WebSocket (Gerçek zamanlı bildirimler)  
+- Swagger/OpenAPI (API dokümantasyonu)  
+
+**Diğer Kütüphaneler**  
+- ModelMapper (DTO dönüşümleri)  
+- Lombok (Boilerplate kod azaltma)  
+- Java Mail Sender (E-posta işlemleri)  
+
+---
+
+### 🛠️ DevOps & Araçlar
+
+**Geliştirme Araçları**  
+- Docker (Containerization)  
+- Postman (API testleri)  
+- IntelliJ IDEA (Java IDE)  
+- VS Code (Frontend IDE)  
