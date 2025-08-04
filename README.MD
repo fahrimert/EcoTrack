@@ -1,130 +1,108 @@
-EcoTrack - Sensör Arıza Takip ve Çözüm Platformu
-EcoTrack, saha ekiplerinin sensör arızalarını tespit edip çözebildiği, rol tabanlı ve gerçek zamanlı bir görev takip sistemidir. İşçi, süpervizör ve müdür rollerine sahip kullanıcılar; harita, görev, bildirim ve raporlama gibi modüllerle sistemde aktif rol oynar.
+# EcoTrack - Sensör Arıza Takip ve Çözüm Platformu
 
- Kullanıcı Rolleri
- İşçi (Worker): Sensör arızalarını sahada tespit edip çözen kullanıcı.
+EcoTrack, saha ekiplerinin sensör arızalarını tespit edip çözebildiği, rol tabanlı ve gerçek zamanlı bir görev takip sistemidir.  
+İşçi, süpervizör ve müdür rollerine sahip kullanıcılar; harita, görev, bildirim ve raporlama gibi modüllerle sistemde aktif rol oynar.
 
- Süpervizör (Supervisor): İşçileri yöneten, görev atayan ve performanslarını izleyen kullanıcı.
+---
 
- Müdür (Manager): Sistemde genel yetkilere sahip, analiz ve kullanıcı yönetimi yapan kullanıcı.
+## Kullanıcı Rolleri
 
- Giriş ve Yetkilendirme
-PostgreSQL veritabanında kayıtlı kullanıcılar giriş yapabilir.
+- İşçi (Worker): Sensör arızalarını sahada tespit edip çözen kullanıcı.  
+- Süpervizör (Supervisor): İşçileri yöneten, görev atayan ve performanslarını izleyen kullanıcı.  
+- Müdür (Manager): Sistemde genel yetkilere sahip, analiz ve kullanıcı yönetimi yapan kullanıcı.
 
-Kimlik doğrulama JWT token ile yapılır.
+---
 
-Middleware aracılığıyla kullanıcı rolüne göre yönlendirme gerçekleştirilir:
+## Giriş ve Yetkilendirme
 
-ROLE_WORKER → /worker/dashboard
+- Kullanıcılar PostgreSQL veritabanında kayıtlıdır.  
+- Kimlik doğrulama JWT token ile sağlanır.  
+- Middleware aracılığıyla rol bazlı yönlendirme yapılır:
 
-ROLE_SUPERVISOR → /supervisor/dashboard
 
-ROLE_MANAGER → /manager/dashboard
+---
 
- İşçi Paneli Özellikleri
-Ana Sayfa
-Canlı harita üzerinde işçi ve sensör konumları görüntülenir (Google Maps API).
+## İşçi Paneli Özellikleri
 
-Sensör listesi ve durumları renk kodlarıyla belirtilir.
+- Ana Sayfa:  
+  - Canlı harita üzerinde işçi ve sensör konumları (Google Maps API).  
+  - Sensör listesi ve durumları renk kodlarıyla gösterilir.  
+  - Diğer işçilerin aldığı sensörler bulanık gösterilir.  
+  - WebSocket üzerinden gelen görev bildirimleri.
 
-Diğer işçilerin aldığı sensörler bulanık şekilde gösterilir.
+- Sensör Görevi Akışı:  
+  - Aynı anda sadece 1 sensörle çalışılabilir.  
+  - "Gidin" butonuna tıklandığında sensör atanır ve detaylar açılır.  
+  - Görev detay sayfasında arıza açıklaması girilir, çözüm resmi yüklenir, mini harita ve konum güncellenir, sensör durumu güncellenir.  
+  - Görev tamamlandığında sensör geçmiş çözülenler listesine aktarılır.
 
-Bildirim paneli: WebSocket üzerinden gelen görev bildirileri.
+- Çözüm Geçmişi:  
+  - İşçinin geçmişte çözdüğü sensörler listelenir.  
+  - Her çözüm için detay sayfası (açıklama, tarih, konum, resim galerisi) vardır.
 
-🔧 Sensör Görevi Akışı
-Her işçi aynı anda yalnızca 1 sensörle çalışabilir.
+- Ekip Takibi:  
+  - Harita üzerinden diğer işçilerin ve aktif görevlerin konumları canlı olarak gösterilir.
 
-“Gidin” butonuna tıklandığında sensör atanır ve detayları açılır.
+---
 
-Sensör detay sayfasında:
+## Süpervizör Paneli Özellikleri
 
-Arıza açıklaması girişi
+- Dashboard:  
+  - Doughnut grafiği ile görev dışı sensör statü dağılımı.  
+  - Bar chart ile zaman bazlı (günlük, haftalık, aylık) çözüm sayıları.  
+  - Heatmap ile hatalı sensör konumlarının sıcaklık haritası.  
+  - WebSocket ile canlı işçi listesi.
 
-Çözüm resmi yükleme
+- Rapor Sayfası:  
+  - Takvim üzerinden gün seçilip sensör çözüm raporları görüntülenir.  
+  - Raporlar PDF olarak indirilebilir veya yöneticilere gönderilebilir.
 
-Mini harita ve konum güncelleme
+- Performans Analizi:  
+  - Seçilen işçi için performans çizgi grafiği, sensör türü donut grafiği, takvimsel çözüm yoğunluğu ve konuma dayalı sıcaklık haritası.  
+  - Genel lider tablosu (en kısa sürede çözüm, en çok çözüm vb.).
 
-Sensör durumu güncelleme
+- Görev Atama:  
+  - İşçi ve sensör seçilerek görev tanımlanır.  
+  - Harita üzerinden rota çizimi yapılır.  
+  - WebSocket ile görev bildirimi anlık gönderilir.  
+  - Atanan görevler listelenir ve çözüm süreci takip edilir.
 
-Görev tamamlandığında sensör “geçmiş çözülenler” listesine aktarılır.
+---
 
-Çözüm Geçmişi
-İşçinin geçmişte çözdüğü sensörleri listeler.
+## Müdür Paneli Özellikleri
 
-Her çözüm için detay sayfası: açıklama, tarih, konum ve resim galerisi.
+- Dashboard:  
+  - Görev çözüm oranları (süpervizör bazlı).  
+  - İşçi ortalama çözüm süreleri.  
+  - Radar grafiklerle detaylı analizler.  
+  - Tüm görevlerde sensör statü dağılımı.
 
- Ekip Takibi
-Harita üzerinden diğer işçilerin ve aktif görevlerinin konumları canlı olarak gösterilir.
+- Kullanıcı Yönetimi:  
+  - Tüm kullanıcılar rol bazlı listelenir ve filtrelenir.  
+  - Kullanıcı askıya alma veya silme işlemleri.  
+  - İşçi ve süpervizör lider tabloları.
 
- Süpervizör Paneli Özellikleri
- Dashboard
-Doughnut Grafiği: Görev dışı sensör statü dağılımı.
+---
 
-Bar Chart: Zaman bazlı (günlük, haftalık, aylık) çözüm sayıları.
+## Sensör Yönetimi
 
-Heatmap: Hatalı sensör konumlarının sıcaklık haritası.
+- Sensör ekleme, güncelleme, silme.  
+- Sensör konumu harita destekli güncellenir.  
+- Duruma göre filtreleme ve detaylı sensör sayfaları.
 
-Canlı İşçi Listesi: Online olan işçilerin listesi (WebSocket ile gerçek zamanlı).
+---
 
- Rapor Sayfası
-Takvim üzerinden gün seçilip sensör çözüm raporları görüntülenir.
+## Süpervizör PDF Raporları
 
-Raporlar PDF olarak indirilebilir veya yöneticilere gönderilebilir.
+- Her süpervizörün gönderdiği raporlar listelenir.  
+- PDF formatında indirilebilir.
 
- Performans Analizi Sayfası
-Seçilen işçi için:
+---
 
-Performans çizgi grafiği
+## Gerçek Zamanlı Özellikler
 
-Sensör türü donut grafiği
+- WebSocket tabanlı görev ve sistem bildirimleri anlık iletilir.  
+- Harita üzerindeki işçi ve sensör konumları canlı olarak güncellenir.  
+- Görev ve çözüm süreçleri tüm roller için otomatik senkronize edilir.
 
-Takvimsel çözüm yoğunluğu
-
-Konuma dayalı sıcaklık haritası
-
-Genel lider tablosu (en kısa sürede çözüm, en çok çözüm vb.)
-
- Görev Atama
-Süpervizör:
-
-İşçi ve sensör seçerek görev tanımlar.
-
-Harita üzerinden rota çizimi yapılır.
-
-WebSocket ile görev bildirimi işçiye gönderilir.
-
-Atanan görevler anlık olarak listelenir ve çözüm süreci izlenir.
-
- Müdür Paneli Özellikleri
- Dashboard
-Görev Çözüm Oranı: Süpervizörlerin zaman bazlı görev çözüm oranları.
-
-İşçi Ort. Süreleri: Görevlerin ortalama çözüm süresi.
-
-Radar Grafikler: Süpervizör ve işçilere ait detaylı analizler.
-
-Sensör Statü Dağılımı: Tüm görevlerdeki sensör durumlarını gösterir.
-
- Kullanıcı Yönetimi
-Tüm kullanıcıları rol bazlı listeleme ve filtreleme.
-
-Kullanıcıyı askıya alma veya sistemden silme.
-
-İşçi ve süpervizör lider tabloları.
-
-🛰️ Sensör Yönetimi
-Sensör ekleme, güncelleme, silme.
-
-Sensör konumu güncelleme (harita destekli).
-
-Duruma göre filtreleme ve detaylı sensör sayfaları.
-
- Süpervizör PDF Raporları
-Her süpervizörün gönderdiği raporları listeleme ve PDF olarak indirme.
-
- Gerçek Zamanlı Özellikler
-WebSocket Tabanlı Bildirimler: Görev ve sistem bildirimleri anlık olarak iletilir.
-
-Konum Güncellemeleri: Harita üzerindeki işçi/sensör konumları canlı olarak gösterilir.
-
-Otomatik Senkronizasyon: Görev ve çözüm süreçleri tüm roller için eş zamanlı güncellenir.
+---
