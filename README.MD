@@ -141,7 +141,7 @@ Bu kapsamlı test yaklaşımı, uygulamanın beklenen işleyişine uygunluğunu 
 
 ## Teknoloji Stack
 
-### 🌐 Frontend
+###  Frontend
 
 **Çekirdek Teknolojiler**  
 - Framework: Next.js v13.4+ (App Router)  
@@ -181,7 +181,7 @@ Bu kapsamlı test yaklaşımı, uygulamanın beklenen işleyişine uygunluğunu 
 
 ---
 
-### ⚙️ Backend
+###  Backend
 
 **Çekirdek Teknolojiler**  
 - Framework: Spring Boot v3.1+  
@@ -210,7 +210,7 @@ Bu kapsamlı test yaklaşımı, uygulamanın beklenen işleyişine uygunluğunu 
 
 ---
 
-### 🛠️ DevOps & Araçlar
+###  DevOps & Araçlar
 
 **Geliştirme Araçları**  
 - Docker (Containerization)  
