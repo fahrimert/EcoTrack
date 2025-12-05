@@ -303,7 +303,7 @@ public class UserController {
     public void hearthBeatController(HttpServletRequest request, HttpServletResponse response,  @RequestBody HeartbeatDTO heartbeatDTO){
         Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
         String username = securityContextHolder.getName();
-        User user = userService.findByUsername(username);
+        User user = userService.findByEmail(username);
 
         UserOnlineStatus userOnlineStatus = userOnlineStatusRepository.findByUser(user
         ) .orElseGet(() -> {

@@ -16,6 +16,9 @@ public class UserPrincipal implements UserDetails {
     private Role roles;
 
     public UserPrincipal(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
         this.user = user;
         this.roles = user.getRole();
     }
@@ -36,6 +39,34 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getFirstName();
+        return user.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return user.getIsActive() != null && user.getIsActive();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Long getId() {
+        return user.getId();
     }
 }

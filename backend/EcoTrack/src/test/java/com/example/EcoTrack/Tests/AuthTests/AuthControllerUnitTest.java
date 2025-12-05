@@ -42,7 +42,6 @@ public class AuthControllerUnitTest {
     void login_ShouldReturnTokensAnd200_WhenRequestIsValid() throws Exception{
         UserRequestDTO validRequest = new UserRequestDTO(
                 "workeruser66@example.com",
-                "WorkerUser66",
                 "test1234"
         );
 

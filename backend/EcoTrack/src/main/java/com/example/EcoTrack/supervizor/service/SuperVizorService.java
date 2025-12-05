@@ -447,7 +447,7 @@ public class SuperVizorService {
 
 
         User assignedToUser = userService.findById(task.getAssignedTo().getId());
-        User assignedBy = userService.findByUsername(username);
+        User assignedBy = userService.findByEmail(username);
 
 
 

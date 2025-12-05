@@ -3,7 +3,6 @@ import { useFormState } from "react-dom";
 import { signin } from "@/app/actions/authActions/signin";
 import toast from "react-hot-toast";
 import {  useEffect, useState} from "react";
-import Link from "next/link";
 import { IoEyeOff,IoEye  } from "react-icons/io5";
 
 import { cn } from "@/lib/utils";
@@ -16,27 +15,17 @@ const SigninComponent = ({session } : {session: RequestCookie | undefined}) => {
   useEffect(() => {
     if (state?.serverError) {
       toast.error(state?.serverError);
-      console.log("Toast Error Triggered:", state?.serverError);
       
     }
     if(state?.serverSuccess){
-            toast.success("Successfully logged in");
-
-           const roleRouteMap = {
-         ROLE_WORKER: '/worker',
-         ROLE_SUPERVISOR: '/supervisor',
-       };
-   
+toast.success("Giriş Başarılı! Yönlendiriliyorsunuz...");
+router.refresh(); 
+     
         router.push(`/dashboard`); 
 
     }
-  }, [state?.serverError]);
-
-  useEffect(() => {
-    if (state?.serverSuccess) {
-      router.push("/");
-    }
   }, [state, router]);
+
 
 
     const [visible,setVisible] = useState(true)
@@ -81,26 +70,6 @@ type="email"
                       
                       className=" w-full text-[#e92021] text-[12px]  ring-[#cd3e2f] rounded-[10px] animate-fade-down animate-ease-in-out animate-normal animate-duration-[400ms]  ">
                         {state.errors.email}
-                      </h2>
-                    )}
-
-<input
-
-                    
-className={cn( " relative w-[300px] h-[40px] rounded-[10px] outline-none p-[12px] bg-[#1a1a2e] text-white  border-gray-400   hover:none",    state?.errors?.name && "border-red-400 border-[1px]  ring-1 ring-red-400")   }
-type="name"
-                      name="name"
-                      id="name"
-                      placeholder="Soyadınız olmadan sadece Adınızı Yazınız"
-                    />
-                <div className="  w-[300px] h-[1px]  bg-white"/>
-{state?.errors?.name && (
-  
-                      <h2 
-                      
-                      
-                      className=" w-full text-[#e92021] text-[12px]  ring-[#cd3e2f] rounded-[10px] animate-fade-down animate-ease-in-out animate-normal animate-duration-[400ms]  ">
-                        {state.errors.name}
                       </h2>
                     )}
 

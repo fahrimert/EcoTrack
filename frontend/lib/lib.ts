@@ -3,37 +3,42 @@ import { NextRequest, NextResponse } from "next/server";
 
 
   export async function updateSession(request: NextRequest) {
-    const refreshToken = request.cookies.get('refresh')?.value;
-    const session = request.cookies.get('session')?.value;
+    const refreshToken = request.cookies.get("refresh")?.value;
   
-    if (!refreshToken || !session) {
-      return NextResponse.next();
-    }
+    if (!refreshToken) {
+    return null;
+  }
   
     try {
-      const response = await fetch(`http://localhost:8080/refreshToken/${refreshToken}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${session}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      const response = await fetch("http://localhost:8080/refreshToken", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refreshToken: refreshToken }),
+    });
   
       if (!response.ok) {
-        throw new Error('Token refresh failed');
+        throw new Error('Refresh Token Başarısız Oldu');
       }
   
-      const newAccessToken = await response.text();
-      const res = NextResponse.next();
+      const data = await response.json();
+      const newAccessToken = data.accessToken;
       
-      res.cookies.set({
+      
+      const responsee = NextResponse.redirect(request.url);
+
+
+      responsee.cookies.set({
         name: 'session',
         value: newAccessToken,
-        httpOnly: true,
-          maxAge: 15 * 60 
+      httpOnly: true,
+      path: "/",
+      maxAge: 15 * 60, 
+      sameSite: "lax",
       });
   
-      return res;
+      return responsee;
     } catch (error) {
       console.error('Token refresh error:', error);
       const res = NextResponse.redirect(new URL('/authentication', request.url));

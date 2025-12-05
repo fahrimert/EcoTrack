@@ -40,7 +40,6 @@ public class AuthServiceUnitTest {
         when(userRepository.findByFirstName("test")).thenReturn(mockUser);
 
         UserRequestDTO requestDTO = new UserRequestDTO();
-        requestDTO.setFirstName("test");
 
         ResponseEntity<ApiResponse<?>> response = authService.login(requestDTO);
 

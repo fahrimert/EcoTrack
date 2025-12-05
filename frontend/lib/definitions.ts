@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const SignİnFormSchema = z.object({
   email: z.string().email({ message: "Geçerli bir email giriniz." }),
-  name: z.string().min(2,{ message: "İsminiz için en az 2 karakter giriniz doğru giriniz" }),
   password: z
     .string()
     .min(8, { message: "En Az 8 Karakter, " })
@@ -27,7 +26,6 @@ export type FormState =
   | {
       errors?: {
         email?: string[];
-        name?:string[]
         password?: string[];
       };
       message?: string;

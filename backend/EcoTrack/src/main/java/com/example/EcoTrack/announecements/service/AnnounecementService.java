@@ -51,7 +51,7 @@ public class AnnounecementService {
         String username = securityContextHolder.getName();
 
 
-        User announcedBy = userService.findByUsername(username);
+        User announcedBy = userService.findByEmail(username);
 
         announecement.setTitle(announecement.getTitle());
         announecement.setContent(announecement.getContent());

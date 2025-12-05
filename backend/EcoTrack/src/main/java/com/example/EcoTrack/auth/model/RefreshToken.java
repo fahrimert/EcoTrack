@@ -1,5 +1,6 @@
 package com.example.EcoTrack.auth.model;
 
+import com.example.EcoTrack.sensors.model.Sensor;
 import com.example.EcoTrack.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -21,10 +22,8 @@ public class RefreshToken {
     private String token;
     private Date expiresAt;
 
-
-    @OneToOne(mappedBy = "refreshToken")
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
-
     private User user;
 }

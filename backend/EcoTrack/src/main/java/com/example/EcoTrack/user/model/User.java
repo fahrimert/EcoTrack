@@ -9,7 +9,6 @@
     import com.example.EcoTrack.task.model.Task;
     import com.fasterxml.jackson.annotation.JsonIgnore;
     import jakarta.persistence.*;
-    import lombok.Builder;
     import lombok.Getter;
     import lombok.RequiredArgsConstructor;
     import lombok.Setter;
@@ -21,7 +20,6 @@
     @Entity
     @RequiredArgsConstructor
     @Getter
-
     @Setter
     @Table(name = "users")
     public class User {
@@ -38,21 +36,12 @@
 
         private  String password;
 
-        @OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "refresh_token_id",referencedColumnName = "id")
-        private RefreshToken refreshToken;
+
+        @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<RefreshToken> refreshTokens;
 
         @Enumerated(EnumType.STRING)
         private Role role;
-
-
-    //    private  boolean isTwoFactorAuthbeenverified = false  ;
-
-
-    //    @OneToOne(cascade = CascadeType.ALL)
-    //    @JoinColumn(name = "two_factor_code_id",referencedColumnName = "id")
-    //
-    //    private TwoFactorCode twoFactorCode;
 
 
         @JsonIgnore

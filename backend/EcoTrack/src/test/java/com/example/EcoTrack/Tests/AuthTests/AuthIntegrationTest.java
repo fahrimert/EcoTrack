@@ -113,7 +113,6 @@ public class AuthIntegrationTest {
         UserRequestDTO validRequest = new UserRequestDTO(
         );
         validRequest.setEmail("manageruser@example.com");
-        validRequest.setFirstName("ManagerUser");
         validRequest.setPassword("test1234");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -140,7 +139,6 @@ public class AuthIntegrationTest {
             UserRequestDTO invalidRequest = new UserRequestDTO(
             );
             invalidRequest.setEmail("wrongmanager@example.com");
-            invalidRequest.setFirstName("WrongManager");
             invalidRequest.setPassword("test1234321");
 
             ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -165,7 +163,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("");
-        invalidRequest.setFirstName("WrongManager");
         invalidRequest.setPassword("test1234321");
 
         ResponseEntity<String> response = restTemplate.postForEntity(
@@ -197,7 +194,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("wrongmanagerwrongmanager.com");
-        invalidRequest.setFirstName("ManagerUser");
         invalidRequest.setPassword("test1234");
 
         ResponseEntity<String> response = restTemplate.postForEntity(
@@ -224,7 +220,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("manageruser@example.com");
-        invalidRequest.setFirstName("d");
         invalidRequest.setPassword("test1234");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -242,7 +237,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("manageruser@example.com");
-        invalidRequest.setFirstName("mockusermockusermockusermockusermockusermockusermockusermockusermockusermockusermockuser");
         invalidRequest.setPassword("test1234");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -260,7 +254,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("manageruser@example.com");
-        invalidRequest.setFirstName("ManagerUser");
         invalidRequest.setPassword("");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -281,7 +274,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("");
-        invalidRequest.setFirstName("ManagerUser");
         invalidRequest.setPassword("");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -302,7 +294,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("");
-        invalidRequest.setFirstName("");
         invalidRequest.setPassword("test1234");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -322,7 +313,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("");
-        invalidRequest.setFirstName("");
         invalidRequest.setPassword("test1234");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -344,7 +334,6 @@ public class AuthIntegrationTest {
             UserRequestDTO invalidRequest = new UserRequestDTO(
             );
             invalidRequest.setEmail("");
-            invalidRequest.setFirstName("");
             invalidRequest.setPassword("");
 
             ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -362,7 +351,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("mock@example.com");
-        invalidRequest.setFirstName("\"Mock\\uD83D\\uDD25\"");
         invalidRequest.setPassword("test1234");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
@@ -381,7 +369,6 @@ public class AuthIntegrationTest {
         UserRequestDTO invalidRequest = new UserRequestDTO(
         );
         invalidRequest.setEmail("workeruser4@example.com");
-        invalidRequest.setFirstName("WorkerUser4");
         invalidRequest.setPassword("test1234");
 
         ResponseEntity<ApiResponse> response = restTemplate.postForEntity(

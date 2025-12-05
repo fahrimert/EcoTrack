@@ -15,8 +15,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -35,13 +33,14 @@ public class SecurityConfig {
 
     private CustomUserDetailService userDetailsService;
     private JwtService jwtService;
-
     private UserRepository userRepository;
+    private final JwtFilter jwtFilter;
 
-    public SecurityConfig(CustomUserDetailService userDetailsService, JwtService jwtService, UserRepository userRepository) {
+    public SecurityConfig(CustomUserDetailService userDetailsService, JwtService jwtService, UserRepository userRepository, JwtFilter jwtFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
         this.userRepository = userRepository;
+        this.jwtFilter = jwtFilter;
     }
 
 
@@ -55,9 +54,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 .csrf(csrf -> csrf.disable())
-                .logout(customizer-> customizer.logoutUrl("/logout") )
                 .authorizeHttpRequests(
-                        authorize -> authorize.requestMatchers( "/auth/login","/refreshToken/**","/ws/**", "/ws-users/**").permitAll()
+                        authorize -> authorize.requestMatchers( "/auth/login","/refreshToken","/ws/**", "/ws-users/**").permitAll()
 
                                 //hem rol hem authority mevzusunu yapıyor authority yapınca admini korumuş oluyor
                                 //authorities kısmında ise
@@ -65,14 +63,11 @@ public class SecurityConfig {
                 )
 //                .exceptionHandling(customizer -> customizer.authenticationEntryPoint( new  AuthenticationEntryPointt()))
                 .sessionManagement(sessionmanagement -> sessionmanagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtFilter(jwtService, userDetailsService, userRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
-    @Bean
-    public SessionRegistry sessionRegistry(){
-        return  new SessionRegistryImpl();
-    }
+
     @Bean
     public AuthenticationManager authenticationManager(BCryptPasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();

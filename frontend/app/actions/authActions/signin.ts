@@ -2,12 +2,10 @@
 import { SignİnFormSchema, FormState } from "@/lib/definitions";
 import axios from "axios";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function signin(state: FormState, formData: FormData) {
   const validatedFields = SignİnFormSchema.safeParse({
     email: formData.get("email"),
-    name:formData.get("name"),
     password: formData.get("password"),
   });
 
@@ -20,43 +18,45 @@ export async function signin(state: FormState, formData: FormData) {
       };
     }
   if(validatedFields.success){
-      const data = await axios.post("http://localhost:8080/auth/login",{
+      const response = await axios.post("http://localhost:8080/auth/login",{
         "email":validatedFields.data.email,
-        "firstName":validatedFields.data.name,
         "password":validatedFields.data.password
       })
 
-      const session = data.data.data.accessToken
-      const refresh = data.data.data.refreshToken
+      const { accessToken, refreshToken } = response.data.data;
+      const cookieStore = cookies();
 
-      
-      cookies().set("session",session,{httpOnly:true,})
-      cookies().set("refresh",refresh,{httpOnly:true,})
-      
-      return{
-        serverSuccess: "Successfully Logged In"
-      }
+      cookieStore.set("session", accessToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 15 * 60, 
+    });
+
+    cookieStore.set("refresh", refreshToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+    });
+
+    return {
+      serverSuccess: "Successfully Logged In",
+    };
   }
   
 
 }
- catch (error : any) {
-   if (error.response?.data?.error) {
-    return {
-      serverError: error.response.data.errors,
-    };
-   }
-   if (error.response) {
-       console.error("Unexpected error response:", error.response.data);
-    return {
-      serverError: ["Unexpected server error occurred."],
-    };
-   }
-     console.error("Network or unknown error:", error.message);
+ catch (error: any) {
+    console.error("Login Error:", error.response?.data || error.message);
 
+    if (error.response?.data?.error) {
+       return { serverError: error.response.data.message || "Giriş başarısız." };
+    }
+    
     return {
-      serverError: "Network or unknown error:",
-    }; 
+      serverError: "Sunucuya bağlanılamadı veya hatalı giriş.",
+    };
   }
  
  

@@ -177,7 +177,6 @@ public class SensorIntegrationTest {
     public void getTheAccessToken() throws Exception {
         UserRequestDTO validRequest = new UserRequestDTO();
         validRequest.setEmail("manageruser@example.com");
-        validRequest.setFirstName("ManagerUser");
         validRequest.setPassword("test1234");
 
         String requestBody = new ObjectMapper().writeValueAsString(validRequest);

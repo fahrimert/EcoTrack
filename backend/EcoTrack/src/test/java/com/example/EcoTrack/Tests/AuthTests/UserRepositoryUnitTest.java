@@ -32,29 +32,8 @@ public class UserRepositoryUnitTest {
             return new BCryptPasswordEncoder();
         }
     }
-    @Transactional
-    @Test
 
-    void findByUsername_ShouldReturnUser(){
-        User mockUser = new User();
-        mockUser.setEmail("test@mail.com");
-        mockUser.setFirstName("Test User");
-        mockUser.setPassword("encodedPass");
-            userRepository.save(mockUser);
 
-            User foundUser = userRepository.findByFirstName("Test User");
-
-            assertEquals("Test User", foundUser.getFirstName());
-        };
-    @Transactional
-    @Test
-
-    void   findByUsername_ShouldReturnNullWhenUserDoesntExist() {
-
-        User foundUser = userRepository.findByFirstName("Non Existent User");
-
-        assertThat(foundUser).isNull();
-    }
 
     @Transactional
     @Test

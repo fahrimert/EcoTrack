@@ -164,7 +164,7 @@ public class SensorControllerUnitTest {
             when(sensorRepository.findById(mockSensorId)).thenReturn(   Optional.of(testSensor));
 
 
-            when(userService.findByUsername(anyString())).thenReturn(mockUser);
+            when(userService.findByEmail(anyString())).thenReturn(mockUser);
 
             when(sensorRepository.findById(mockSensorId)).thenReturn(Optional.of(testSensor));
 

@@ -19,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -40,7 +41,7 @@ public class UserService {
     public UserDTO getTheDetailOfALoggedInUser(String accessToken){
         Claims claims =  jwtService.extractAllClaims(accessToken);
 
-        User user = findByUsername(claims.getSubject());
+        User user = findByEmail(claims.getSubject());
 
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
@@ -205,7 +206,9 @@ public class UserService {
     }
 
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email))
+                ;
     }
 
 

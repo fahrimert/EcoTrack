@@ -48,6 +48,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Commit;
@@ -171,7 +172,10 @@ public class ManagerIntegrationTest {
 
     @BeforeEach
     void cleanUserBeforeTestsStatic() {
-        User user = userRepositoryy.findByEmail("john@example.com");
+        User user = userRepositoryy.findByEmail("john@example.com")
+
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " ));
+                ;
 
 
         Task task = taskRepositoryy.findByAssignedTo(user);
@@ -194,7 +198,6 @@ public class ManagerIntegrationTest {
         UserRequestDTO validRequest = new UserRequestDTO(
         );
         validRequest.setEmail("manageruser@example.com");
-        validRequest.setFirstName("ManagerUser");
         validRequest.setPassword("test1234");
 
         ResponseEntity<Map> response = restTemplate.postForEntity(
@@ -234,7 +237,6 @@ public class ManagerIntegrationTest {
         UserRequestDTO validRequest = new UserRequestDTO(
         );
         validRequest.setEmail("manageruser@example.com");
-        validRequest.setFirstName("ManagerUser");
         validRequest.setPassword("test1234");
 
         ResponseEntity<Map> response = restTemplate.postForEntity(
@@ -278,7 +280,6 @@ public class ManagerIntegrationTest {
         UserRequestDTO validRequest = new UserRequestDTO(
         );
         validRequest.setEmail("manageruser@example.com");
-        validRequest.setFirstName("ManagerUser");
         validRequest.setPassword("test1234");
 
 

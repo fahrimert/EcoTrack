@@ -163,7 +163,7 @@ public class SensorServiceUnitTest {
         user.setId(21L);
         user.setSensorSessions(null);
 
-        when(userService.findByUsername(mockUsernamee)).thenReturn(user);
+        when(userService.findByEmail(mockUsernamee)).thenReturn(user);
         when(sensorRepository.save(mockSensor)).thenReturn(mockSensor);
 
        ResponseEntity<String> result = sensorService.updateNonTaskSensorFinalState(      mockNote,
@@ -201,7 +201,7 @@ public class SensorServiceUnitTest {
         user.setId(21L);
         user.setSensorSessions(null);
 
-        when(userService.findByUsername(mockUsernamee)).thenReturn(user);
+        when(userService.findByEmail(mockUsernamee)).thenReturn(user);
         SensorFix sensorSession = new SensorFix();
 
         sensorSession.setSensor(mockSensor);
@@ -256,7 +256,7 @@ public class SensorServiceUnitTest {
         mockUser.setFirstName(mockUsername);
         mockUser.setId(2L);
         mockUser.setFirstName("testUser");
-
+        mockUser.setEmail("firstUser@gmail.com");
 
         Sensor mockSensor = new Sensor();
         mockSensor.setId(sensorId);
@@ -270,7 +270,7 @@ public class SensorServiceUnitTest {
 
         when(sensorRepository.findById(sensorId)).thenReturn(Optional.of(mockSensor));
 
-        when(userService.findByUsername("testUser")).thenReturn(mockUser);
+        when(userService.findByEmail("firstUser@gmail.com")).thenReturn(mockUser);
 
         when(sensorSessionRepository.findByUserAndCompletedTimeIsNull(mockUser)).thenReturn(Optional.of(mockSensorSession));
 

@@ -8,16 +8,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository  extends JpaRepository<User, Long> {
-    User findByEmail(String email);
-
     @Query(value = """
              select * from users where first_name = :firstName;
             """, nativeQuery = true)
     User findByFirstName(@Param("firstName") String firstName);
 
+
+    Optional<User> findByEmail(@Param("email") String email);
 
     List<User> findAllByRole(Role workerRole);
 

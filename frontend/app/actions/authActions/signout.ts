@@ -2,58 +2,34 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getServerApi } from "../../../lib/api";
 
 export async function logOut() {
- 
-  try {
-        const session = cookies().get("session")?.value
+  const cookieStore = cookies();
+  const api = getServerApi()
+        const session = cookieStore.get("session")?.value;
+        const refreshToken = cookieStore.get("refresh")?.value;
+
+        if (refreshToken) { 
+try {
+        await api.post(
+        "/auth/customLogout",
+        { refreshToken: refreshToken },    
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${session}`,
+          },
+        }
+      );
         
-        ;
-        const response = axios.post(
-            'http://localhost:8080/auth/customLogout',
-            {}, 
-            {
-              headers: {
-                'Authorization': `Bearer ${session}`,
-                'Content-Type': 'application/json',
-              },
-            }
-          )
-          .then(response => {
-            console.log("Logout başarılı:", response.data);
-          })
-          .catch(error => {
-            console.error("Logout hatası:", error);
-          });
-        
-        
+      console.log("Backend logout başarılı.");
+    } catch (error: any) {
+      console.error("Backend logout hatası (ama işlem devam ediyor):", error.message);
+    }
+  }
           cookies().delete("session")
           cookies().delete("refresh")
-
-  
-        }
- catch (error : any) {
-   if (error.response?.data?.error) {
-    return {
-      serverError: error.response.data.errors,
-    };
-   }
-   if (error.response) {
-       console.error("Unexpected error response:", error.response.data);
-    return {
-      serverError: ["Unexpected server error occurred."],
-    };
-   }
-     console.error("Network or unknown error:", error.message);
-
-    return {
-      serverError: "Network or unknown error:",
-    }; 
-  }
- 
-  finally{
           redirect('/authentication')
-
-  }
 
 }

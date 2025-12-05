@@ -1,5 +1,6 @@
     package com.example.EcoTrack.auth.service;
 
+    import com.example.EcoTrack.security.customUserDetail.CustomUserDetailService;
     import com.example.EcoTrack.user.repository.UserRepository;
     import io.jsonwebtoken.*;
     import io.jsonwebtoken.io.*;
@@ -20,7 +21,7 @@
     @Service
     public class JwtService {
         private UserRepository userRepository;
-        private UserDetailsService userDetailService;
+        private CustomUserDetailService userDetailService;
 
         private static final String secretKey  = "YH8m5gQ7qFDs8UzAfh07e4YH9PWx7tNQkV2T3n8KJ9ZsrVe/1ACmQvLDaU39MfVjc5KL7/BVFC6RzBptn3FJvw==\n";
 
@@ -28,7 +29,7 @@
             byte[] keyBytes = Decoders.BASE64.decode(secretKey);
             return Keys.hmacShaKeyFor(keyBytes);
         }
-        public JwtService(UserRepository userRepository,  UserDetailsService userDetailService){
+        public JwtService(UserRepository userRepository,  CustomUserDetailService userDetailService){
             this.userRepository = userRepository;
             this.userDetailService = userDetailService;
 
@@ -36,25 +37,25 @@
         private static final long EXPIRATION_MS = 2 * 60 * 60 * 1000 ;
 
 
-        public String generateToken(String firstName) {
+        public String generateToken(String email) {
             Date now = new Date();
             Date expiryDate = new Date(now.getTime() + EXPIRATION_MS);
             Map<String , Object > claims = new HashMap();
 
-            Collection<? extends GrantedAuthority> authorities = userDetailService.loadUserByUsername(firstName).getAuthorities();
-            claims.put("authorities" , authorities.stream().map(authority ->  authority.getAuthority()).collect(Collectors.toList()) );
+            Collection<? extends GrantedAuthority> authorities = userDetailService.loadUserByUsername(email).getAuthorities();
+            claims.put("authorities", authorities.stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList()));
 
-            return  Jwts.builder()
-                    .claims()
-                    .add(claims)
-                    .subject(firstName)
-                    .issuedAt(new Date(System.currentTimeMillis()))
+            return Jwts.builder()
+                    .claims(claims)
+                    .subject(email)
+                    .issuedAt(now)
                     .expiration(expiryDate)
-                    .and()
                     .signWith(getKey())
                     .compact();
-        };
-        public  String extractFirstname(String  token){
+        }
+        public  String extractEmail(String  token){
             return extractAllClaims(token).getSubject();
         }
         public  boolean verify(String token){
@@ -65,18 +66,13 @@
                     .parseSignedClaims(token)
                     .getPayload();
 
-            if(userRepository.findByFirstName(claims.getSubject()) == null) {
+            if(userRepository.findByEmail(claims.getSubject()) == null) {
                 throw new JwtException("User not found");
             }
             return  true;
 
 
 
-        }
-
-        public  <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
-            final Claims claims = extractAllClaims(token);
-            return claimResolver.apply(claims);
         }
 
         public Claims extractAllClaims(String token) {

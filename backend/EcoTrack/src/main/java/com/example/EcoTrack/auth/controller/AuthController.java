@@ -1,5 +1,6 @@
 package com.example.EcoTrack.auth.controller;
 
+import com.example.EcoTrack.auth.dto.RefreshTokenRequestDto;
 import com.example.EcoTrack.auth.dto.UserRequestDTO;
 import com.example.EcoTrack.auth.service.AuthService;
 import com.example.EcoTrack.shared.dto.ApiResponse;
@@ -54,8 +55,8 @@ public class AuthController {
 
     //Logout Endpoint For Logout Functionality
     @PostMapping("/auth/customLogout")
-    public ResponseEntity<ApiResponse<Boolean>> logout( HttpServletRequest request,HttpServletResponse response) {
-        return authService.logout(request,response);
+    public ResponseEntity<ApiResponse<Boolean>> logout(@RequestBody RefreshTokenRequestDto request) {
+        return authService.logout(request.getRefreshToken());
     }
 
 

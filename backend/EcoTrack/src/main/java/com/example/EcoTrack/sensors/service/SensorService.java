@@ -229,7 +229,7 @@
 
                 Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
                 String username = securityContextHolder.getName();
-                User user = userService.findByUsername(username);
+                User user = userService.findByEmail(username);
                 user.setSensorSessions(null);
 
                 sensorSessionRepository.save(sensorFix);
@@ -315,7 +315,7 @@
                     return ResponseEntity.status(HttpStatus.NOT_FOUND)
                             .body(new ApiResponse(false, "Sensor not found", null, null, 404));
                 }
-                User user = userService.findByUsername(username);
+                User user = userService.findByEmail(username);
                 if (user == null){
                     return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(false,"User Not Found",null,null,500));
 
@@ -398,7 +398,7 @@
                    Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
                    String username = securityContextHolder.getName();
 
-                   User user = userService.findByUsername(username);
+                   User user = userService.findByEmail(username);
                    Optional<SensorFix> existingSession = sensorSessionRepository.findByUserAndCompletedTimeIsNull(user);
                    if (existingSession.isPresent()) {
                        return ResponseEntity.status(HttpStatus.CONFLICT).body("You already have an active repair session.");
@@ -445,7 +445,7 @@
                 Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
                 String username = securityContextHolder.getName();
 
-                User user = userService.findByUsername(username);
+                User user = userService.findByEmail(username);
                 List<SensorFix> pastSensors =   sensorSessionRepository.findAllByUserAndCompletedTimeIsNotNull(user).stream().collect(Collectors.toList());;
 
                 return pastSensors;
