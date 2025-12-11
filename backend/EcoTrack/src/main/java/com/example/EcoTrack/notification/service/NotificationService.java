@@ -76,16 +76,20 @@ public class NotificationService {
         }
 
     //Mark the notification true in worker dashboard notification component
-        public  ResponseEntity<?> markNotificationsOfRead(Long userId){
-            List<Notification> notifications = notificationRepository.findAll().stream()
-                    .filter(notification -> Boolean.FALSE.equals(notification.getIsRead()))
-                    .toList();
-            for (Notification n : notifications) {
-                n.setIsRead(true);
-            }
-            notificationRepository.saveAll(notifications);
+    public ResponseEntity<?> markNotificationsOfRead(Long userId) {
+        List<Notification> unreadNotifications = notificationRepository.findByReceiverIdAndIsReadFalse(userId);
+
+        if (unreadNotifications.isEmpty()) {
             return ResponseEntity.ok().build();
         }
+
+        for (Notification n : unreadNotifications) {
+            n.setIsRead(true);
+        }
+
+        notificationRepository.saveAll(unreadNotifications);
+        return ResponseEntity.ok().build();
+    }
 
 
 

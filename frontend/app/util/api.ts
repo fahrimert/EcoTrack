@@ -1,7 +1,8 @@
+
 import axios from "axios";
 import { cookies } from "next/headers"; 
 
-export const getServerApi = () => {
+export const getServerApi =  () => {
   const cookieStore = cookies();
   const token = cookieStore.get("session")?.value;
 

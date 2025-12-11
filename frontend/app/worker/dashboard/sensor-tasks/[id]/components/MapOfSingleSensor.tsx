@@ -99,7 +99,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
     
 
 
-      const directionRoute = useCallback(() => {
+/*       const directionRoute = useCallback(() => {
         if (!isApiLoaded || !window.google || !source || !initialData) return
     
         try {
@@ -122,9 +122,9 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
         } catch (error) {
           console.error("DirectionsService oluşturulamadı:", error)
         }
-      }, [isApiLoaded, source, initialData])
+      }, [isApiLoaded, source, initialData]) */
     
-      useEffect(() => {
+/*       useEffect(() => {
         if (isApiLoaded &&   source.lat !== null && source.lng !== null && initialData?.taskSensors.latitude !== null && initialData?.taskSensors.longitude !== null) {
           {
             directionRoute()
@@ -132,7 +132,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
     
         }
       
-      },[isApiLoaded,source, initialData])
+      },[isApiLoaded,source, initialData]) */
 
       if (!isApiLoaded) {
         return <div>Harita yükleniyor...</div>
@@ -176,7 +176,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
               
          
                    {/* Child components, such as markers, info windows, etc. */}
-                 <DirectionsRenderer
+              {/*    <DirectionsRenderer
                   directions={directionRoutePoints}
                   options={{
                    suppressMarkers:true
@@ -184,7 +184,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
                  >
          
          
-                 </DirectionsRenderer>
+                 </DirectionsRenderer> */}
                      <MarkerF 
                              position={{lat:initialData?.taskSensors.latitude, lng:initialData?.taskSensors.latitude}}
                          

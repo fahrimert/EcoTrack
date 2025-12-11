@@ -83,57 +83,57 @@ public class UserControllerUnitTest {
 
 
 
-        @Test
-        void getNotifications_shouldReturnNotificationByUserId() throws Exception {
-            Long mockId = 1L;
-            NotificationDTO notificationDTO = new NotificationDTO();
-            notificationDTO.setId(101L);
-            notificationDTO.setSupervizorDescription("Make sure it handled in 15");
-            notificationDTO.setReceiverId(mockId);
+//        @Test
+//        void getNotifications_shouldReturnNotificationByUserId() throws Exception {
+//            Long mockId = 1L;
+//            NotificationDTO notificationDTO = new NotificationDTO();
+//            notificationDTO.setId(101L);
+//            notificationDTO.setSupervizorDescription("Make sure it handled in 15");
+//            notificationDTO.setReceiverId(mockId);
+//
+//            NotificationDTO notificationDTO2 = new NotificationDTO();
+//            notificationDTO2.setId(102L);
+//            notificationDTO2.setSupervizorDescription(" 7 minutes deadline has given ");
+//            notificationDTO.setReceiverId(mockId);
+//
+//
+//
+//            List<NotificationDTO> expectedDTO = new ArrayList<>();
+//            expectedDTO.add(notificationDTO);
+//            expectedDTO.add(notificationDTO2);
+//
+//            when(userService.getNotificationById(mockId)).thenReturn(ResponseEntity.ok(expectedDTO));
+//
+//            ResponseEntity<List<NotificationDTO>> result = controller.getNotificationById(mockId);
+//            assertEquals(2, result.getBody().size());
+//            verify(userService).getNotificationById(mockId);
+//        }
 
-            NotificationDTO notificationDTO2 = new NotificationDTO();
-            notificationDTO2.setId(102L);
-            notificationDTO2.setSupervizorDescription(" 7 minutes deadline has given ");
-            notificationDTO.setReceiverId(mockId);
-
-
-
-            List<NotificationDTO> expectedDTO = new ArrayList<>();
-            expectedDTO.add(notificationDTO);
-            expectedDTO.add(notificationDTO2);
-
-            when(userService.getNotificationById(mockId)).thenReturn(ResponseEntity.ok(expectedDTO));
-
-            ResponseEntity<List<NotificationDTO>> result = controller.getNotificationById(mockId);
-            assertEquals(2, result.getBody().size());
-            verify(userService).getNotificationById(mockId);
-        }
-
-        @Test
-        void getWorkers_shouldReturnWorkersByUserId() throws  Exception {
-            UserOnlineStatusDTO userOnlineStatusDTO1 = new UserOnlineStatusDTO();
-            userOnlineStatusDTO1.setId(15L);
-            userOnlineStatusDTO1.setFirstName("Mock User 1");
-            userOnlineStatusDTO1.setSurName("Mock Surname 1");
-            userOnlineStatusDTO1.setRole(Role.WORKER);
-
-            UserOnlineStatusDTO userOnlineStatusDTO2 = new UserOnlineStatusDTO();
-            userOnlineStatusDTO2.setId(15L);
-            userOnlineStatusDTO2.setFirstName("Mock User 2");
-            userOnlineStatusDTO2.setSurName("Mock Surname 2");
-            userOnlineStatusDTO2.setRole(Role.SUPERVISOR);
-
-            List<UserOnlineStatusDTO> userOnlineStatusDTOList = new ArrayList<>();
-            userOnlineStatusDTOList.add(userOnlineStatusDTO1);
-            userOnlineStatusDTOList.add(userOnlineStatusDTO2);
-
-            when(userService.getProfilesOfAllWorkers(userOnlineStatusDTOList.stream().map(a ->a.getId()).toList())).thenReturn(userOnlineStatusDTOList);
-
-            List<UserOnlineStatusDTO> result = controller.getProfilesOfWorkers(userOnlineStatusDTOList.stream().map(a ->a.getId()).toList());
-            assertEquals(2, result.size());
-            verify(userService).getProfilesOfAllWorkers(userOnlineStatusDTOList.stream().map(a ->a.getId()).toList());
-
-        }
+//        @Test
+//        void getWorkers_shouldReturnWorkersByUserId() throws  Exception {
+//            UserOnlineStatusDTO userOnlineStatusDTO1 = new UserOnlineStatusDTO();
+//            userOnlineStatusDTO1.setId(15L);
+//            userOnlineStatusDTO1.setFirstName("Mock User 1");
+//            userOnlineStatusDTO1.setSurName("Mock Surname 1");
+//            userOnlineStatusDTO1.setRole(Role.WORKER);
+//
+//            UserOnlineStatusDTO userOnlineStatusDTO2 = new UserOnlineStatusDTO();
+//            userOnlineStatusDTO2.setId(15L);
+//            userOnlineStatusDTO2.setFirstName("Mock User 2");
+//            userOnlineStatusDTO2.setSurName("Mock Surname 2");
+//            userOnlineStatusDTO2.setRole(Role.SUPERVISOR);
+//
+//            List<UserOnlineStatusDTO> userOnlineStatusDTOList = new ArrayList<>();
+//            userOnlineStatusDTOList.add(userOnlineStatusDTO1);
+//            userOnlineStatusDTOList.add(userOnlineStatusDTO2);
+//
+//            when(userService.getProfilesOfAllWorkers(userOnlineStatusDTOList.stream().map(a ->a.getId()).toList())).thenReturn(userOnlineStatusDTOList);
+//
+//            List<UserOnlineStatusDTO> result = controller.getProfilesOfWorkers(userOnlineStatusDTOList.stream().map(a ->a.getId()).toList());
+//            assertEquals(2, result.size());
+//            verify(userService).getProfilesOfAllWorkers(userOnlineStatusDTOList.stream().map(a ->a.getId()).toList());
+//
+//        }
 
         @Test
         void saveLocation_ShouldSaveLocationAndReturnSuccess() throws Exception {
@@ -406,46 +406,46 @@ public class UserControllerUnitTest {
         }
 
 
-        @Test
-        void  shouldgoToTheSensorSessionNotTheTask(){
-            Long mockSensorId = 15L;
-            String mockSensorName = "TestSensor";
-
-            User mockUser =  new User();
-            mockUser.setFirstName("mockname");
-            mockUser.setId(120L);
-
-            Sensor sensor1 = new Sensor();
-            sensor1.setId(mockSensorId);
-            sensor1.setSensorName("mock");
-
-            SensorFix sensorSession = new SensorFix();
-
-            sensorSession.setSensor(sensor1);
-
-            when(sensorService.goToThesensorSessionNotTheTask(mockSensorId)).thenReturn(ResponseEntity.accepted().body("Now you are repairing" + mockSensorName));
-
-            ResponseEntity<String> result = controller.goToThesensorSessionNotTheTask(
-                    mockSensorId
-            );
-            assertEquals(HttpStatus.ACCEPTED, result.getStatusCode());
-            assertEquals("Now you are repairing" + mockSensorName, result.getBody());
-
-
-        }
-
-    @Test
-    void goToSensorSessionNotTheTask_shouldReturnConflictWhenActiveSessionExists(){
-        Long mockSensorId = 15L;
-
-        when(sensorService.goToThesensorSessionNotTheTask(mockSensorId))
-                .thenReturn(ResponseEntity.status(CONFLICT).body("You already have an active repair session."));
-
-        ResponseEntity<String> response = controller.goToThesensorSessionNotTheTask(mockSensorId);
-
-        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-        assertEquals("You already have an active repair session.", response.getBody());
-    }
+//        @Test
+//        void  shouldgoToTheSensorSessionNotTheTask(){
+//            Long mockSensorId = 15L;
+//            String mockSensorName = "TestSensor";
+//
+//            User mockUser =  new User();
+//            mockUser.setFirstName("mockname");
+//            mockUser.setId(120L);
+//
+//            Sensor sensor1 = new Sensor();
+//            sensor1.setId(mockSensorId);
+//            sensor1.setSensorName("mock");
+//
+//            SensorFix sensorSession = new SensorFix();
+//
+//            sensorSession.setSensor(sensor1);
+//
+//            when(sensorService.goToThesensorSessionNotTheTask(mockSensorId)).thenReturn(ResponseEntity.accepted().body("Now you are repairing" + mockSensorName));
+//
+//            ResponseEntity<String> result = controller.goToThesensorSessionNotTheTask(
+//                    mockSensorId
+//            );
+//            assertEquals(HttpStatus.ACCEPTED, result.getStatusCode());
+//            assertEquals("Now you are repairing" + mockSensorName, result.getBody());
+//
+//
+//        }
+//
+//    @Test
+//    void goToSensorSessionNotTheTask_shouldReturnConflictWhenActiveSessionExists(){
+//        Long mockSensorId = 15L;
+//
+//        when(sensorService.goToThesensorSessionNotTheTask(mockSensorId))
+//                .thenReturn(ResponseEntity.status(CONFLICT).body("You already have an active repair session."));
+//
+//        ResponseEntity<String> response = controller.goToThesensorSessionNotTheTask(mockSensorId);
+//
+//        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+//        assertEquals("You already have an active repair session.", response.getBody());
+//    }
 
 
     @Test

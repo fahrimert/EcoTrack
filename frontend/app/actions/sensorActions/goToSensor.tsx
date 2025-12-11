@@ -1,33 +1,16 @@
 "use server";
-import { cookies } from "next/headers";
+import { userService } from "@/app/services/userService";
 
-export async function goToSensor(sensorId: string) {
- 
-  try {
+export async function goToSensor(sensorId: number) {
+  const result = await userService.workerDashboardGoToSensor(sensorId);
 
-        const session = cookies().get("session")?.value
-        const responseData = await fetch(`http://localhost:8080/sensor/goToThesensorSessionNotTheTask/${sensorId}`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${session}`,
-            'Content-Type': 'application/json'
-          }
-        });
-         const responseJson = await responseData.text() 
-
-             return {
-            serverData: responseJson,
-          };
-  
-
-}
- catch (error) {
-    console.log((error as Error).message)
+  if (result.success) {
     return {
-      serverError: "Bir Sorun Oluştu   ",
+      serverData: result.data,
+    };
+  } else {
+    return {
+      serverError: result.error, 
     };
   }
- 
- 
-
 }

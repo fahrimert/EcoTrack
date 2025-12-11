@@ -2,11 +2,11 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { getServerApi } from "../../../lib/api";
+import { getServerApi } from "../../util/api";
 
 export async function logOut() {
   const cookieStore = cookies();
-  const api = getServerApi()
+  const api =  getServerApi()
         const session = cookieStore.get("session")?.value;
         const refreshToken = cookieStore.get("refresh")?.value;
 

@@ -31,8 +31,8 @@ export default async function DashboardLayout({
       <body className={inter.className}>
               <AppProviders>
           <UserActivityDetector session = {session}/>
-          <div className="relative w-full h-fit flex flex-row max-xl:flex-col max-xl:p-0  justify-between  items-start  bg-[#14213f] min-h-screen">
-            <SidebarProvider >{children}</SidebarProvider>
+<div className="w-full min-h-screen bg-[#f1f0ee]">
+              <SidebarProvider >{children}</SidebarProvider>
           </div>
         </AppProviders>
       </body>

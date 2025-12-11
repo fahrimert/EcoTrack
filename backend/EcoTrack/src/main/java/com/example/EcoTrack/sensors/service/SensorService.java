@@ -4,6 +4,8 @@
     import com.example.EcoTrack.sensors.dto.AllSensorForManagerDTO;
     import com.example.EcoTrack.sensors.dto.CreateSensorLocationRequestDTO;
     import com.example.EcoTrack.sensors.dto.SensorDetailForManagerDTO;
+    import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardSensorDto;
+    import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardSensorFixDto;
     import com.example.EcoTrack.sensors.model.*;
     import com.example.EcoTrack.sensors.repository.SensorImageIconRepository;
     import com.example.EcoTrack.sensors.repository.SensorRepository;
@@ -16,6 +18,7 @@
     import com.example.EcoTrack.user.service.UserService;
     import com.example.EcoTrack.util.ImageUtil;
     import jakarta.persistence.EntityNotFoundException;
+    import jakarta.transaction.Transactional;
     import org.locationtech.jts.geom.Coordinate;
     import org.locationtech.jts.geom.GeometryFactory;
     import org.locationtech.jts.geom.Point;
@@ -235,7 +238,8 @@
                 sensorSessionRepository.save(sensorFix);
                 sensorRepository.save(sensor);
                 userRepository.save(user);
-                List<SensorDTO> sensors = getAllSensor();
+                //burayı daha sonra değiştirmem gerekebilir
+                List<WorkerDashboardSensorDto> sensors = getAllSensorsWorkerDashboard();
                 messagingTemplate.convertAndSend("/topic/sensors", sensors);
 
                     return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Sensor Updated" + sensor.getSensorName());
@@ -392,53 +396,45 @@
 
        //worker sensor functions
        //Worker Dashboard Page Go To The sensor session not the task sensor
-           public ResponseEntity<String> goToThesensorSessionNotTheTask( Long id ){
-               try {
-                   Sensor sensor = sensorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Sensor Not Found"));
-                   Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
-                   String username = securityContextHolder.getName();
+       @Transactional
+        public String goToThesensorSessionNotTheTask(Long id) {
+           Sensor sensor = sensorRepository.findById(id)
+                   .orElseThrow(() -> new EntityNotFoundException("Sensor Not Found"));
 
-                   User user = userService.findByEmail(username);
-                   Optional<SensorFix> existingSession = sensorSessionRepository.findByUserAndCompletedTimeIsNull(user);
-                   if (existingSession.isPresent()) {
-                       return ResponseEntity.status(HttpStatus.CONFLICT).body("You already have an active repair session.");
-                   }
+           Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
+           String username = securityContextHolder.getName();
 
+           User user = userService.findByEmail(username);
 
-                   if (sensor.getCurrentSensorSession() != null && sensor.getStatus() == SensorStatus.IN_REPAIR) {
-                       return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sensor is already in another worker hand");
-                   }
+           Optional<SensorFix> existingSession = sensorSessionRepository.findByUserAndCompletedTimeIsNull(user);
+           if (existingSession.isPresent()) {
+               throw new IllegalStateException("You already have an active repair session.");
+           }
 
-                   sensor.setStatus(SensorStatus.IN_REPAIR);
-                   SensorFix sensorSession = new SensorFix();
-                   sensorSession.setSensor(sensor);
-                   Date now = new Date();
+           if (sensor.getCurrentSensorSession() != null && sensor.getStatus() == SensorStatus.IN_REPAIR) {
+               throw new IllegalStateException("Sensor is already in another worker hand");
+           }
 
+           sensor.setStatus(SensorStatus.IN_REPAIR);
+           SensorFix sensorSession = new SensorFix();
+           sensorSession.setSensor(sensor);
+           Date now = new Date();
 
+           sensorSession.setUser(user);
+           sensorSession.setStartTime(now);
 
-                   sensorSession.setUser(user);
+           sensor.setCurrentSensorSession(sensorSession);
 
-                   sensorSession.setStartTime(now);
-                   sensor.setCurrentSensorSession(sensorSession);
-                   sensorSessionRepository.save(sensorSession);
-                   sensorRepository.save(sensor);
-                   List<SensorDTO> sensors = getAllSensor();
-                   messagingTemplate.convertAndSend("/topic/sensors", sensors);
+           sensorSessionRepository.save(sensorSession);
+           sensorRepository.save(sensor);
 
-                   return  ResponseEntity.status(HttpStatus.ACCEPTED).body("Now you are repairing" + sensor.getSensorName());
+           List<WorkerDashboardSensorDto> sensors = getAllSensorsWorkerDashboard();
+           messagingTemplate.convertAndSend("/topic/sensors", sensors);
 
-               }
-               catch (EntityNotFoundException e ){
-                   return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sensor Not Found");
-               }
-               catch (Exception e){
-                   return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
-
-               }
+           return "Now you are repairing " + sensor.getSensorName();
+       }
 
 
-
-           };
         //Worker past-sensors page get past  sensors of a logged ın worker
         public List<SensorFix> getPastSensorsOfWorker() {
             try{
@@ -460,39 +456,43 @@
         //end of worker sensor functions
         //get all the sensors endpoint
 
+        private WorkerDashboardSensorDto getAllSensorsConvertToDTO(Sensor sensor) {
+            SensorLocation loc = sensor.getSensorLocation();
+            SensorFix session = sensor.getCurrentSensorSession();
+            SensorStatus status = sensor.getStatus();
 
-        public List<SensorDTO> getAllSensor() {
+            WorkerDashboardSensorFixDto sessionDTO = null;
+            if (session != null) {
+                sessionDTO = WorkerDashboardSensorFixDto.builder()
+                        .id(session.getId())
+                        .startTime(session.getStartTime())
+                        .userId(session.getUser().getId())
+                        .build();
+            }
 
+            double lat = 0.0;
+            double lng = 0.0;
+            if (loc != null && loc.getLocation() != null) {
+                lat = loc.getLocation().getX();
+                lng = loc.getLocation().getY();
+            }
 
-            List<SensorDTO> sensorlistDTO  = sensorRepository.findAll().stream().map(a ->
-            {
-                SensorFix currentSession = a.getCurrentSensorSession();
-                SensorStatus status = a.getStatus();
-                SensorLocation location = a.getSensorLocation();
-
-                return new SensorDTO(
-                        a.getId(),
-                        a.getSensorName(),
-                        status != null ? status.getDisplayName() : null,
-                        status != null ? status.getColorCode() : null,
-                        location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
-                        location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0,
-
-                        new SensorFixDTO(
-                                currentSession != null ? currentSession.getId() : null,
-                                a.getSensorName(),
-                                status != null ? status.getDisplayName() : null,
-                                status != null ? status.getColorCode() : null,
-                                currentSession != null ? currentSession.getNote() : null,
-                                currentSession != null ? currentSession.getStartTime() : null,
-                                currentSession != null ? currentSession.getCompletedTime() : null,
-                                location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
-                                location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0
-                        )
-                );
-            }).collect(Collectors.toList());
-                return  sensorlistDTO;
-       }
+            return WorkerDashboardSensorDto.builder()
+                    .id(sensor.getId())
+                    .sensorName(sensor.getSensorName())
+                    .status(status != null ? status.getDisplayName() : "UNKNOWN")
+                    .color_code(status != null ? status.getColorCode() : "#000000")
+                    .latitude(lat)
+                    .longitude(lng)
+                    .currentSensorSession(sessionDTO)
+                    .build();
+        }
+        @Transactional
+        public List<WorkerDashboardSensorDto> getAllSensorsWorkerDashboard() {
+            return sensorRepository.findAllWithDetailsForWorkerDashboardSensor().stream()
+                    .map(this::getAllSensorsConvertToDTO)
+                    .collect(Collectors.toList());
+        }
 
         public List<ImageResponseDTO>  getImagesBySessionId(Long sessionId) {
             List<SensorSessionImages> images = sensorSessionImagesRepository.findBySensorSessionsId(sessionId);

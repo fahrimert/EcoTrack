@@ -1,8 +1,10 @@
 package com.example.EcoTrack.user.controller;
 
 import com.example.EcoTrack.auth.service.JwtService;
+import com.example.EcoTrack.notification.dto.EnrichedNotificationDTO;
 import com.example.EcoTrack.notification.dto.NotificationDTO;
 import com.example.EcoTrack.notification.service.NotificationService;
+import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardTaskSensorWithTaskDto;
 import com.example.EcoTrack.sensors.model.SensorFix;
 import com.example.EcoTrack.sensors.model.SensorStatus;
 import com.example.EcoTrack.sensors.service.SensorService;
@@ -20,10 +22,12 @@ import com.example.EcoTrack.user.model.UserOnlineStatus;
 import com.example.EcoTrack.user.repository.UserOnlineStatusRepository;
 import com.example.EcoTrack.user.repository.UserRepository;
 import com.example.EcoTrack.user.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -63,12 +67,16 @@ public class UserController {
 
     //Currently Logged In Worker  Detail data endpoint
     //bunu değiştir
-            @GetMapping("/user/me")
-        @Transactional
+        @GetMapping("/user/me")
         public UserDTO getTheDetailOfALoggedInUserController(HttpServletRequest request , HttpServletResponse response ){
-            String token = jwtService.extractTokenFromHeader(request);
-            return userService.getTheDetailOfALoggedInUser(token);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+            return userService.getTheDetailOfALoggedInUser(email);
         }
+
+
+
 
 
     //User Location Controller Based On A Given User Id endpoint  worker or supervizor
@@ -81,14 +89,6 @@ public class UserController {
     @Transactional
     public UserLocationDTO getUserLocationBasedOnTheirIdController(@PathVariable Long userId) {
         return  userService.getTheUserLocationBasedOnTheirId(userId);
-    }
-
-
-    //Get the workers for is sensor  worker dashboard page
-    @PostMapping("/worker/getProfilesOfWorkers")
-    @Transactional
-    public List<UserOnlineStatusDTO> getProfilesOfWorkers(@RequestBody List<Long> userIds) {
-      return  userService.getProfilesOfAllWorkers(userIds);
     }
 
 
@@ -172,9 +172,9 @@ public class UserController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    @GetMapping("/worker/getTasksOfMe/{userId}")
+    @GetMapping("/workerDashboard/getTasksOfMe/{userId}")
     @Transactional
-    public ResponseEntity  <List<SensorAllAndTaskDTO>> getSensorListFromTasksOfSingleUser (@PathVariable Long userId) {
+    public ResponseEntity  <List<WorkerDashboardTaskSensorWithTaskDto>> getSensorListFromTasksOfSingleUser (@PathVariable Long userId) {
         return  taskService.getSensorListFromTasksOfSingleUser(userId);
     }
 
@@ -221,10 +221,21 @@ public class UserController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    @Transactional
-
-    public ResponseEntity<String> goToThesensorSessionNotTheTask(@PathVariable Long sensorId){
-        return sensorService.goToThesensorSessionNotTheTask(sensorId);
+    public ResponseEntity<String> goToThesensorSessionNotTheTask(@PathVariable Long sensorId) {
+        try {
+            String responseMessage = sensorService.goToThesensorSessionNotTheTask(sensorId);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseMessage);
+        }
+        catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sensor Not Found");
+        }
+        catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
     }
 
 
@@ -262,31 +273,17 @@ public class UserController {
 
 
     //worker update notification to read endpoint
-    @PutMapping("/notifications/workerUpdateNotificationMarkIsRead/{userId}")
-    @CrossOrigin(
-            origins = "http://localhost:9595", // veya frontend URL’in
-            allowedHeaders = "*",
-            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
-    @Transactional
-
-    public ResponseEntity<?>  workerUpdateNotificationMarkIsRead(@PathVariable Long userId){
-
+    @PutMapping("/notifications/markAsRead/{userId}")
+    public ResponseEntity<?> markNotificationsAsRead(@PathVariable Long userId) {
         return notificationService.markNotificationsOfRead(userId);
     }
 
 
-    @CrossOrigin(
-            origins = "http://localhost:9595", // veya frontend URL’in
-            allowedHeaders = "*",
-            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
     @GetMapping("/user/getNotifications/{userId}")
     @Transactional
-    public ResponseEntity<List<NotificationDTO>> getNotificationById (@PathVariable Long userId) {
-        return  userService.getNotificationById(userId);
+    public ResponseEntity<List<EnrichedNotificationDTO>> getNotificationById(@PathVariable Long userId) {
+        return userService.getEnrichedNotifications(userId);
     }
-
     //end of user notification endpoints
 
 

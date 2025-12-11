@@ -1,3 +1,43 @@
+export interface UserProfileDTO {
+  id: number;
+  firstName: string;
+  surName: string;
+  role: string;
+  sensorSessions: SensorSessionDTO[]; 
+}
+
+export interface UserLocationDTO {
+  id: number;
+  latitude: number;
+  longitude: number;
+}
+export interface SensorSessionDTO {
+    id: number;
+    sensorName: string;
+    displayName: string;
+    color_code: string;
+    note: string;
+    startTime: string;
+    completedTime: string;
+    latitude: number;
+    longitude: number;
+}
+
+
+export interface EnrichedNotification {
+  id: number;
+  supervizorDescription: string;
+  superVizorDeadline: string; 
+  createdAt: string;
+  notificationType: string; 
+  senderId: number;
+  receiverId: number;
+  taskId: number;
+  isread: boolean;
+  sender: UserOnlineStatusDTO; 
+}
+
+
 export interface DifferentUserProfileType {
   id: number;
   email: string;

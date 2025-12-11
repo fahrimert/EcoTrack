@@ -1,18 +1,15 @@
-import axios from "axios";
+"use server";
 
-export async function createLocation(lat:number , lng:number,session:any){
-try {
-    
-    
+import { userService } from "@/app/services/userService";
+import { revalidatePath } from "next/cache";
 
-     await axios.post(`http://localhost:8080/workers/saveWorkersLocation?lat=${lat}&longtitude=${lng}`,{},
-        
-            {        headers:{Authorization:`Bearer ${session.value}`}
-            ,  withCredentials: true,}      )
-      
-
-} catch (error  : any) {
-  console.log(error.message);
-}
-
+export async function createWorkerLocationAction(lat: number, lng: number) {
+  try {
+    console.log(lat,lng);
+    await userService.createWorkerLocation(lat, lng);
+    revalidatePath("/worker/dashboard"); 
+    return { success: true, message: "Konum başarıyla güncellendi." };
+  } catch (error) {
+    return { success: false, message: "Konum güncellenemedi." };
+  }
 }

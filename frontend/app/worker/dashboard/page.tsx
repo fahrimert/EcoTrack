@@ -1,69 +1,40 @@
-import { cookies } from "next/headers";
 import React from "react";
 import NotificationComponentWrapper from "./components/NotificationComponent/NotificationComponentWrapper";
-import { DifferentUserProfileType, Notification, UserOnlineStatusDTO } from "@/app/sharedTypes";
 import SensorsAndMap from "./components/SensorComponents/SensorsAndMap";
+import { userService} from "@/app/services/userService";
+import { sensorService } from "@/app/services/sensorService";
 const page = async () => {
-  const session = cookies().get("session");
-
-  const responseProfileUser = await fetch(
-    `http://localhost:8080/user/me`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${session?.value}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  const responseProfileUserdata =
-    (await responseProfileUser.json()) as DifferentUserProfileType;
-
-  const response = await fetch(
-    `http://localhost:8080/user/getNotifications/${responseProfileUserdata?.id}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${session?.value}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-
-
-  const notifications = (await response.json()) as Notification[];
-  const senderIds = [...new Set(notifications.map((n) => n.senderId))];
-
-  const res = await fetch("http://localhost:8080/worker/getProfilesOfWorkers", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${session?.value}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(senderIds),
-  });
-  const users: UserOnlineStatusDTO[] = await res.json();
-  const enrichedNotifications = notifications.map((notif) => {
-    const sender = users.find((u) => u.id === notif.senderId);
-    return {
-      ...notif,
-      sender,
-    };
-  });
-
-  return (
-    <>
-      <div className=" h-fit w-full">
+  try {
+    const { userProfile, notifications } = await userService.getDashboardData();
+ const [sensorList, workerSensors,location] = await Promise.all([
+  userService.getSensorListFromTasksOfSingleUser(userProfile.id),
+  sensorService.getWorkerDashboardSensors(),
+  userService.getUserLocation()
+]);
+    return (
+      <div className="h-fit w-full flex flex-col gap-6">
+        
         <NotificationComponentWrapper
-          session={session}
-          enrichedNotifications={enrichedNotifications}
+          userId={userProfile.id}
+          enrichedNotifications={notifications} 
         />
-        <SensorsAndMap session={session} />
+
+
+        <SensorsAndMap 
+        sensorListFromtTaskOfSingleUser = {sensorList}
+        workerDashboardSensors = {workerSensors}
+         userProfile={userProfile}
+         userLocation = {location} />
+        
       </div>
-    </>
-  );
+    );
+  } catch (error) {
+    return (
+      <div className="flex h-screen items-center justify-center text-red-500">
+        <h1>Veriler yüklenirken bir sorun oluştu. Lütfen tekrar giriş yapın.</h1>
+      </div>
+    );
+  }
 };
 
 export default page;

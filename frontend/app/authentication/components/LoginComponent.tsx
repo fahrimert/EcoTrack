@@ -18,8 +18,10 @@ const SigninComponent = ({session } : {session: RequestCookie | undefined}) => {
       
     }
     if(state?.serverSuccess){
-toast.success("Giriş Başarılı! Yönlendiriliyorsunuz...");
-router.refresh(); 
+      
+    toast.success("Giriş Başarılı! Yönlendiriliyorsunuz...");
+    localStorage.setItem("session", state.accessToken);
+    localStorage.setItem("refresh", state.refreshToken);
      
         router.push(`/dashboard`); 
 

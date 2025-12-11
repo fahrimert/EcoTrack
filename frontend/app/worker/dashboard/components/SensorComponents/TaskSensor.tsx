@@ -1,130 +1,117 @@
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { DestinationContext } from "@/context/DestinationContext";
 import Link from "next/link";
+import {  WorkerDashboardTaskWithSensorDto } from "@/app/worker/types/types";
+import { MdLocationOn, MdTask } from "react-icons/md";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
-const TaskSensor = ({
-  sensors,
-}: {
-  sensors: {
-     id: number;
-    sensorName: string;
-    status: string; // İsteğe bağlı: enum olarak tanımlanabilir
-    color_code: string;
-    latitude: number;
-    longitude: number;
-    currentSensorSession: {
-      id: number | null;
-      sensorName: string;
-      displayName: string;
-      color_code: string;
-      note: string | null;
-      startTime: string | null;
-      completedTime: string | null;
-      latitude: number;
-      longitude: number;
-  }
-}}) => {
-  const { destination, setDestination } = useContext(DestinationContext);
 
-  const handleGO = async () => {
+interface TaskSensorProps {
+  sensors: WorkerDashboardTaskWithSensorDto;
+}
+
+const TaskSensor = ({ sensors }: TaskSensorProps) => {
+const { setDestination } = useContext(DestinationContext);
+  const [address, setAddress] = useState<string>("Konum aranıyor...");
+useEffect(() => {
+    let isMounted = true;
+
+    const fetchAddress = async () => {
+      try {
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+        if (!apiKey || !sensors) return;
+
+        const res = await fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${sensors.latitude},${sensors.longitude}&key=${apiKey}`
+        );
+        const data = await res.json();
+
+        if (isMounted && data.status === "OK" && data.results[0]) {
+          setAddress(data.results[0].formatted_address);
+        }
+      } catch (error) {
+        console.error("Adres alınamadı:", error);
+        if (isMounted) setAddress("Adres bulunamadı");
+      }
+    };
+
+    fetchAddress();
+
+    return () => { isMounted = false; };
+  }, [sensors?.latitude, sensors?.longitude]); 
+
+  if (!sensors || !sensors.id) return null;
+
+  const handleSetDestination = () => {
     setDestination({
       lat: sensors.latitude,
       lng: sensors.longitude,
     });
   };
-  const [address,setAddress] = useState()
-  const fetchAddressFromCoordinates = async (lat: number, lng: number) => {
-    const res = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E`
-    );
-  
-    const data = await res.json();
-  
-    if (data.status === 'OK') {
-      return data.results[0].formatted_address;
-    } else {
-      throw new Error('Geocoding failed');
-    }
-  };
-  useEffect(() => {
-    fetchAddressFromCoordinates(sensors.latitude, sensors.longitude)
-      .then((address) => {
-        setAddress(address);
-      })
-      .catch((err) => console.error(err));
-  }, [])
 
-  console.log(sensors);
 const sensorId = sensors?.id;
 
   const sensorLink = sensorId
   ? `/worker/dashboard/sensor-tasks/${sensorId}`
-  : "#"; // veya "/not-found"
+  : "#"; 
 
 
-  return (
-    <>
+return (
+    <div
+      onMouseEnter={handleSetDestination}
+      className="group relative flex flex-col bg-white border-2 border-amber-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-amber-300 transition-all duration-300"
+    >
+      <div className="absolute top-0 left-0 w-1 h-full bg-amber-400 z-20" />
 
-                <Link
-          href={sensorLink}
-        >
-        <div
-          className={cn(
-            `flex flex-col   w-full h-fit  justify-center items-center rounded-[30px]  p-[10px] gap-[10px]  `
-          )}
-        >
-          <div
-            onMouseEnter={() =>
-              setDestination({
-                lat: !sensors ? null : sensors.latitude,
-                lng: !sensors ? null : sensors.longitude,
-              })
-            }
-            className=  " bg-[#f1f0ee] rounded-[30px] flex flex-col w-fit h-fit p-[10px]   justify-start items-start  shadow-lg  hover:scale-105 duration-300 cursor-pointer ; "
-          >
-            <Image
-              src={"/indir.jpg"}
-              alt="232"
-              className={cn(
-                ` w-[200px] h-[100px]  object-fit  rounded-[30px] cursor-pointer  `
-              )}
-              width={100}
-              height={100}
-            />
-            <div className=" h-full w-full justify-start items-start flex flex-col p-[5px] gap-[5px]  ">
-              <h2 className="w-full text-[16px] font-normal   ">
-                {!sensors ? null :  sensors.sensorName }{" "}
-              </h2>
-            </div>
-            <div 
-            style={{ backgroundColor: !sensors ? "#000000" : sensors.color_code , opacity: 0.6}}
-            
-            className=" bg-[#c0ccc9]  w-full p-[5px] rounded-[5px] mb-[5px]">
-              <h2 className="text-[13px] font-normal   text-white ">
-                {!sensors ? null : address}{" "}
-              </h2>
+      <div className="relative h-32 w-full bg-slate-100 overflow-hidden">
+        <Image
+          src="/indir.jpg"
+          alt={sensors.sensorName}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
+        />
         
-              <h2 className="text-[13px] font-normal text-white   ">
-                {!sensors ? null : sensors.status}{" "}
-              </h2>
-            </div>
-
-            <div className="h-full w-full flex relative justify-betweeen items-end gap-[50px]">
-              <button
-                onClick={() => handleGO()}
-                type="button"
-                className="  h-[50px] w-full  rounded-[20px] box-border text-sm font-medium   text-black bg-white border-[2px] shadow-md  "
-              >
-                Görev Detaylar
-              </button>
-            </div>
-          </div>
+        <div className="absolute top-2 right-2 z-10">
+          <Badge className="bg-amber-500 text-white shadow-sm border-0 px-2 py-1 flex items-center gap-1">
+            <MdTask size={12} />
+            <span>GÖREV</span>
+          </Badge>
         </div>
-        </Link>
+      </div>
 
-    </>
+      <div className="p-4 pl-5 flex flex-col gap-3">
+        <div className="flex items-center gap-2">
+          <div
+            className="w-3 h-3 rounded-full shadow-sm ring-1 ring-white shrink-0"
+            style={{ backgroundColor: sensors.color_code || "#000" }}
+          />
+          <h3 className="font-bold text-slate-800 text-sm truncate" title={sensors.sensorName}>
+            {sensors.sensorName}
+          </h3>
+        </div>
+
+        <div className="flex items-start gap-1.5 text-xs text-slate-500 bg-amber-50/50 p-2 rounded-lg border border-amber-100">
+          <MdLocationOn className="mt-0.5 text-amber-600 shrink-0" size={14} />
+          <p className="line-clamp-2 leading-relaxed">{address}</p>
+        </div>
+
+        <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">
+            DURUM: <span className="text-slate-700">{sensors.status}</span>
+        </div>
+
+        <div className="mt-auto pt-1">
+          <Link href={`/worker/dashboard/sensor-tasks/${sensors.id}`} className="w-full block">
+            <Button 
+                className="w-full h-9 text-xs font-semibold bg-amber-500 text-white hover:bg-amber-600 transition-colors shadow-md"
+            >
+              Görev Detaylarına Git
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

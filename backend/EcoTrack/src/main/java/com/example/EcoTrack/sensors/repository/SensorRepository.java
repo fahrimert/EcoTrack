@@ -12,6 +12,12 @@ import java.util.Optional;
 
 @Repository
 public interface  SensorRepository extends JpaRepository<Sensor,Long> {
+    @Query("SELECT s FROM Sensor s " +
+            "LEFT JOIN FETCH s.sensorLocation sl " +
+            "LEFT JOIN FETCH s.currentSensorSession ss " +
+            "ORDER BY s.id ASC")
+    List<Sensor> findAllWithDetailsForWorkerDashboardSensor();
+
    Optional<Sensor> findById(Long id);
 
     @Query(value = "SELECT * FROM sensors WHERE sensor_name = :sensorName", nativeQuery = true)

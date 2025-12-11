@@ -1,5 +1,8 @@
 package com.example.EcoTrack.task.service;
 
+import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardTaskSensorWithTaskDto;
+import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardTaskWithSensorDto;
+import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardTaskWithSensorFixDto;
 import com.example.EcoTrack.sensors.model.Sensor;
 import com.example.EcoTrack.sensors.model.SensorFix;
 import com.example.EcoTrack.sensors.model.SensorLocation;
@@ -51,60 +54,72 @@ public class TaskService {
     }
 
     //get the tasks of user based on given id for worker pages use case function
-    public  ResponseEntity  <List<SensorAllAndTaskDTO>> getSensorListFromTasksOfSingleUser(Long userId){
+    private WorkerDashboardTaskSensorWithTaskDto convertToSensorAllAndTaskDTO(Task task) {
+        Sensor sensor = task.getSensor();
 
-        User user = userRepository.findById(userId).orElse(null);
-        List<Task> usersTask = userService.getAllTaskOfMe(user.getId());
+        WorkerDashboardTaskWithSensorDto workerDashboardTaskWithSensorDto = null;
+        if (sensor != null) {
+            workerDashboardTaskWithSensorDto = convertToWorkerDashboardTaskWithSensorDTO(sensor);
+        }
 
-        List<SensorAllAndTaskDTO> taskSensorListDTO  = usersTask.stream().map(a ->
-        {
-            Sensor sensor = a.getSensor();
-            if (sensor ==null){
-                return  null;
-            }
-            SensorFix currentSession = a.getSensor().getCurrentSensorSession();
-            SensorStatus status = a.getSensor().getStatus();
-            SensorLocation location = a.getSensor().getSensorLocation();
+        UserTaskDTO assignedByDTO = new UserTaskDTO(
+                task.getAssignedBy().getId(),
+                task.getAssignedBy().getFirstName(),
+                task.getAssignedBy().getSurName()
+        );
 
-            UserTaskDTO userTaskDTOassignedBy = new UserTaskDTO();
-            userTaskDTOassignedBy.setId(a.getAssignedBy().getId());
-            userTaskDTOassignedBy.setFirstName(a.getAssignedBy().getFirstName());
-            userTaskDTOassignedBy.setSurName(a.getAssignedBy().getSurName());
-         SensorDTO sensorDTO = new SensorDTO(
-                    a.getSensor().getId(),
-                    a.getSensor().getSensorName(),
-                    status != null ? status.getDisplayName() : null,
-                    status != null ? status.getColorCode() : null,
-                    location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
-                    location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0,
+        return new WorkerDashboardTaskSensorWithTaskDto(
+                task.getId(),
+                workerDashboardTaskWithSensorDto,
+                task.getSuperVizorDescription(),
+                task.getSuperVizorDeadline(),
+                assignedByDTO,
+                task.getWorkerArriving(),
+                task.getWorkerArrived(),
+                task.getWorkerOnRoadNote(),
+                task.getSolvingNote(),
+                task.getTaskImages(),
+                task.getTaskCompletedTime()
+        );
+    }
 
-                    new SensorFixDTO(
-                            currentSession != null ? currentSession.getId() : null,
-                            a.getSensor().getSensorName(),
-                            status != null ? status.getDisplayName() : null,
-                            status != null ? status.getColorCode() : null,
-                            currentSession != null ? currentSession.getNote() : null,
-                            currentSession != null ? currentSession.getStartTime() : null,
-                            currentSession != null ? currentSession.getCompletedTime() : null,
-                            location != null && location.getLocation() != null ? location.getLocation().getX() : 0.0,
-                            location != null && location.getLocation() != null ? location.getLocation().getY() : 0.0
-                    )
-            );
-         Long taskId = a.getId();
-            return new SensorAllAndTaskDTO(sensorDTO,
-                    taskId,
-                    a.getSuperVizorDescription(),
-                    a.getSuperVizorDeadline(),userTaskDTOassignedBy,
-                    a.getWorkerArriving(),
-                    a.getWorkerArrived(),
-                    a.getWorkerOnRoadNote(),
-            a.getSolvingNote(),
-            a.getTaskImages(),
-            a.getTaskCompletedTime()
-            );
+    private WorkerDashboardTaskWithSensorDto convertToWorkerDashboardTaskWithSensorDTO(Sensor sensor) {
+        SensorStatus status = sensor.getStatus();
+        SensorLocation loc = sensor.getSensorLocation();
+        SensorFix session = sensor.getCurrentSensorSession();
 
-        }).collect(Collectors.toList());
-        return ResponseEntity.ok(taskSensorListDTO);
+        // Hafifletilmiş Session DTO
+        WorkerDashboardTaskWithSensorFixDto workerDashboardTaskWithSensorFixDTO = null;
+        if (session != null) {
+            workerDashboardTaskWithSensorFixDTO = WorkerDashboardTaskWithSensorFixDto.builder()
+                    .id(session.getId())
+                    .note(session.getNote())
+                    .startTime(session.getStartTime())
+                    .completedTime(session.getCompletedTime())
+                    .build();
+        }
+
+        double lat = (loc != null && loc.getLocation() != null) ? loc.getLocation().getY() : 0.0;
+        double lng = (loc != null && loc.getLocation() != null) ? loc.getLocation().getX() : 0.0;
+
+        return WorkerDashboardTaskWithSensorDto.builder()
+                .id(sensor.getId())
+                .sensorName(sensor.getSensorName())
+                .status(status != null ? status.name() : "UNKNOWN") // DisplayName yerine Enum name daha güvenlidir
+                .color_code(status != null ? status.getColorCode() : "#000000")
+                .latitude(lat)
+                .longitude(lng)
+                .currentSensorSession(workerDashboardTaskWithSensorFixDTO)
+                .build();
+    }
+    public  ResponseEntity<List<WorkerDashboardTaskSensorWithTaskDto>> getSensorListFromTasksOfSingleUser(Long userId){
+        List<Task> tasks = taskRepository.findIncompleteTasksByWorkerId(userId);
+
+        List<WorkerDashboardTaskSensorWithTaskDto> dtos = tasks.stream()
+                .map(this::convertToSensorAllAndTaskDTO)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtos);
 
     }
 

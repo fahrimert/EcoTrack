@@ -15,6 +15,7 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -48,7 +49,9 @@ public class UserLocationService {
 
 
             userLocation.setCreatedAt(now);
-            User user = userRepository.findByFirstName(username);
+            User user = userRepository.findByEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+
             userLocation.setUser(user);
             user.setUserLocation(userLocation);
 
@@ -63,18 +66,18 @@ public class UserLocationService {
     }
 
     public UserLocationDTO getLocation(String username) {
-        User user = userRepository.findByFirstName(username);
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(username).orElseThrow(() -> (new RuntimeException("Kullanıcı bulunamadı: " + username))));
         if (user == null) {
             throw new RuntimeException("Kullanıcı bulunamadı: " + username);
         }
 
-        if (user.getUserLocation() == null) {
+        if (user.get().getUserLocation() == null) {
             throw new RuntimeException("Kullanıcıya ait lokasyon bilgisi yok: " + username);
         }
 
-        Point point =   user.getUserLocation().getLocation();
+        Point point =   user.get().getUserLocation().getLocation();
 
-        return new UserLocationDTO(user.getId(),point.getY(), point.getX());
+        return new UserLocationDTO(user.get().getId(),point.getY(), point.getX());
     }
 
     //Get all workers session if they has and their own location for worker ekiptakibi page

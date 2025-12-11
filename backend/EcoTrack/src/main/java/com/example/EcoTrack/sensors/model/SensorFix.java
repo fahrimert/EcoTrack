@@ -21,19 +21,19 @@ import java.util.List;
 public class SensorFix {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private  String Note;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "sensor_id"
     )
     private  Sensor sensor;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "user_id"
     )
@@ -48,7 +48,7 @@ public class SensorFix {
     private Date completedTime;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "sensorSessions",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sensorSessions",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SensorSessionImages> sensorSessionImages;
 
 }

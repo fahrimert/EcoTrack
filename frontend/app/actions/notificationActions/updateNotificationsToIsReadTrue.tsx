@@ -1,17 +1,13 @@
 "use server";
 import axios from "axios";
+import {getServerApi} from '@/app/util/api'
 
-export async function updateNotificationsToIsReadTrue(session:string,userId:string) {
+  const api =  getServerApi()
+
+export async function updateNotificationsToIsReadTrue(userId:string) {
   try {
-        const response = await axios.put(
+        const response = await api.put(
             `http://localhost:8080/notifications/workerUpdateNotificationMarkIsRead/${userId}`,
-            {},
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session}`,
-              },
-            }
           );
         const responseJson = await response.data 
             console.log(responseJson);

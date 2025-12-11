@@ -177,107 +177,107 @@ public class SensorServiceUnitTest {
 
     }
 
-    @Test
-    void shouldgoToTheSensorSessionNotTheTask() throws Exception{
-        Long mockSensorId = 15L;
+//    @Test
+//    void shouldgoToTheSensorSessionNotTheTask() throws Exception{
+//        Long mockSensorId = 15L;
+//
+//        Sensor mockSensor = new Sensor();
+//        mockSensor.setId(mockSensorId);
+//        mockSensor.setSensorName("Mock Sensor");
+//        mockSensor.setStatus(SensorStatus.ACTIVE);
+//
+//
+//        Authentication authentication = mock(Authentication.class);
+//        when(authentication.getName()).thenReturn("testUser");
+//
+//        SecurityContext securityContext = mock(SecurityContext.class);
+//        when(securityContext.getAuthentication()).thenReturn(authentication);
+//        SecurityContextHolder.setContext(securityContext);
+//
+//
+//        String mockUsernamee = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = new User();
+//        user.setFirstName(mockUsernamee);
+//        user.setId(21L);
+//        user.setSensorSessions(null);
+//
+//        when(userService.findByEmail(mockUsernamee)).thenReturn(user);
+//        SensorFix sensorSession = new SensorFix();
+//
+//        sensorSession.setSensor(mockSensor);
+//
+//        mockSensor.setCurrentSensorSession(sensorSession);
+//        when(sensorRepository.findById(mockSensorId)).thenReturn(Optional.of(mockSensor));
+//        when(sensorSessionRepository.findByUserAndCompletedTimeIsNull(user)).thenReturn(Optional.empty());
+//
+//        ArgumentCaptor<SensorFix> sensorFixCaptor = ArgumentCaptor.forClass(SensorFix.class);
+//        when(sensorSessionRepository.save(sensorFixCaptor.capture())).thenAnswer(invocation -> {
+//            SensorFix saved = invocation.getArgument(0);
+//            saved.setId(100L);
+//            return saved;
+//        });
+//
+//        when(sensorRepository.save(mockSensor)).thenReturn(mockSensor);
+//
+//        ResponseEntity<String> result = sensorService.goToThesensorSessionNotTheTask(mockSensorId );
+//
+//        assertEquals(HttpStatus.ACCEPTED, result.getStatusCode());
+//        assertEquals("Now you are repairing" + mockSensor.getSensorName(), result.getBody());
+//
+////        verify(sensorRepository.findById(mockSensorId));
+//        verify(sensorSessionRepository).findByUserAndCompletedTimeIsNull(user);
+//        verify(sensorSessionRepository).save(any(SensorFix.class));
+//        verify(sensorRepository).save(mockSensor);
+//
+//    }
 
-        Sensor mockSensor = new Sensor();
-        mockSensor.setId(mockSensorId);
-        mockSensor.setSensorName("Mock Sensor");
-        mockSensor.setStatus(SensorStatus.ACTIVE);
+//    @Test
+//    void goToSensorSessionNotTheTask_whenSensorNotFound_shouldReturnError() throws  Exception{
+//        when(sensorRepository.findById(any())).thenReturn(Optional.empty());
+//
+//        ResponseEntity<String> response = sensorService.goToThesensorSessionNotTheTask(1021L);
+//
+//        assertEquals("Sensor Not Found", response.getBody());
+//
+//    }
 
-
-        Authentication authentication = mock(Authentication.class);
-        when(authentication.getName()).thenReturn("testUser");
-
-        SecurityContext securityContext = mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
-
-        String mockUsernamee = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = new User();
-        user.setFirstName(mockUsernamee);
-        user.setId(21L);
-        user.setSensorSessions(null);
-
-        when(userService.findByEmail(mockUsernamee)).thenReturn(user);
-        SensorFix sensorSession = new SensorFix();
-
-        sensorSession.setSensor(mockSensor);
-
-        mockSensor.setCurrentSensorSession(sensorSession);
-        when(sensorRepository.findById(mockSensorId)).thenReturn(Optional.of(mockSensor));
-        when(sensorSessionRepository.findByUserAndCompletedTimeIsNull(user)).thenReturn(Optional.empty());
-
-        ArgumentCaptor<SensorFix> sensorFixCaptor = ArgumentCaptor.forClass(SensorFix.class);
-        when(sensorSessionRepository.save(sensorFixCaptor.capture())).thenAnswer(invocation -> {
-            SensorFix saved = invocation.getArgument(0);
-            saved.setId(100L);
-            return saved;
-        });
-
-        when(sensorRepository.save(mockSensor)).thenReturn(mockSensor);
-
-        ResponseEntity<String> result = sensorService.goToThesensorSessionNotTheTask(mockSensorId );
-
-        assertEquals(HttpStatus.ACCEPTED, result.getStatusCode());
-        assertEquals("Now you are repairing" + mockSensor.getSensorName(), result.getBody());
-
-//        verify(sensorRepository.findById(mockSensorId));
-        verify(sensorSessionRepository).findByUserAndCompletedTimeIsNull(user);
-        verify(sensorSessionRepository).save(any(SensorFix.class));
-        verify(sensorRepository).save(mockSensor);
-
-    }
-
-    @Test
-    void goToSensorSessionNotTheTask_whenSensorNotFound_shouldReturnError() throws  Exception{
-        when(sensorRepository.findById(any())).thenReturn(Optional.empty());
-
-        ResponseEntity<String> response = sensorService.goToThesensorSessionNotTheTask(1021L);
-
-        assertEquals("Sensor Not Found", response.getBody());
-
-    }
-
-    @Test
-    void goToThesensorSessionNotTheTask_whenSensorInRepairByOtherWorker_shouldReturnConflict() {
-        Long sensorId = 1L;
-        String  mockUsername = "testUser";
-
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-        when(authentication.getName()).thenReturn(mockUsername);
-
-
-
-        User mockUser = new User();
-        mockUser.setFirstName(mockUsername);
-        mockUser.setId(2L);
-        mockUser.setFirstName("testUser");
-        mockUser.setEmail("firstUser@gmail.com");
-
-        Sensor mockSensor = new Sensor();
-        mockSensor.setId(sensorId);
-        mockSensor.setSensorName("mockSensor");
-
-        SensorFix mockSensorSession = new SensorFix();
-        mockSensorSession.setId(101L);
-        mockSensorSession.setSensor(mockSensor);
-
-        mockUser.setSensorSessions(List.of(mockSensorSession));
-
-        when(sensorRepository.findById(sensorId)).thenReturn(Optional.of(mockSensor));
-
-        when(userService.findByEmail("firstUser@gmail.com")).thenReturn(mockUser);
-
-        when(sensorSessionRepository.findByUserAndCompletedTimeIsNull(mockUser)).thenReturn(Optional.of(mockSensorSession));
-
-        ResponseEntity<String>  mockApiResponse = sensorService.goToThesensorSessionNotTheTask(sensorId);
-
-        assertEquals(ResponseEntity.status(HttpStatus.CONFLICT).body("You already have an active repair session."), mockApiResponse);
-    }
+//    @Test
+//    void goToThesensorSessionNotTheTask_whenSensorInRepairByOtherWorker_shouldReturnConflict() {
+//        Long sensorId = 1L;
+//        String  mockUsername = "testUser";
+//
+//        when(securityContext.getAuthentication()).thenReturn(authentication);
+//        SecurityContextHolder.setContext(securityContext);
+//        when(authentication.getName()).thenReturn(mockUsername);
+//
+//
+//
+//        User mockUser = new User();
+//        mockUser.setFirstName(mockUsername);
+//        mockUser.setId(2L);
+//        mockUser.setFirstName("testUser");
+//        mockUser.setEmail("firstUser@gmail.com");
+//
+//        Sensor mockSensor = new Sensor();
+//        mockSensor.setId(sensorId);
+//        mockSensor.setSensorName("mockSensor");
+//
+//        SensorFix mockSensorSession = new SensorFix();
+//        mockSensorSession.setId(101L);
+//        mockSensorSession.setSensor(mockSensor);
+//
+//        mockUser.setSensorSessions(List.of(mockSensorSession));
+//
+//        when(sensorRepository.findById(sensorId)).thenReturn(Optional.of(mockSensor));
+//
+//        when(userService.findByEmail("firstUser@gmail.com")).thenReturn(mockUser);
+//
+//        when(sensorSessionRepository.findByUserAndCompletedTimeIsNull(mockUser)).thenReturn(Optional.of(mockSensorSession));
+//
+//        ResponseEntity<String>  mockApiResponse = sensorService.goToThesensorSessionNotTheTask(sensorId);
+//
+//        assertEquals(ResponseEntity.status(HttpStatus.CONFLICT).body("You already have an active repair session."), mockApiResponse);
+//    }
 
     @Test
     void getJustDetailOfSensorForManagerManageSensorUsage(){

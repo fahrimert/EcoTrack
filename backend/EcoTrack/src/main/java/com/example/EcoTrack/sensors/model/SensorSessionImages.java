@@ -21,7 +21,7 @@ public class SensorSessionImages {
     private String type; //bu filetype normalde
 
     @Lob
-    @Column(name = "imageData",length = 1000)
+    @Column(name = "imageData", length = 10485760)
     private byte[] image;
 
 

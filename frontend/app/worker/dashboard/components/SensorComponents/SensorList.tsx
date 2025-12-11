@@ -1,15 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Sensor from "./Sensor";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { TaskSensorWithTask } from "./SensorsAndMap";
 import Heading from "../../past-sensors/[id]/components/Heading";
 import TaskSensor from "./TaskSensor";
 import { Client, over } from "stompjs";
 import SockJS from "sockjs-client";
-import { DifferentUserProfileType } from "@/app/sharedTypes";
+import { DifferentUserProfileType, UserProfileDTO } from "@/app/sharedTypes";
+import { WorkerDashboardSensorDto, WorkerDashboardTaskSensorWithTaskDto } from "@/app/worker/types/types";
+import SensorCard from "./SensorCard";
+import { Loader2, Inbox } from "lucide-react";
 
+
+//typeyi şimdilik silmedim typeyi silecem diğer yerlerde de kullanmayı kesince 
 export interface SensorList {
   sensorName: string;
   status: string;
@@ -31,71 +33,37 @@ export interface SensorList {
       }
     | undefined;
 }
-export interface UserProfile {
-  id: number;
-  email: string;
-  firstName: string;
-  surName: string;
-  password: string;
-  refreshToken: {
-    token: string;
-    expiresAt: string;
-    id: number;
-  };
-  role: string;
-  sensorSessions: [
-    {
-      id: number;
-      sensor: {
-        id: number;
-        sensorName: string;
-        status: string;
-        installationDate: number;
-      };
-      startTime: string;
-      completedTime: string;
-      note: null;
-    }
-  ];
-}
 
+
+interface SensorListProps {
+  sensorListFromTasksOfSingleUser: WorkerDashboardTaskSensorWithTaskDto[];
+  sensorListData: WorkerDashboardSensorDto[] | undefined;
+  userProfile: UserProfileDTO | undefined;
+}
 const SensorList = ({
-  taskSensorListData,
-  session,
+  sensorListFromTasksOfSingleUser,
   sensorListData,
   userProfile,
-}: {
-  session: RequestCookie;
-  taskSensorListData : TaskSensorWithTask[]
-  sensorListData: SensorList[] | undefined;
-  userProfile: DifferentUserProfileType | undefined;
-}) => {
-const userBasedsensor = sensorListData?.map((g) => {
-  if (!g.currentSensorSession || !userProfile?.sensorSessions || userProfile.sensorSessions.length === 0) {
-    return false;
-  }
-  return g.currentSensorSession.id === userProfile.sensorSessions[0].id;
-});
-  const customSensorListData = sensorListData?.map((sensor) => {
-    const isUserSensor =   userProfile?.sensorSessions ? userProfile?.sensorSessions.some(
-      (session) => session.id === sensor.currentSensorSession?.id
-    ) : null;
+}:  SensorListProps) => {
+  const [tasks, setTasks] = useState<WorkerDashboardTaskSensorWithTaskDto[]>(sensorListFromTasksOfSingleUser);
+  const [sensors, setSensors] = useState<WorkerDashboardSensorDto[]>(sensorListData || []);
+  const [hasLiveTasks, setHasLiveTasks] = useState(sensorListFromTasksOfSingleUser.length > 0);
 
-    return {
-      ...sensor,
-      userBasedSensor: isUserSensor, 
-    };
-  });
+  const stompClientRef = useRef<Client | null>(null);
 
-  const [tasks, setTasks] = useState<TaskSensorWithTask[]>(taskSensorListData);
-  const [hasLiveTasks, setHasLiveTasks] = useState(taskSensorListData.length > 0);
+  useEffect(() => {
+    setTasks(sensorListFromTasksOfSingleUser);
+  }, [sensorListFromTasksOfSingleUser]);
+
+  useEffect(() => {
+    if(sensorListData) setSensors(sensorListData);
+  }, [sensorListData]);
+
+  
+  console.log(sensorListData);
+
 
         let stompClient: Client;
-    useEffect(() => {
-  setTasks(taskSensorListData);
-      setHasLiveTasks(taskSensorListData.length > 0);
-
-}, [taskSensorListData]);
       useEffect(() => {
         const socket = new SockJS('http://localhost:8080/ws'); 
         stompClient = over(socket);
@@ -125,50 +93,62 @@ const userBasedsensor = sensorListData?.map((g) => {
         
             //burda tüm userları gösterecez sadece bunu eşleşenleri online diye gösterecez onu da backgroundu yeşil yaparız 
         
-
-  return (<>
-     
-       <ScrollArea className="h-screen  w-full flex flex-col">
-        <div className="w-full h-fit flex flex-col gap-[20px]">
-
-   { tasks.length == 0 ? 
-  <Heading
-title={"Tüm Sensörler"}
-description={"Herhangi bir göreviniz olmadığı için tüm sensörlerin arasından müsait olanları seçebilirsiniz"}
-/> : 
-<Heading
-title={"Görevler"}
-description={"Görevleriniz olduğu için tüm sensörler yerine sadece görevinizdeki sensörleri görürsünüz"}
-
-/>
-  }
-
-
-
-      <div className=" w-full h-fit grid grid-cols-2 bg-[#c2cecb] items-start justify-start     gap-[5px] rounded-[30px] max-xl:grid max-xl:grid-cols-3 max-md:grid max-md:grid-cols-1">
-        {
-        tasks.length !== 0  && hasLiveTasks ? 
-            tasks?.map((sensors) => (
-          <TaskSensor
-            sensors={sensors.taskSensors}
-          />
-        ))
-        : 
+const hasActiveTasks = tasks.length > 0;
+const showSensors = !hasActiveTasks && sensors.length > 0;
+const isEmpty = !hasActiveTasks && sensors.length === 0;  
+console.log("TASKSSS" ,tasks);
+return (
+<div className="h-full w-full bg-white xl:border-l border-gray-200 xl:shadow-xl flex flex-col rounded-2xl overflow-hidden border xl:border-0 shadow-md xl:shadow-none">      
+      <div className="p-6 border-b border-gray-100 bg-gray-50/50 backdrop-blur-sm sticky top-0 z-10">
+        <Heading
+          title={hasActiveTasks ? "Aktif Görevler" : "Tüm Sensörler"}
+          description={
+            hasActiveTasks
+              ? "Üzerinize atanmış görevleri öncelikli olarak tamamlayınız."
+              : "Şu an aktif göreviniz yok. Sahadaki sensörleri inceleyebilirsiniz."
+          }
+        />
         
-        customSensorListData?.map((sensors) => (
-          <Sensor
-            session={session}
-            sensors={sensors}
-            userProfile={userProfile}
-            userBasedsensor={userBasedsensor}
-          />
-        ))}
-      </div>
+        <div className="mt-2 flex items-center gap-2">
+            <span className={`h-2 w-2 rounded-full ${hasActiveTasks ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'}`} />
+            <span className="text-xs text-gray-500 font-medium">
+                {hasActiveTasks ? `${tasks.length} Görev Bekliyor` : "Saha Stabil"}
+            </span>
         </div>
+      </div>
 
-    </ScrollArea>
-    </>
- 
+      <ScrollArea className=" h-[700px] bg-gray-50/30">
+        <div className="p-4 pb-20">
+          
+          {isEmpty && (
+            <div className="flex flex-col items-center justify-center h-64 text-gray-400 gap-3">
+               <div className="bg-gray-100 p-4 rounded-full">
+                 <Inbox size={40} className="text-gray-300" />
+               </div>
+               <p className="text-sm font-medium">Görüntülenecek veri yok</p>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            
+            {hasActiveTasks && tasks.map((task) => (
+              <TaskSensor key={task.id} sensors={task.taskSensors} />
+            ))}
+
+            {showSensors && sensors.map((sensor) => {
+              const isMySensor = sensor.currentSensorSession?.userId === userProfile?.id;
+              return (
+                <SensorCard
+                  key={sensor.id}
+                  sensor={sensor}
+                  isMySensor={isMySensor}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </ScrollArea>
+    </div>
   );
 };
 

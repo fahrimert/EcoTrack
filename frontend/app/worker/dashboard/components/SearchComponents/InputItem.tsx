@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { startTransition, useContext, useEffect, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -9,26 +9,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Autocomplete from "react-google-autocomplete";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { SourceContext } from "@/context/SourceContext";
-import { createLocation } from "@/app/actions/userActions/createUserLocation";
-
+import { Loader2 } from "lucide-react";
+import { createWorkerLocationAction } from "@/app/actions/userActions/createUserLocation";
+import { cn } from "@/lib/utils";
 const createLocationFormSchema = z.object({
-  name: z.string().min(3, {
-    message: "Konum  en az 3 karakter olmalıdır.",
-  }),
+name: z.string().min(3, { message: "Konum en az 3 karakter olmalıdır." }),
   placeId: z.string().optional(),
-  lat: z.number().optional(),
-  lng: z.number().optional(),
+  lat: z.number({ required_error: "Lütfen listeden bir konum seçin." }), 
+  lng: z.number({ required_error: "Lütfen listeden bir konum seçin." }),
 });
 
 export type LocationFormValue = z.infer<typeof createLocationFormSchema>;
 
-const InputItem = ({ session }: { session: RequestCookie }) => {
+const InputItem = () => {
   const [loading, setLoading] = useState(false);
   const { source, setSource } = useContext(SourceContext);
+  const [isPending, startTransition] = useTransition();
+
 
   const form = useForm<LocationFormValue>({
     resolver: zodResolver(createLocationFormSchema),
@@ -38,13 +39,23 @@ const InputItem = ({ session }: { session: RequestCookie }) => {
     },
   });
 
-  const onSubmit = async (data: LocationFormValue) => {
-    try {
-      createLocation(data.lat!, data.lng!, session);
-    } catch (error) {
-      console.log(error);
-    }
+  
+const onSubmit = (data: LocationFormValue) => {
+
+  console.log("Form gönderiliyor:", data); // Debug için
+  startTransition(async () => {
+      const result = await createWorkerLocationAction(data.lat, data.lng);
+      
+      if (result.success) {
+        toast.success(result.message);
+        setSource({ lat: data.lat, lng: data.lng });
+      } else {
+        toast.error(result.message);
+      }
+    });
   };
+
+  
 
   useEffect(() => {
   if (!window.google) {
@@ -68,7 +79,7 @@ const InputItem = ({ session }: { session: RequestCookie }) => {
     
                 <FormControl>
                   <Autocomplete
-                    apiKey="AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E"
+                    apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
                     onPlaceSelected={(place) => {
                       form.setValue("name", place.formatted_address || "");
                       form.setValue("placeId", place.place_id || "");
@@ -85,19 +96,28 @@ const InputItem = ({ session }: { session: RequestCookie }) => {
                     options={{
                       componentRestrictions: { country: "tr" },
                     }}
-                    className="  h-[50px] w-full box-border text-sm font-medium   text-black bg-white border-[2px] shadow-md  "
+                    className="w-full h-10 bg-transparent outline-none text-gray-700 placeholder:text-gray-400 text-sm font-medium"
                   />
                 </FormControl>
            
 
-          <Button
-            variant={null}
-            disabled={loading}
-            type="submit"
-            className="  h-[50px] w-full  rounded-[20px] box-border text-sm font-medium   text-black bg-white border-[2px] shadow-md  "
-          >
-            Gidin
-          </Button>
+        <Button
+          type="submit"
+          disabled={isPending}
+          className={cn(
+            "h-10 px-6 rounded-md text-sm font-medium text-white transition-all shadow-md",
+            isPending ? "bg-gray-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-700"
+          )}
+        >
+          {isPending ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Kaydediliyor
+            </>
+          ) : (
+            "Konumu Kaydet"
+          )}
+        </Button>
         </div>
       </form>
       <Toaster />

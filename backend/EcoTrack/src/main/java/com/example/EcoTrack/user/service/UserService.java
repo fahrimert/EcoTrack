@@ -1,7 +1,10 @@
 package com.example.EcoTrack.user.service;
+import com.example.EcoTrack.notification.dto.EnrichedNotificationDTO;
 import com.example.EcoTrack.notification.dto.NotificationDTO;
+import com.example.EcoTrack.notification.model.Notification;
 import com.example.EcoTrack.notification.repository.NotificationRepository;
 import com.example.EcoTrack.sensors.model.Sensor;
+import com.example.EcoTrack.sensors.model.SensorFix;
 import com.example.EcoTrack.sensors.model.SensorLocation;
 import com.example.EcoTrack.shared.dto.ApiResponse;
 import com.example.EcoTrack.shared.dto.SensorFixDTO;
@@ -14,6 +17,7 @@ import com.example.EcoTrack.user.repository.UserRepository;
 import com.example.EcoTrack.user.dto.UserDTO;
 import com.example.EcoTrack.user.model.User;
 import io.jsonwebtoken.Claims;
+import jakarta.transaction.Transactional;
 import org.locationtech.jts.geom.Point;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,36 +40,43 @@ public class UserService {
         this.notificationRepository = notificationRepository;
         this.jwtService = jwtService;
     }
+    private SensorFixDTO convertToSensorFixDTO(SensorFix sensorFix) {
+        Sensor sensor = sensorFix.getSensor();
 
+        double latitude = 0.0;
+        double longitude = 0.0;
+
+        if (sensor != null && sensor.getSensorLocation() != null) {
+            latitude = sensor.getSensorLocation().getLocation().getX();
+            longitude = sensor.getSensorLocation().getLocation().getY();
+        }
+
+        return SensorFixDTO.builder()
+                .id(sensorFix.getId())
+                .sensorName(sensor != null ? sensor.getSensorName() : "Bilinmiyor")
+                .displayName(sensor != null ? sensor.getStatus().getDisplayName() : "Bilinmiyor")
+                .color_code(sensor != null ? sensor.getStatus().getColorCode() : "#000000")
+                .note(sensorFix.getNote())
+                .startTime(sensorFix.getStartTime())
+                .completedTime(sensorFix.getCompletedTime())
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
+    }
     //Get The Detail Of Logged In Worker function
-    public UserDTO getTheDetailOfALoggedInUser(String accessToken){
-        Claims claims =  jwtService.extractAllClaims(accessToken);
-
-        User user = findByEmail(claims.getSubject());
+    @Transactional
+    public UserDTO getTheDetailOfALoggedInUser(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"));
 
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
-        userDTO.setFirstName(user.getSurName());
+        userDTO.setSurName(user.getSurName());
         userDTO.setRole(user.getRole());
         List<SensorFixDTO> sensorFixDTOList = user.getSensorSessions()
                 .stream()
-                .map(sensorFix -> {
-                    Sensor sensor = sensorFix.getSensor();
-                    SensorLocation location = sensor.getSensorLocation();
-
-                    return new SensorFixDTO(
-                            sensorFix.getId(),
-                            sensor != null ? sensor.getSensorName() : null,
-                            sensor != null ? sensor.getStatus().getDisplayName() : null,
-                            sensor != null ? sensor.getStatus().getColorCode() : null,
-                            sensorFix.getNote(),
-                            sensorFix.getStartTime(),
-                            sensorFix.getCompletedTime(),
-                            location != null ? location.getLocation().getX() : 0.0,
-                            location != null ? location.getLocation().getY() : 0.0
-                    );
-                })
+                .map(this::convertToSensorFixDTO)
                 .collect(Collectors.toList());
         userDTO.setSensorSessions(sensorFixDTOList);
     return  userDTO;
@@ -298,40 +309,51 @@ public class UserService {
         return dtoList;
     }
 
+    //get notifications for given worker id
+    public ResponseEntity<List<EnrichedNotificationDTO>> getEnrichedNotifications(Long userId) {
+        List<Notification> notifications = notificationRepository.findByReceiverId(userId);
 
-    // fetch profiles of all workers
-    public List<UserOnlineStatusDTO> getProfilesOfAllWorkers (List<Long> userIds) {
-        List<User> users = findAllByIds(userIds);
+        if (notifications.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
 
-        return users.stream().map(user -> {
-            UserOnlineStatusDTO dto = new UserOnlineStatusDTO();
-            dto.setId(user.getId());
-            dto.setFirstName(user.getFirstName());
-            dto.setSurName(user.getSurName());
-            dto.setRole(user.getRole());
-            dto.setUserOnlineStatus(user.getUserOnlineStatus());
+        List<Long> senderIds = notifications.stream()
+                .map(Notification::getSenderId)
+                .distinct()
+                .collect(Collectors.toList());
+
+        List<User> senders = userRepository.findAllById(senderIds);
+
+        Map<Long, UserOnlineStatusDTO> senderMap = senders.stream()
+                .collect(Collectors.toMap(User::getId, user -> {
+                    UserOnlineStatusDTO dto = new UserOnlineStatusDTO();
+                    dto.setId(user.getId());
+                    dto.setFirstName(user.getFirstName());
+                    dto.setSurName(user.getSurName());
+                    dto.setRole(user.getRole());
+                    dto.setUserOnlineStatus(user.getUserOnlineStatus());
+                    return dto;
+                }));
+
+        List<EnrichedNotificationDTO> result = notifications.stream().map(notif -> {
+            EnrichedNotificationDTO dto = new EnrichedNotificationDTO();
+
+            dto.setId(notif.getId());
+            dto.setSupervizorDescription(notif.getSupervizorDescription());
+            dto.setSuperVizorDeadline(notif.getSuperVizorDeadline());
+            dto.setCreatedAt(notif.getCreatedAt());
+            dto.setNotificationType(notif.getType()); // Enum
+            dto.setSenderId(notif.getSenderId());
+            dto.setReceiverId(notif.getReceiverId());
+            dto.setTaskId(notif.getTaskId());
+            dto.setIsread(notif.getIsRead());
+
+            dto.setSender(senderMap.get(notif.getSenderId()));
+
             return dto;
         }).collect(Collectors.toList());
-    }
-    //get notifications for given worker id
-    public ResponseEntity<List<NotificationDTO>> getNotificationById(Long userId){
 
-        List<NotificationDTO> notificationDTOS =notificationRepository.findByReceiverId(userId).stream().map(a -> {
-                    NotificationDTO notificationDTO = new NotificationDTO();
-                    notificationDTO.setId(a.getId());
-                    notificationDTO.setSupervizorDescription(a.getSupervizorDescription());
-                    notificationDTO.setSuperVizorDeadline(a.getSuperVizorDeadline());
-                    notificationDTO.setCreatedAt(a.getCreatedAt());
-                    notificationDTO.setSenderId(a.getSenderId());
-                    notificationDTO.setReceiverId(a.getReceiverId());
-                    notificationDTO.setTaskId(a.getTaskId());
-                    notificationDTO.setIsread(a.getIsRead());
-
-                    return notificationDTO;
-                })
-                .collect(Collectors.toList());
-        return  ResponseEntity.ok(notificationDTOS);
-
+        return ResponseEntity.ok(result);
     }
 
 

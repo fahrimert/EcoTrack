@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { HiOutlineLogout } from "react-icons/hi";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { BsListTask } from "react-icons/bs";
-import {  MdOutlineWaterDrop, MdTask } from "react-icons/md";
+import {  MdChevronLeft, MdChevronRight, MdDashboard, MdMenu, MdOutlineWaterDrop, MdTask } from "react-icons/md";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import Link from "next/link";
 import { MdGroups2 } from "react-icons/md";
@@ -14,249 +14,105 @@ import { logOut } from "../../../../actions/authActions/signout";
 import toast from "react-hot-toast";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import SidebarContent from "./SidebarContent";
 
  
 interface NewSidebar  {
   children: React.ReactNode;
   session : RequestCookie | undefined
 }
-
+const MENU_ITEMS = [
+  {
+    title: "Genel Bakış",
+    href: "/dashboard",
+    icon: MdDashboard,
+  },
+  {
+    title: "Görev Geçmişi",
+    href: "/worker/dashboard/past-sensors",
+    icon: BsListTask,
+  },
+  {
+    title: "Ekip Takibi",
+    href: "/worker/dashboard/ekiptakibi",
+    icon: MdGroups2,
+  }
+];
 const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
 
   const path = usePathname();
-  const [open, setOpen] = useState(false);
-  const [sidebarw,setSidebarw] = useState(true)
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const { userProfile, loading, error } = useUserProfile(session);
 
+  const [open, setOpen] = useState(false);
+  const [sidebarw,setSidebarw] = useState(true)
+
   console.log(userProfile);
-  const handleLogout = async () => {
-   
-     try {  
-     const returnData = await logOut()
-     toast.success(returnData.serverData!)
-     } catch (error) {
-    console.log(error.message);
-      
-     }
+const handleLogout = async () => {
+    try {
+      await logOut();
+      toast.success("Başarıyla çıkış yapıldı.");
+    } catch (error: any) {
+      console.error(error);
+      toast.error("Çıkış yapılırken hata oluştu.");
     }
+  };
 
 
 
   return (
     /* bi sıkıntı olursa burdaki ilk divdeki h-screenda sıkıntı var  */
-    <div className=" w-full h-full flex flex-col justify-start items-center bg-[#f1f0ee] ">
-      <div className=" w-full h-fit flex flex-row justify-center items-start max-xl:flex-col  bg-[#f1f0ee]  ">
-        <div className={cn(` sticky  top-0 ${sidebarw ? "w-[23%]" : "w-fit"}   ${sidebarw ? "h-screen" : "h-fit"}  flex flex-row justify-center items-start    max-xl:hidden  max-xl:h-fit  gap-[]  `)} >
-    
-        <div className={cn(`w-full h-full flex flex-col justify-between items-center  gap-[30px]  bg-[#f1f0ee] mt-[5px] mb-[5px] 
-  bg-gradient-to-b from-[#f1f0ee] to-[#e6e5e3]
-  shadow-[inset_-1px_0_0_rgba(0,0,0,0.1),inset_1px_0_0_rgba(255,255,255,0.3)]
-  border-r border-[#d0d7de]/50  border-slate-400  pt-[10px] pl-[5px] gap-[15px] ${!sidebarw ? "hidden" : "visible"} `)}>
-        <div className=" w-full h-[200px] pr-[5px] pl-[5px] gap-[20px]">
-
-            <div className="relative w-full h-fit flex flex-row justify-between items-center gap-[10px]  ">
-              <Link href={"/dashboard"}>
-                <h2 className=" w-full h-fit  text-[24px] items-end justify-center text-[#7f9f9a]">
-                <MdOutlineWaterDrop/>
-                {/* logo daha iyi gözüküyor */}
-                </h2>
-              </Link>
- 
-            </div>
-            <div className=" relative w-full h-full flex flex-col justify-center items-start gap-[10px]   ">
-         
-              <Link
-                href={"/worker/dashboard/past-sensors"}
-                className={cn(
-                  "relative w-full h-[30px] flex flex-row justify-start items-center hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200" ,
-
-                  path === "/worker/dashboard/ast-sensors" &&
-                    " text-black dark:text-black  bg-[#6c6f8542] rounded-[5px] "
-                )}
-              >
-                <div className="relative w-fit h-fit flex flex-row justify-center items-center gap-[10px] px-[5px]">
-                  <div className="relative  w-fit h-fit flex flex-row justify-center items-center gap-[10px] p-0 h ">
-                  <BsListTask size={20} color="black" />
-
-                    <h2>Sensör Çözme Geçmişi</h2>
-                  </div>
-                </div>
-              </Link>
-
-              <Link
-                href={"/worker/dashboard/ekiptakibi"}
-                className={cn(
-                  "relative w-full h-[30px] flex flex-row justify-start items-center  hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200 ",
-
-                  path === "/worker/dashboard/ekiptakibi" &&
-                    " text-white dark:text-black  bg-[#6c6f8542] rounded-[5px]"
-                )}
-              >
-                <div className="relative w-fit h-fit flex flex-row justify-center items-center gap-[10px] px-[5px]">
-                  <div className="relative  w-fit h-fit flex flex-row justify-center items-center gap-[10px] p-0 ">
-                    <MdGroups2 size={20} color="black" />
-                    <h2 >Ekip Takibi</h2>
-                  </div>
-                </div>
-              </Link>
-       
-
-      
-            
-  
-            </div>
-        </div>
-
-              <div className="w-full h-fit gap-[10px] flex flex-col pr-[10px]">
-              <div className="relative h-[40px] w-full flex flex-row justify-start items-center  border-l-[2px] text-wrap flex-wrap  px-[5px] gap-[5px] bg-[#6c6f8542]">
-              <div className=" w-[20px] h-[20px] rounded-[15px]  border-[1px] border-slate-400 flex items-center justify-center bg-[#6c6f8542] ">
-<h2 className=" text-white">
-{userProfile?.firstName[0]}
-
-
-</h2>
-              </div>
-                <h2 className=" w-fit relative  text-white text-[16px] flex justify-start items-start text-wrap flex-wrap">
-                {userProfile?.firstName}
-
-                </h2>
-                
-              </div>
-              <Button
-                onClick={() => {handleLogout()}}
-                className="w-full  h-fit justify-start items-center flex flex-row px-[5px] gap-[10px] bg-[#6c6f8542]"
-              >
-                <h2 className="w-fit h-fit text-white">Çıkış Yapın</h2>
-
-                <HiOutlineLogout color="white" />
-              </Button>
-
-              </div>
-          </div>
-          <Button onClick={() => {setSidebarw(!sidebarw)}} className="w-fit h-fit pt-[20px] pl-[10px]">
-      <RiDashboardHorizontalFill size={40} color="black"  />
-
-      </Button>
-
-        </div>
-           <div className=" relative w-fit h-fit flex flex-col justify-start items-start gap-[20px]    ">
-  <div className=" relative w-full h-fit flex flex-row justify-start items-start gap-[10px]   border-[#E2E9E8] pb-[5px]   ">
-    <Sheet  >
-      <SheetTrigger className=" w-full h-fit  visible  xl:hidden  justify-start  ">
-        <RiDashboardHorizontalFill size={40} color="black"   />
-      </SheetTrigger>
-      <SheetContent className="w-full" side={"left"}  >
-      <div className={cn(`   top-0 w-full h-screen  flex flex-row justify-center items-start   `)} >
-    
-    <div className={cn(`w-full h-full flex flex-col justify-between items-center  gap-[30px]  bg-[#f1f0ee] 
-bg-gradient-to-b from-[#f1f0ee] to-[#e6e5e3]
-shadow-[inset_-1px_0_0_rgba(0,0,0,0.1),inset_1px_0_0_rgba(255,255,255,0.3)]
-border-r border-[#d0d7de]/50  border-slate-400  pt-[10px] pl-[5px]  `)}>
-    <div className=" w-full h-[200px] pr-[5px] pl-[5px] gap-[20px]">
-
-        <div className="relative w-full h-fit flex flex-row justify-between items-center gap-[10px]  ">
-          <Link href={"/dashboard"}>
-            <h2 className=" w-full h-fit  text-[24px] items-end justify-center text-[#7f9f9a]">
-            <MdOutlineWaterDrop/>
-            {/* logo daha iyi gözüküyor */}
-            </h2>
-          </Link>
-
-        </div>
-        <div className=" relative w-full h-full flex flex-col justify-center items-start gap-[10px]   ">
-     
-          <Link
-            href={"/worker/dashboard/past-sensors"}
-            className={cn(
-              "relative w-full h-[30px] flex flex-row justify-start items-center hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200" ,
-
-              path === "/worker/dashboard/past-sensors" &&
-                " text-black dark:text-black  bg-[#6c6f8542] rounded-[5px] "
-            )}
-          >
-            <div className="relative w-fit h-fit flex flex-row justify-center items-center gap-[10px] px-[5px]">
-              <div className="relative  w-fit h-fit flex flex-row justify-center items-center gap-[10px] p-0 h ">
-              <BsListTask size={20} color="black" />
-
-                <h2>Görev Geçmişi</h2>
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href={"/worker/dashboard/ekiptakibi"}
-            className={cn(
-              "relative w-full h-[30px] flex flex-row justify-start items-center  hover:bg-[#6c6f8542] hover:text-white hover:rounded-[5px]  duration-200 ",
-
-              path === "/worker/dashboard/ekiptakibi" &&
-                " text-white dark:text-black  bg-[#6c6f8542] rounded-[5px]"
-            )}
-          >
-            <div className="relative w-fit h-fit flex flex-row justify-center items-center gap-[10px] px-[5px]">
-              <div className="relative  w-fit h-fit flex flex-row justify-center items-center gap-[10px] p-0 ">
-                <MdGroups2 size={20} color="black" />
-                <h2 >Ekip Takibi</h2>
-              </div>
-            </div>
-          </Link>
-
-  
+   
+<div className="flex h-screen overflow-hidden bg-[#f1f0ee]">
+  <aside 
+        className={cn(
+          "hidden md:flex flex-col h-screen sticky top-0 transition-all duration-300 ease-in-out z-40 bg-[#f8f9fa]",
+          isCollapsed ? "w-[120px]" : "w-[280px]"
+        )}
+      >
+        <SidebarContent
+          userProfile={userProfile} 
+          handleLogout={handleLogout} 
+          currentPath={path}
+          collapsed={isCollapsed}
+        />
         
-
-        </div>
-    </div>
-
-          <div className="w-full h-fit gap-[10px] flex flex-col pr-[10px]">
-          <div className="relative h-[40px] w-full flex flex-row justify-start items-center  border-l-[2px] text-wrap flex-wrap  px-[5px] gap-[5px] bg-[#6c6f8542]">
-          <div className=" w-[20px] h-[20px] rounded-[15px]  border-[1px] border-slate-400 flex items-center justify-center bg-[#6c6f8542] ">
-<h2 className=" text-white">
-{userProfile?.firstName[0]}
+        <button 
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="absolute -right-3 top-9 bg-white border border-gray-200 rounded-full p-1 shadow-md hover:bg-gray-50 text-gray-500 z-50"
+        >
+          {isCollapsed ? <MdChevronRight size={16}/> : <MdChevronLeft size={16}/>}
+        </button>
+      </aside>
 
 
-</h2>
-          </div>
-            <h2 className=" w-fit relative  text-white text-[16px] flex justify-start items-start text-wrap flex-wrap">
-            {userProfile?.firstName}
 
-            </h2>
-            
-          </div>
-          <Button
-            onClick={() => {handleLogout()}}
-            className="w-full  h-fit justify-start items-center flex flex-row px-[5px] gap-[10px] bg-[#6c6f8542]"
-          >
-            <h2 className="w-fit h-fit text-white">Çıkış Yapın</h2>
+<div className="flex-1 flex flex-col h-full overflow-hidden">
+        
+        <header className="md:hidden flex items-center p-4 bg-white border-b border-gray-200 h-16 shrink-0">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <MdMenu size={24} />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="p-0 w-[280px]">
+              <SidebarContent
+                userProfile={userProfile}
+                handleLogout={handleLogout}
+                currentPath={path}
+                collapsed={false} 
+              />
+            </SheetContent>
+          </Sheet>
+          <span className="ml-4 font-bold text-lg text-emerald-600">EcoTrack</span>
+        </header>
 
-            <HiOutlineLogout color="white" />
-          </Button>
-
-          </div>
+        <main className="flex-1 overflow-auto p-4 md:p-6 relative">
+          {children}
+        </main>
       </div>
-      <Button onClick={() => {setSidebarw(!sidebarw)}} className="w-fit h-fit pt-[20px] pl-[10px]">
-  <RiDashboardHorizontalFill size={40} color="black"  />
-
-  </Button>
-
-    </div>
-      </SheetContent>
-    </Sheet>
- 
-
-  </div>
-
-</div>  
-
-
-
-<div className="w-full h-fit flex flex-col justify-end">
-     
-        <div className="relative w-full h-fit flex flex-col justify-center items-center gap-[10px] ">
-    
-      {children}  
-        </div>
-</div>
       </div>
-    </div>
   );
 };
 

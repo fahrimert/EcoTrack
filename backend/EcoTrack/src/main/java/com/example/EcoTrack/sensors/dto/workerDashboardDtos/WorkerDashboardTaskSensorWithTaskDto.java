@@ -1,6 +1,7 @@
-package com.example.EcoTrack.task.dto;
+package com.example.EcoTrack.sensors.dto.workerDashboardDtos;
 
 import com.example.EcoTrack.shared.dto.SensorDTO;
+import com.example.EcoTrack.task.dto.UserTaskDTO;
 import com.example.EcoTrack.task.model.TaskImages;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,13 +10,15 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//bunu kullanmıyorum
-public class SensorAllAndTaskDTO {
-    SensorDTO taskSensors;
-    private  Long Id;
+public class WorkerDashboardTaskSensorWithTaskDto {
+    private Long id;
+
+    private WorkerDashboardTaskWithSensorDto taskSensors;
+
     private String superVizorDescription;
     private LocalDateTime superVizorDeadline;
     private UserTaskDTO assignedBy;
@@ -24,7 +27,7 @@ public class SensorAllAndTaskDTO {
     private Boolean workerArrived;
 
     private String workerNote;
-    private  String solvingNote;
+    private String solvingNote;
     private List<TaskImages> taskImages;
     private Date taskCompletedTime;
 

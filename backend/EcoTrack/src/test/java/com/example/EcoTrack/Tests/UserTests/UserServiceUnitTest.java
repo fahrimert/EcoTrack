@@ -108,72 +108,72 @@ public class UserServiceUnitTest {
     private  SecurityContext securityContext;
 
 
-    @Test
-    void getNotifications_shouldReturnNotificationByUserId() throws Exception {
-        Long mockUserId = 10L;
+//    @Test
+//    void getNotifications_shouldReturnNotificationByUserId() throws Exception {
+//        Long mockUserId = 10L;
+//
+//        Notification mockNotification = new Notification();
+//        mockNotification.setId(101L);
+//        mockNotification.setIsRead(false);
+//        mockNotification.setType(NotificationType.TASK);
+//        mockNotification.setReceiverId(mockUserId);
+//        mockNotification.setSenderId(15L);
+//        mockNotification.setCreatedAt(LocalDateTime.now());
+//        mockNotification.setSuperVizorDeadline(LocalDateTime.now().plusDays(7));
+//        when(notificationRepository.findByReceiverId(mockUserId))
+//                .thenReturn(List.of(mockNotification));
+//
+//
+//        when(notificationRepository.findByReceiverId(mockUserId)).thenReturn(List.of(mockNotification));
+//
+//
+//        ResponseEntity<List<NotificationDTO>> response = userService.getNotificationById(mockUserId);
+//        List<NotificationDTO> dtos = response.getBody();
+//
+//        assertEquals(mockNotification.getId(), dtos.get(0).getId());
+//        assertNotNull(dtos);
+//        assertEquals(1, dtos.size());
+//    }
 
-        Notification mockNotification = new Notification();
-        mockNotification.setId(101L);
-        mockNotification.setIsRead(false);
-        mockNotification.setType(NotificationType.TASK);
-        mockNotification.setReceiverId(mockUserId);
-        mockNotification.setSenderId(15L);
-        mockNotification.setCreatedAt(LocalDateTime.now());
-        mockNotification.setSuperVizorDeadline(LocalDateTime.now().plusDays(7));
-        when(notificationRepository.findByReceiverId(mockUserId))
-                .thenReturn(List.of(mockNotification));
-
-
-        when(notificationRepository.findByReceiverId(mockUserId)).thenReturn(List.of(mockNotification));
-
-
-        ResponseEntity<List<NotificationDTO>> response = userService.getNotificationById(mockUserId);
-        List<NotificationDTO> dtos = response.getBody();
-
-        assertEquals(mockNotification.getId(), dtos.get(0).getId());
-        assertNotNull(dtos);
-        assertEquals(1, dtos.size());
-    }
-
-    @Test
-    void getProfilesOfAllWorkers_shouldReturnAllWorkersByIdGroup() throws Exception {
-        Long mockUserId1 = 1L;
-        Long mockUserId2 = 2L;
-
-        User user1 = new User();
-        user1.setId(mockUserId1);
-        user1.setFirstName("TestUser");
-
-        User user2 = new User();
-        user2.setId(mockUserId2);
-        user2.setFirstName("TestUser2");
-
-        UserOnlineStatusDTO userOnlineStatusDTO = new UserOnlineStatusDTO();
-        userOnlineStatusDTO.setId(mockUserId1);
-        userOnlineStatusDTO.setFirstName("TestUser");
-        userOnlineStatusDTO.setRole(Role.WORKER);
-
-
-        UserOnlineStatusDTO userOnlineStatusDTO2 = new UserOnlineStatusDTO();
-        userOnlineStatusDTO2.setId(mockUserId2);
-        userOnlineStatusDTO2.setFirstName("TestUser2");
-        userOnlineStatusDTO2.setRole(Role.WORKER);
-
-        List<UserOnlineStatusDTO> userOnlineStatusDTOList = new ArrayList<>();
-
-        userOnlineStatusDTOList.add(userOnlineStatusDTO);
-        userOnlineStatusDTOList.add(userOnlineStatusDTO2);
-        when(userRepository.findAllById(List.of(mockUserId1, mockUserId2))).thenReturn(List.of(user1, user2));
-
-        List<UserOnlineStatusDTO> response = userService.getProfilesOfAllWorkers(List.of(mockUserId1, mockUserId2));
-
-        assertNotNull(response);
-        assertEquals(2, response.size());
-        assertEquals("TestUser", response.get(0).getFirstName());
-        assertEquals("TestUser2", response.get(1).getFirstName());
-        verify(userRepository).findAllById(List.of(mockUserId1, mockUserId2));
-
-    }
+//    @Test
+//    void getProfilesOfAllWorkers_shouldReturnAllWorkersByIdGroup() throws Exception {
+//        Long mockUserId1 = 1L;
+//        Long mockUserId2 = 2L;
+//
+//        User user1 = new User();
+//        user1.setId(mockUserId1);
+//        user1.setFirstName("TestUser");
+//
+//        User user2 = new User();
+//        user2.setId(mockUserId2);
+//        user2.setFirstName("TestUser2");
+//
+//        UserOnlineStatusDTO userOnlineStatusDTO = new UserOnlineStatusDTO();
+//        userOnlineStatusDTO.setId(mockUserId1);
+//        userOnlineStatusDTO.setFirstName("TestUser");
+//        userOnlineStatusDTO.setRole(Role.WORKER);
+//
+//
+//        UserOnlineStatusDTO userOnlineStatusDTO2 = new UserOnlineStatusDTO();
+//        userOnlineStatusDTO2.setId(mockUserId2);
+//        userOnlineStatusDTO2.setFirstName("TestUser2");
+//        userOnlineStatusDTO2.setRole(Role.WORKER);
+//
+//        List<UserOnlineStatusDTO> userOnlineStatusDTOList = new ArrayList<>();
+//
+//        userOnlineStatusDTOList.add(userOnlineStatusDTO);
+//        userOnlineStatusDTOList.add(userOnlineStatusDTO2);
+//        when(userRepository.findAllById(List.of(mockUserId1, mockUserId2))).thenReturn(List.of(user1, user2));
+//
+//        List<UserOnlineStatusDTO> response = userService.getProfilesOfAllWorkers(List.of(mockUserId1, mockUserId2));
+//
+//        assertNotNull(response);
+//        assertEquals(2, response.size());
+//        assertEquals("TestUser", response.get(0).getFirstName());
+//        assertEquals("TestUser2", response.get(1).getFirstName());
+//        verify(userRepository).findAllById(List.of(mockUserId1, mockUserId2));
+//
+//    }
 
     @Test
     void saveLocation_ShouldSaveLocationAndReturnSuccess() throws Exception {

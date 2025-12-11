@@ -11,11 +11,13 @@ import SockJS from 'sockjs-client';
 import { Client, over } from 'stompjs';
 import GoogleMapComponent from "./GoogleMapComponent";
 import SearchUserLocation from "../SearchComponents/SearchUserLocation";
-import SensorList from "./SensorList";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { UserLocationDTO, UserProfileDTO } from "@/app/sharedTypes";
+import { WorkerDashboardSensorDto, WorkerDashboardTaskSensorWithTaskDto } from "@/app/worker/types/types";
+import SensorList from "./SensorList";
 
 
-
+//başka yerde bunu kullanıyor olablirim worker dashboardda task sensorlerini alırken kullanmıyorum artık
 export interface TaskSensorWithTask {
   id: number;
   taskSensors: {
@@ -38,7 +40,7 @@ export interface TaskSensorWithTask {
     };
   };
   superVizorDescription: string;
-  superVizorDeadline: string; // ISO 8601 format
+  superVizorDeadline: string; 
   assignedBy: {
     id: number;
     firstName: string;
@@ -49,7 +51,13 @@ export interface TaskSensorWithTask {
     worker_on_road_note: string;
 
 }
-const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
+const SensorsAndMap = ({userProfile ,sensorListFromtTaskOfSingleUser, workerDashboardSensors,userLocation} : {
+   userProfile :UserProfileDTO,
+
+   sensorListFromtTaskOfSingleUser: WorkerDashboardTaskSensorWithTaskDto[],
+workerDashboardSensors :WorkerDashboardSensorDto[],
+userLocation:UserLocationDTO
+}) => {
   
   const [source,setSource] = useState({
     lat:39.9334,
@@ -59,11 +67,7 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
     lat:null,
     lng: null
   })
-  const [sensorListData,setSensorListData] = useState<typeof SensorList[]>()
-  const [taskSensorListData,setTaskSensorListData] = useState <TaskSensorWithTask[]>([])
-
-   const { userProfile, loading, error } = useUserProfile(session);
-
+ 
   let stompClient: Client;
 
   useEffect(() => {
@@ -84,62 +88,40 @@ const SensorsAndMap = ({session } : {session:RequestCookie | undefined}) => {
 
 
 
-  useEffect(() => {
-    axios.get("http://localhost:8080/sensors", {
-      headers: { Authorization: `Bearer ${session?.value}` },
-      withCredentials: true,
-    })
-    .then((res) => setSensorListData(res.data))
-    .catch((err) => {
-  console.log("Sensör verisi alınamadı:", err);
-  setSensorListData([]);
-  })
-  }, []);
-    useEffect(() => {
-        if (!userProfile?.id) return; 
-
-    axios.get(`http://localhost:8080/worker/getTasksOfMe/${userProfile?.id}`, {
-      headers: { Authorization: `Bearer ${session?.value}` },
-      withCredentials: true,
-    })
-    .then((res) => setTaskSensorListData(res.data))
-      .catch((err) => {
-  console.log("Sensör verisi alınamadı:", err);
-  setTaskSensorListData([]);
-  })
-  }, [userProfile?.id]);
-
-
-
-
   return (
     <>
     <div className="relative w-full h-fit flex flex-row justify-start items-start gap-[20px]  pt-[20px]  max-xl:flex-col  ">
       <SourceContext.Provider value={{source,setSource}}>
       <DestinationContext.Provider value={{destination,setDestination}}>
       <HoverContext.Provider value={false}>
+<div className="w-full flex flex-col xl:grid xl:grid-cols-12 gap-6 p-4 h-full min-h-screen xl:min-h-[calc(100vh-100px)] xl:max-h-[calc(100vh-50px)]">
 
-       <div className="relative w-[60%] h-full  max-xl:w-full"> 
+            <div className="relative w-full h-[500px] xl:h-full xl:col-span-8 rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-white order-1">
+              
+              <div className="absolute top-4 left-4 right-4 z-10 sm:w-[400px] sm:right-auto">
+                <SearchUserLocation />
+              </div>
 
-        {/* Search Component */}
-      <div className="absolute left-40 z-10 p-6  ">
-        <SearchUserLocation session={session} />
-      </div>
+              <div className="w-full h-full">
+                <GoogleMapComponent 
+                  sensorListFromTasksOfSingleUser={sensorListFromtTaskOfSingleUser} 
+                  userProfile={userProfile} 
+                  sensorListData={workerDashboardSensors}
+                  userLocation={userLocation} 
+                />
+              </div>
+            </div>
 
-      {/* Google Map Component */}
-      <GoogleMapComponent taskSensorListData = {taskSensorListData}  userProfile = {userProfile} sensorListData= {sensorListData} session={session} />
-    </div>
+            <div className="w-full h-fit xl:h-full xl:col-span-4 order-2 xl:overflow-hidden rounded-2xl">
+              <SensorList
+                sensorListFromTasksOfSingleUser={sensorListFromtTaskOfSingleUser}
+                sensorListData={workerDashboardSensors} 
+                userProfile={userProfile}
+              /> 
+            </div>
 
-      <div className="relative w-[40%] h-fit flex flex-col justify-start items-start max-xl:w-full ">
-     
-     <SensorList 
-      taskSensorListData = {taskSensorListData}
-       sensorListData= {sensorListData } 
-       session = {session}
-        userProfile ={userProfile}/> 
+          </div>
 
-        
-      </div>
       </HoverContext.Provider>
       </DestinationContext.Provider>
       </SourceContext.Provider>

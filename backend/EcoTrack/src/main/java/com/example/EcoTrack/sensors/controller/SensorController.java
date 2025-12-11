@@ -1,5 +1,6 @@
 package com.example.EcoTrack.sensors.controller;
 
+import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardSensorDto;
 import com.example.EcoTrack.sensors.service.SensorService;
 import com.example.EcoTrack.shared.dto.ApiResponse;
 import com.example.EcoTrack.shared.dto.ImageResponseDTO;
@@ -22,15 +23,15 @@ public class SensorController {
     }
 
     //Get all sensors endpoint
-        @GetMapping("/sensors")
+        @GetMapping("/workerDashboard/sensors")
         @CrossOrigin(
                 origins = "http://localhost:9595",
                 allowedHeaders = "*",
                 methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
         )
-        public List<SensorDTO> getSensors(
+        public List<WorkerDashboardSensorDto> getAllSensorsWorkerDashboard(
         ){
-            return  sensorService.getAllSensor();
+            return  sensorService.getAllSensorsWorkerDashboard();
         }
 
     @GetMapping("/sensors/location/{sensorId}")
