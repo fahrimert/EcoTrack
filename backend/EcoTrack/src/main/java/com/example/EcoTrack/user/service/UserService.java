@@ -310,11 +310,12 @@ public class UserService {
     }
 
     //get notifications for given worker id
-    public ResponseEntity<List<EnrichedNotificationDTO>> getEnrichedNotifications(Long userId) {
+    public List<EnrichedNotificationDTO> getEnrichedNotifications(Long userId) {
         List<Notification> notifications = notificationRepository.findByReceiverId(userId);
 
+
         if (notifications.isEmpty()) {
-            return ResponseEntity.ok(Collections.emptyList());
+            return Collections.emptyList();
         }
 
         List<Long> senderIds = notifications.stream()
@@ -322,20 +323,21 @@ public class UserService {
                 .distinct()
                 .collect(Collectors.toList());
 
-        List<User> senders = userRepository.findAllById(senderIds);
+        List<User> senders = userRepository.findAllByIdWithStatus(senderIds);
+
 
         Map<Long, UserOnlineStatusDTO> senderMap = senders.stream()
                 .collect(Collectors.toMap(User::getId, user -> {
-                    UserOnlineStatusDTO dto = new UserOnlineStatusDTO();
-                    dto.setId(user.getId());
-                    dto.setFirstName(user.getFirstName());
-                    dto.setSurName(user.getSurName());
-                    dto.setRole(user.getRole());
-                    dto.setUserOnlineStatus(user.getUserOnlineStatus());
-                    return dto;
+                    return new UserOnlineStatusDTO(
+                            user.getId(),
+                            user.getFirstName(),
+                            user.getSurName(),
+                            user.getRole(),
+                            user.getUserOnlineStatus()
+                    );
                 }));
 
-        List<EnrichedNotificationDTO> result = notifications.stream().map(notif -> {
+        return notifications.stream().map(notif -> {
             EnrichedNotificationDTO dto = new EnrichedNotificationDTO();
 
             dto.setId(notif.getId());
@@ -352,8 +354,6 @@ public class UserService {
 
             return dto;
         }).collect(Collectors.toList());
-
-        return ResponseEntity.ok(result);
     }
 
 

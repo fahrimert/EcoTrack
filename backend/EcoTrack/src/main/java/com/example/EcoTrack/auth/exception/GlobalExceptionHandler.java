@@ -1,12 +1,16 @@
 package com.example.EcoTrack.auth.exception;
 
 
+import com.example.EcoTrack.shared.dto.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //validation üzerine gelen tüm exceptionları topluyor herhalde
@@ -24,6 +28,22 @@ public class GlobalExceptionHandler {
         //hatanın adıyla hata mesajını alıyor getBindingResult() validationdaki başarılı ve başarısız alanları içeriyormuş
         //getFieldErrors @NotBlank @Email gibi faillemeleri listeliyormuş
         return  ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiResponse<?>> handleBadCredentials(BadCredentialsException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.error(
+                        "Giriş Başarısız",
+                        List.of("Email veya şifre hatalı"),
+                        HttpStatus.UNAUTHORIZED));
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<?>> handleGeneralException(Exception ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.error("Sunucu Hatası", List.of(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
 }

@@ -9,6 +9,7 @@ import com.example.EcoTrack.user.model.User;
 import com.example.EcoTrack.user.model.UserLocation;
 import com.example.EcoTrack.user.repository.LocationRepository;
 import com.example.EcoTrack.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -66,18 +67,17 @@ public class UserLocationService {
     }
 
     public UserLocationDTO getLocation(String username) {
-        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(username).orElseThrow(() -> (new RuntimeException("Kullanıcı bulunamadı: " + username))));
-        if (user == null) {
-            throw new RuntimeException("Kullanıcı bulunamadı: " + username);
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new EntityNotFoundException("Kullanıcı bulunamadı: " + username));
+
+        UserLocation userLocation = user.getUserLocation();
+
+        if (userLocation == null || userLocation.getLocation() == null) {
+            throw new EntityNotFoundException("Kullanıcıya ait lokasyon bilgisi tanımlanmamış: " + username);
         }
 
-        if (user.get().getUserLocation() == null) {
-            throw new RuntimeException("Kullanıcıya ait lokasyon bilgisi yok: " + username);
-        }
-
-        Point point =   user.get().getUserLocation().getLocation();
-
-        return new UserLocationDTO(user.get().getId(),point.getY(), point.getX());
+        Point point = userLocation.getLocation();
+        return new UserLocationDTO(user.getId(),point.getY(), point.getX());
     }
 
     //Get all workers session if they has and their own location for worker ekiptakibi page

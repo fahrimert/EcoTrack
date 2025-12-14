@@ -1,5 +1,6 @@
 package com.example.EcoTrack.auth.controller;
 
+import com.example.EcoTrack.auth.dto.AuthResponseDto;
 import com.example.EcoTrack.auth.dto.RefreshTokenRequestDto;
 import com.example.EcoTrack.auth.dto.UserRequestDTO;
 import com.example.EcoTrack.auth.service.AuthService;
@@ -11,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -31,33 +33,27 @@ public class AuthController {
     }
 
     //Login Endpoint For Login Functionality
-    @Operation(summary = "Generate a accessToken and refreshToken on user login")
     @PostMapping("/auth/login")
-    public ResponseEntity<ApiResponse<?>> login(@Valid  @RequestBody UserRequestDTO loginRequest,
-                                                BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getFieldErrors()
-                    .stream()
-                    .map(FieldError::getDefaultMessage)
-                    .collect(Collectors.toList());
+    public ResponseEntity<ApiResponse<AuthResponseDto>> login(@Valid @RequestBody UserRequestDTO loginRequest) {
 
-            return ResponseEntity.badRequest()
-                    .body(ApiResponse.error("Validation Error", errors, HttpStatus.BAD_REQUEST));
+        AuthResponseDto authResponse = authService.login(loginRequest);
+
+        return ResponseEntity
+                .ok(ApiResponse.success(authResponse));
+    }
+
+        @CrossOrigin(
+                origins = "http://localhost:9595", // veya frontend URL’in
+                allowedHeaders = "*",
+                methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
+        )
+
+        //Logout Endpoint For Logout Functionality
+        @PostMapping("/auth/customLogout")
+        public ResponseEntity<ApiResponse<Boolean>> logout(@RequestBody RefreshTokenRequestDto request) {
+            authService.logout(request.getRefreshToken());
+            return ResponseEntity.ok(ApiResponse.success(true));
         }
-        return authService.login(loginRequest);
-    }
-
-    @CrossOrigin(
-            origins = "http://localhost:9595", // veya frontend URL’in
-            allowedHeaders = "*",
-            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
-
-    //Logout Endpoint For Logout Functionality
-    @PostMapping("/auth/customLogout")
-    public ResponseEntity<ApiResponse<Boolean>> logout(@RequestBody RefreshTokenRequestDto request) {
-        return authService.logout(request.getRefreshToken());
-    }
 
 
 

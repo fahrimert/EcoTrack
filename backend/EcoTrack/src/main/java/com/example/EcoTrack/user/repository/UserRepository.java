@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +27,9 @@ public interface UserRepository  extends JpaRepository<User, Long> {
              select * from users where ROLE != 'MANAGER';
             """, nativeQuery = true)
     List<User> findAllExceptManager();
+
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.userOnlineStatus WHERE u.id IN :ids")
+    List<User> findAllByIdWithStatus(Collection<Long> ids);
 
 
 

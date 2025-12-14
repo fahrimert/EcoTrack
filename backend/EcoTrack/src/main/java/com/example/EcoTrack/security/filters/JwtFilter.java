@@ -32,12 +32,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
-    private final  UserRepository userRepository;
     private final  CustomUserDetailService userDetailServicee;
 
-    public JwtFilter(JwtService jwtService, UserRepository userRepository, CustomUserDetailService userDetailServicee) {
+    public JwtFilter(JwtService jwtService, CustomUserDetailService userDetailServicee) {
         this.jwtService = jwtService;
-        this.userRepository = userRepository;
         this.userDetailServicee = userDetailServicee;
     }
 
@@ -64,7 +62,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (jwtService.verify(jwt)) {
-                System.out.println("EMAİLL" + email);
                 UserDetails userDetails = userDetailServicee.loadUserByUsername(email);
                 System.out.println(userDetails.getUsername() + "userdetails getusername");
                 System.out.println(userDetails.getAuthorities() + "userdetails getauthorities");
@@ -84,8 +81,8 @@ public class JwtFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("Tokenin Süresi Doldu");
     }catch (Exception e) {
-        log.error("JWT Filter Hatası: ", e); // e.getMessage() yerine e'nin kendisini veriyoruz.
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // veya SC_INTERNAL_SERVER_ERROR
+        log.error("JWT Filter Hatası: ", e);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("İç Sunucu Hatası: " + e.getMessage());
     }
 

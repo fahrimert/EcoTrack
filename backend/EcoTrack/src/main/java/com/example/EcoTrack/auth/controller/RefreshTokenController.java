@@ -3,6 +3,7 @@ package com.example.EcoTrack.auth.controller;
 
 import com.example.EcoTrack.auth.dto.RefreshTokenRequestDto;
 import com.example.EcoTrack.auth.service.RefreshTokenService;
+import com.example.EcoTrack.shared.dto.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -23,16 +24,10 @@ public class RefreshTokenController {
     }
     //Refresh Token Endpoint For Frontend Middleware Session Refreshing Functionality
     @PostMapping("/refreshToken")
-    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
-        try {
+    public ResponseEntity<ApiResponse<Map<String, String>>> refreshToken(@RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
             String newAccessToken = refreshTokenService.findByToken(refreshTokenRequestDto.getRefreshToken());
 
-            return ResponseEntity.ok(Map.of("accessToken", newAccessToken));
-
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("error", e.getMessage()));
-        }
+        return ResponseEntity.ok(ApiResponse.success(Map.of("accessToken", newAccessToken)));
     }
 
 

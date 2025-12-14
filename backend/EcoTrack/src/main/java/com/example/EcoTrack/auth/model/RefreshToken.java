@@ -17,9 +17,11 @@ import java.util.Date;
 @Table(name = "refreshtoken")
 public class RefreshToken {
     @jakarta.persistence.Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long Id;
+    @Column(nullable = false, unique = true)
     private String token;
+    @Column(nullable = false)
     private Date expiresAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

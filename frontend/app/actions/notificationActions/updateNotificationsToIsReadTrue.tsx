@@ -4,10 +4,10 @@ import {getServerApi} from '@/app/util/api'
 
   const api =  getServerApi()
 
-export async function updateNotificationsToIsReadTrue(userId:string) {
+export async function updateNotificationsToIsReadTrue() {
   try {
         const response = await api.put(
-            `http://localhost:8080/notifications/workerUpdateNotificationMarkIsRead/${userId}`,
+            `http://localhost:8080/notifications/workerUpdateNotificationMarkIsRead`,
           );
         const responseJson = await response.data 
             console.log(responseJson);

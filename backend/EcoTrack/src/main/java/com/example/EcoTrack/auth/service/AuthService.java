@@ -1,5 +1,6 @@
 package com.example.EcoTrack.auth.service;
 
+import com.example.EcoTrack.auth.dto.AuthResponseDto;
 import com.example.EcoTrack.auth.model.RefreshToken;
 import com.example.EcoTrack.auth.dto.UserRequestDTO;
 import com.example.EcoTrack.auth.repository.RefreshTokenRepository;
@@ -47,55 +48,31 @@ public class AuthService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
     //Login functionality
-    public ResponseEntity<ApiResponse<?>> login (  @RequestBody UserRequestDTO user){
-
-        try {
-
-            Authentication authentication =authenticationManager.authenticate(
+    public AuthResponseDto login (UserRequestDTO userRequestDTO){
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        user.getEmail(),
-                        user.getPassword()
+                        userRequestDTO.getEmail(),
+                        userRequestDTO.getPassword()
                 )
         );
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         User dbUser = userPrincipal.getUser();
 
-
-        UserDetails userDetails = userDetailServicee.loadUserByUsername(user.getEmail());
-        String token = jwtService.generateToken(userDetails.getUsername());
+        String token = jwtService.generateToken(userPrincipal.getUsername());
         String refreshToken = refreshTokenService.createRefreshToken(dbUser);
 
-            dbUser.setLastLoginTime(new Date());
-            userRepository.save(dbUser);
+        dbUser.setLastLoginTime(new Date());
+        userRepository.save(dbUser);
+        return new AuthResponseDto(token, refreshToken);
 
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(ApiResponse.success(
-                            Map.of(
-                                    "accessToken", token,
-                                    "refreshToken", refreshToken
-                            )
-                    ));
-        } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(ApiResponse.error(
-                            "Giriş Başarısız",
-                            java.util.List.of("Email veya şifre hatalı"),
-                            HttpStatus.FORBIDDEN
-                    ));
-        }
     };
 
 
     //Logout functionality
-    public ResponseEntity<ApiResponse<Boolean>> logout(String refreshToken) {
-        try {
-            refreshTokenService.deleteByToken(refreshToken);
+    public void logout(String refreshToken) {
 
-            return ResponseEntity.ok(ApiResponse.success(true));
-        } catch (Exception e) {
-            return ResponseEntity.ok(ApiResponse.success(true));
-        }
+        refreshTokenService.deleteByToken(refreshToken);
     }
 
 

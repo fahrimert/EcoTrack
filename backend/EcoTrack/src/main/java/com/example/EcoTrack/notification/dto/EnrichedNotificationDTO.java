@@ -1,7 +1,7 @@
 package com.example.EcoTrack.notification.dto;
 
 import com.example.EcoTrack.notification.type.NotificationType;
-import com.example.EcoTrack.user.dto.UserOnlineStatusDTO; // Senin mevcut User DTO'n
+import com.example.EcoTrack.user.dto.UserOnlineStatusDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class Notification {
 
     @jakarta.persistence.Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long Id;
 
     private  String supervizorDescription;
@@ -33,7 +33,7 @@ public class Notification {
     private  Long taskId;
     private Long pdfReportId;
 
-    @Column(name = "is_Read")
+    @Column(name = "is_Read", nullable = false)
     private  Boolean isRead = false;
 
     @JsonIgnore
@@ -44,4 +44,8 @@ public class Notification {
 
     private LocalDateTime createdAt;
 
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

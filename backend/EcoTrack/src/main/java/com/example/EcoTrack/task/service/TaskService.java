@@ -88,7 +88,6 @@ public class TaskService {
         SensorLocation loc = sensor.getSensorLocation();
         SensorFix session = sensor.getCurrentSensorSession();
 
-        // Hafifletilmiş Session DTO
         WorkerDashboardTaskWithSensorFixDto workerDashboardTaskWithSensorFixDTO = null;
         if (session != null) {
             workerDashboardTaskWithSensorFixDTO = WorkerDashboardTaskWithSensorFixDto.builder()
@@ -105,7 +104,7 @@ public class TaskService {
         return WorkerDashboardTaskWithSensorDto.builder()
                 .id(sensor.getId())
                 .sensorName(sensor.getSensorName())
-                .status(status != null ? status.name() : "UNKNOWN") // DisplayName yerine Enum name daha güvenlidir
+                .status(status != null ? status.name() : "UNKNOWN")
                 .color_code(status != null ? status.getColorCode() : "#000000")
                 .latitude(lat)
                 .longitude(lng)

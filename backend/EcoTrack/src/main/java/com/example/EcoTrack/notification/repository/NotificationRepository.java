@@ -4,6 +4,7 @@ import com.example.EcoTrack.notification.model.Notification;
 import com.example.EcoTrack.sensors.model.Sensor;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,11 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
 
     @Transactional
     int deleteBytaskId(Long taskId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Notification n SET n.isRead = true WHERE n.userNotifications.id = :userId AND n.isRead = false")
+    void markAllAsReadByUserId(Long userId);
 
 
     //this query for ıntegration test class use purposes

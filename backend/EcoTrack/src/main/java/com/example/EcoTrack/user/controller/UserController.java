@@ -4,6 +4,7 @@ import com.example.EcoTrack.auth.service.JwtService;
 import com.example.EcoTrack.notification.dto.EnrichedNotificationDTO;
 import com.example.EcoTrack.notification.dto.NotificationDTO;
 import com.example.EcoTrack.notification.service.NotificationService;
+import com.example.EcoTrack.security.principal.UserPrincipal;
 import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardTaskSensorWithTaskDto;
 import com.example.EcoTrack.sensors.model.SensorFix;
 import com.example.EcoTrack.sensors.model.SensorStatus;
@@ -274,15 +275,26 @@ public class UserController {
 
     //worker update notification to read endpoint
     @PutMapping("/notifications/markAsRead/{userId}")
-    public ResponseEntity<?> markNotificationsAsRead(@PathVariable Long userId) {
-        return notificationService.markNotificationsOfRead(userId);
+    public ResponseEntity<Void> markAllAsRead(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Long currentUserId = userPrincipal.getUser().getId();
+
+        notificationService.markNotificationsOfRead(currentUserId);
+
+        return ResponseEntity.noContent().build();
     }
 
 
-    @GetMapping("/user/getNotifications/{userId}")
+    @GetMapping("/user/getNotifications")
     @Transactional
-    public ResponseEntity<List<EnrichedNotificationDTO>> getNotificationById(@PathVariable Long userId) {
-        return userService.getEnrichedNotifications(userId);
+    public ResponseEntity<List<EnrichedNotificationDTO>> getNotificationById(Authentication authentication) {
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Long currentUserId = userPrincipal.getUser().getId();
+
+        List<EnrichedNotificationDTO> notifications = userService.getEnrichedNotifications(currentUserId);
+
+        return ResponseEntity.ok(notifications);
+
     }
     //end of user notification endpoints
 

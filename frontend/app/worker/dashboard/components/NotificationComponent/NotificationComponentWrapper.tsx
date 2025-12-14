@@ -47,7 +47,7 @@ stompClient.subscribe(`/topic/notifications/${userId}`, (message) => {
     setNotification(updatedList);
 
     try {
-       await updateNotificationsToIsReadTrue(String(userId));
+       await updateNotificationsToIsReadTrue();
     } catch (error) {
        console.error("Bildirim okundu hatası:", error);
     }

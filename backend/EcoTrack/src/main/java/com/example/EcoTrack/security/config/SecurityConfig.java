@@ -32,14 +32,10 @@ import java.util.List;
 public class SecurityConfig {
 
     private CustomUserDetailService userDetailsService;
-    private JwtService jwtService;
-    private UserRepository userRepository;
     private final JwtFilter jwtFilter;
 
-    public SecurityConfig(CustomUserDetailService userDetailsService, JwtService jwtService, UserRepository userRepository, JwtFilter jwtFilter) {
+    public SecurityConfig(CustomUserDetailService userDetailsService,  JwtFilter jwtFilter) {
         this.userDetailsService = userDetailsService;
-        this.jwtService = jwtService;
-        this.userRepository = userRepository;
         this.jwtFilter = jwtFilter;
     }
 
@@ -61,7 +57,6 @@ public class SecurityConfig {
                                 //authorities kısmında ise
                                 .anyRequest().authenticated()
                 )
-//                .exceptionHandling(customizer -> customizer.authenticationEntryPoint( new  AuthenticationEntryPointt()))
                 .sessionManagement(sessionmanagement -> sessionmanagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -79,7 +74,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("http://localhost:9595")); // Use patterns instead of origins
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:9595"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

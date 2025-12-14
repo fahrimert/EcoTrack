@@ -32,11 +32,11 @@ export const userService = {
 
 
   //bunun apisini tek bir apide toparladım 2 api call yerine 
-  getEnrichedNotifications: async (userId: number): Promise<EnrichedNotification[]> => {
+  getEnrichedNotifications: async (): Promise<EnrichedNotification[]> => {
     const api =  getServerApi();
     
     try {
-      const notifResponse = await api.get(`/user/getNotifications/${userId}`);
+      const notifResponse = await api.get(`/user/getNotifications`);
       const enrichedNotifications = notifResponse.data as EnrichedNotification[];
 
       return enrichedNotifications;

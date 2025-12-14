@@ -66,13 +66,10 @@
                     .parseSignedClaims(token)
                     .getPayload();
 
-            if(userRepository.findByEmail(claims.getSubject()) == null) {
+            if(userRepository.findByEmail(claims.getSubject()).isEmpty()) {
                 throw new JwtException("User not found");
             }
             return  true;
-
-
-
         }
 
         public Claims extractAllClaims(String token) {
@@ -82,13 +79,5 @@
                     .parseSignedClaims(token)
                     .getPayload()
                     ;
-        }
-
-        public String extractTokenFromHeader(HttpServletRequest request) {
-            String bearer = request.getHeader("Authorization");
-            if (bearer != null && bearer.startsWith("Bearer ")){
-                return bearer.substring(7);
-            }
-            throw new RuntimeException("No JWT token found in request headers");
         }
     }
