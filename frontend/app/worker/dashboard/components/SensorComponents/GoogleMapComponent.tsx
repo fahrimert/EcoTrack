@@ -75,6 +75,8 @@ setSource({lat:userLocation.latitude, lng: userLocation.longitude} )
           destination:{lat:destination.lat,lng:destination.lng},
           travelMode:google.maps.TravelMode.DRIVING
         },(result,status) => {
+          console.log(source.lat,source.lng);
+          console.log(destination);
           if (status=== google.maps.DirectionsStatus.OK) {
             {
               setDirectionRoutePoints(result)

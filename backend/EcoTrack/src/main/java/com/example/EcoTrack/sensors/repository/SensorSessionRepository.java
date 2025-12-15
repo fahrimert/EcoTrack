@@ -62,4 +62,9 @@ public interface SensorSessionRepository extends JpaRepository<SensorFix,Long> {
         """, nativeQuery = true)
    List<SensorFix> findAllSensorFixesWithFaultySensors();
 
+    @Query("SELECT sf FROM SensorFix sf WHERE sf.user.id = :userId AND sf.sensor.id = :sensorId AND sf.completedTime IS NULL")
+    Optional<SensorFix> findActiveSession(Long userId, Long sensorId);
+
+
+    boolean existsByUserIdAndSensorId(Long userId, Long sensorId);
 }

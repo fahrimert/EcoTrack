@@ -3,16 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl,  FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import {  useForm } from "react-hook-form";
 import {z} from "zod";
-
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Heading from "./Heading";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -24,224 +19,212 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
-import { SensorDataDifferentOne } from "@/app/supervisor/superVizorDataTypes/types";
 import { updateSensorForWorker } from "@/app/actions/sensorActions/updateSensorForWorker";
+import { SensorStatus, SensorStatusConfig } from "@/enums/enums";
+import { SensorSolvingSensorDto } from "@/app/worker/types/types";
 
-
+import { Loader2, UploadCloud, Info } from "lucide-react"; 
+import { Badge } from "@/components/ui/badge";
 
 
 const formSchema = z.object({
-  not:z.string().min(1,{
-      message:"Not must be at least 1 character"
-  }),
-  statusId: z.string().min(2),
-  files: z.any()
-},
-)
+  not: z.string().min(10, { message: "Açıklama en az 10 karakter olmalıdır." }), 
+  statusId: z.string().min(1, { message: "Lütfen bir durum seçiniz." }),
+  files: z.any().optional(), 
+});
 export type AssignedSensorFormValues = z.infer<typeof formSchema>
 
 
-const AssignedSensorForm= ({initialData,statuses} : {session:RequestCookie,initialData: SensorDataDifferentOne, statuses :  [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ] }) => {
+const AssignedSensorForm= ({initialData} : {initialData: SensorSolvingSensorDto }) => {
     const [loading,setLoading] = useState(false)
-    const form = useForm<AssignedSensorFormValues>({
-    resolver:zodResolver(formSchema),
-    defaultValues:initialData ?
-initialData
-    : {
-        not : "",
-        statusId:""
-
-    }
+const form = useForm<AssignedSensorFormValues>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    defaultValues: {
+      not: initialData.currentSensorSession?.note || "",
+      statusId: initialData.status || "",
+    },
   });
 
   
-  const onSubmit = async (data:AssignedSensorFormValues) => {
-    try{
+const onSubmit = async (data: AssignedSensorFormValues) => {
+  console.log(data);
+    setLoading(true);
+    try {
+      console.log("data",data);
+      console.log(initialData.id);
       const formData = new FormData();
-    
-      formData.append('note', data.not);
-      formData.append('statusID', data.statusId);
-      if (data.files) {
+      formData.append("note", data.not);
+      formData.append("statusID", data.statusId);
+      
+      if (data.files && data.files.length > 0) {
         for (let i = 0; i < data.files.length; i++) {
-          formData.append('files', data.files[i]);
+          formData.append("files", data.files[i]);
         }
       }
-      try {  
-        const returnData = await updateSensorForWorker(formData,initialData)
-        toast.success(returnData.serverData)
-        } catch (error) {
-       console.log(error.message);
-         
-        }
 
-    }
-
-   catch (error) {
-      console.log(error);
-    }
-
-  
-  }
-
-
-  return (
-    <>
-  <ScrollArea className="h-screen">
-
-<div className="flex flex-col gap-[5px] w-full bg-[#050505] rounded-[5px]">
-
-    <div className="flex flex-col items-center justify-between gap-[10px]">
-        <Heading
-        title={initialData.data.sensorName}
-        description = {initialData.data.currentSensorSession.startTime}
-        />
-        
-    </div>
-    <Separator/>
-    <div className=" w-full h-fit  flex flex-col p-[10px] rounded-[30px] gap-[5px]">
-    <div className=" w-full h-fit flex flex-col justify-start items-start gap-[20px] p-[20px] bg-white rounded-[30px]">
-{/*         <h2 className={`w-full h-[40px]  text-black text-[24px] leading-[24px]`}>{ilans?.user.name}</h2> */}
-        <div className=" w-full h-fit flex flex-row justify-start items-start gap-[10px] p-0 bg-white">
-  <Image
-              src={"/indir.jpg"}
-              alt="232"
-             
-              className={cn(` w-[200px] h-[100px]  object-fit  rounded-[30px] cursor-pointer  `)}
-              width={100} 
-              height={100}
-            />    
-        </div>
-        <div className=" relative  w-full h-fit flex flex-col justify-start items-start gap-[5px]  p-[10px]  bg-white">
-                    <h2 className={`w-fit h-[32px]  text-black text-[24] leading-[19.2px] flex items-center justify-center`}>Arıza Nedeni 
-</h2>
-                    <h2 className={`w-fit h-fit text-black text-[16px] leading-[19.2px] flex items-center justify-center`}> 
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus dignissimos maiores odit ullam officia explicabo, laboriosam alias ipsa qui. Sed eius maxime quam excepturi architecto voluptatem cupiditate asperiores reprehenderit animi vero quibusdam voluptate fuga ullam, dolor natus eos nam veniam modi! Exercitationem blanditiis aperiam incidunt, distinctio, qui inventore ad sapiente vero quaerat laudantium modi libero maiores consequatur unde dolore explicabo! Amet optio maxime quia beatae, quis iusto eos itaque laborum similique natus sapiente aut voluptate mollitia, unde, cupiditate tempora. Rerum dolor excepturi praesentium ipsum, tempora magnam distinctio hic numquam omnis nostrum tempore? Suscipit reprehenderit hic eius aliquid excepturi odio corporis?
-
-</h2>
-
-                        </div>
-
-   
-  
-  
-    </div>
-   <div className="w-full h-fit flex flex-row rounded-[30px]">
-
-  <Form {...form} >
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-         
-            className={cn(`space-y-8 w-full   flex flex-col  rounded-[30px]` )} 
-          >
-       
-<div className="w-full h-fit flex flex-row gap-[5px]">
-<div className={cn(` w-full h-full flex flex-col gap-8 bg-white  p-[20px] justify-center transition-all duration-300 rounded-[30px] `)} >
-
-
-<div className = "flex flex-col  gap-[10px]">
-<h3 className=" w-full h-fit text-[24px] font-semibold">Genel Özellikler</h3>
-    
-
-                <FormField
-                 control={form.control}
-                 name = "not"
-                 render = {({field}) => (
-                    <FormItem>
-                        <FormLabel>Ürün Arızası Hakkında Not</FormLabel>
-                        <FormControl>
-                            <Textarea disabled = {loading} placeholder="Arıza ile alakalı not ekleyin" {...field}/>
-                        </FormControl>
-                        <FormMessage/>
-                    </FormItem>
-)}
-/>
-<FormField
-  control={form.control}
-  name="files"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Resim Ekle</FormLabel>
-      <FormControl>
-        <Input 
-          type="file" 
-          multiple 
-          onChange={(e) => field.onChange(e.target.files)} 
-        />
-      </FormControl>
-      <FormMessage/>
-    </FormItem>
-  )}
-/>
-<FormField
-            /* bunu category componentından aldık  */
-            control={form.control}
-            name="statusId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-black">Sensörun Statüsünü Güncelleyin </FormLabel>
-                <Select
-                  disabled={loading}
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        defaultValue={field.value}
-                        className="w-fit bg-black"
-                        placeholder="Sensörün Durumunu Güncelleyiniz"
-                      ></SelectValue>
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="bg-[#edecea]">
-                    {statuses.map((status,b) => (
-                      <SelectItem key={b} value={status} className="text-black" >
-                        {status}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-  
-     
-              
-
-
-
-
-</div>
-
-</div>
-
-
-
-</div>
-
-              
-              <Button disabled={loading} variant={null} className="ml-auto text-black bg-white rounded-[15px] " type="submit" >
-                Güncelle
-              </Button>
-          </form>
-        </Form>
-   
- </div>
-
-        
+      const returnData = await updateSensorForWorker(formData, initialData.id); 
       
-      </div>
-</div>
-</ScrollArea>
+      if (returnData.serverData) {
+          toast.success("Güncelleme başarılı!");
+      } else {
+          toast.error("Bir hata oluştu.");
+      }
 
-    {/* bu form mevzusu da docda yazıyor böyle  */}
+    } catch (error) {
+      console.error(error);
+      toast.error("Beklenmeyen bir hata oluştu.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    
-            </>
-  )
-}
+return (
+    <div className="w-full h-full p-4 md:p-0 space-y-6">
+      
+      <Card className="w-full border-0 shadow-sm bg-white overflow-hidden">
+        <div className="relative h-48 w-full bg-slate-100">
+           <Image
+              src="/indir.jpg"
+              alt="Sensor Image"
+              fill
+              className="object-cover"
+           />
+           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+           <div className="absolute bottom-4 left-4 text-white">
+              <h2 className="text-2xl font-bold">{initialData.sensorName}</h2>
+           {/*    <p className="text-sm opacity-90 flex items-center gap-2">
+                 <Info size={16} /> 
+                 Arıza Kaydı: {new Date(initialData.currentSensorSession!.startTime).toLocaleDateString("tr-TR")}
+              </p> */}
+           </div>
+        </div>
+        
+        <CardContent className="pt-6">
+           <div className="flex flex-col gap-2">
+              <h3 className="font-semibold text-lg flex items-center gap-2">
+                 Arıza Detayı
+                 <Badge variant="outline" className="text-xs font-normal text-slate-500">Otomatik Tespit</Badge>
+              </h3>
+              <p className="text-sm text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100">
+                 Sensör verilerinde ani voltaj düşüklüğü tespit edildi. Kablo bağlantılarının ve güç ünitesinin kontrol edilmesi gerekmektedir.
+              </p>
+           </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border-0 shadow-md">
+        <CardHeader>
+           <CardTitle className="text-xl">Müdahale Raporu</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              
+              <FormField
+                control={form.control}
+                name="not"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Yapılan İşlemler / Notlar</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        disabled={loading} 
+                        placeholder="Örn: Kablo değişimi yapıldı, sistem yeniden başlatıldı..." 
+                        className="min-h-[120px] resize-none focus-visible:ring-emerald-500"
+                        {...field} 
+                      />
+                    </FormControl>
+<FormMessage className="text-red-500 font-medium" />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="statusId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Yeni Durum</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={loading}>
+                      <FormControl>
+                        <SelectTrigger className="h-12">
+                          <SelectValue placeholder="Durum Seçiniz" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.values(SensorStatus).map((status) => (
+                          <SelectItem key={status} value={status}>
+                            <div className="flex items-center gap-2">
+                              <span 
+                                className="w-2 h-2 rounded-full" 
+                                style={{ backgroundColor: SensorStatusConfig[status]?.color || "#ccc" }} 
+                              />
+                              {SensorStatusConfig[status]?.label || status}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+<FormMessage className="text-red-500 font-medium" />                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="files"
+                render={({ field: { onChange, value, ...rest } }) => (
+                  <FormItem>
+                    <FormLabel>Fotoğraf Kanıtı (Opsiyonel)</FormLabel>
+                    <FormControl>
+                      <div className="flex items-center justify-center w-full">
+                        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <UploadCloud className="w-8 h-8 text-slate-400 mb-2" />
+                            <p className="text-sm text-slate-500 font-medium">Fotoğraf yüklemek için tıklayın</p>
+                            <p className="text-xs text-slate-400">JPG, PNG (Max 5MB)</p>
+                          </div>
+                          <Input
+                            {...rest}
+                            type="file"
+                            multiple
+                            className="hidden"
+                            onChange={(e) => onChange(e.target.files)}
+                          />
+                        </label>
+                      </div>
+                    </FormControl>
+                    {value && value.length > 0 && (
+                        <p className="text-xs text-emerald-600 font-medium mt-1">
+                            {value.length} dosya seçildi.
+                        </p>
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button 
+                type="submit" 
+                disabled={loading} 
+                className="w-full h-12 bg-black hover:bg-slate-800 text-white font-medium rounded-xl transition-all"
+              >
+                {loading ? (
+                    <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Güncelleniyor...
+                    </>
+                ) : (
+                    "Kaydı Tamamla"
+                )}
+              </Button>
+
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
 export default AssignedSensorForm

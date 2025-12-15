@@ -1,40 +1,21 @@
 "use server";
 
-import { SensorDataDifferentOne } from "@/app/supervisor/superVizorDataTypes/types";
-import axios from "axios";
-import { cookies,  } from "next/headers";
+import { sensorService } from "@/app/services/sensorService";
 
-export async function updateSensorForWorker(formData: FormData,initialData : SensorDataDifferentOne) {
- 
+export async function updateSensorForWorker(
+  formData: FormData,
+  sensorId: string
+) {
   try {
+    const result = await sensorService.solveNonTaskSensor(sensorId, formData);
 
-        const session = cookies().get("session")?.value
-        const response = await axios.put(
-            `http://localhost:8080/worker/nonTaskSensorSolving/${initialData.data.id}`,
-            formData,
-            {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${session}`,
-    
-              },
-            }
-          );
-        const responseJson = await response.data 
-
-             return {
-            serverData: responseJson,
-          };
-  
-  
-
-}
- catch (error) {
-    console.log((error as Error).message)
     return {
-      serverError: "Bir Sorun Oluştu   ",
+      serverData: result,
+    };
+  } catch (error) {
+    console.log((error as Error).message);
+    return {
+      serverError: (error as Error).message,
     };
   }
- 
-
 }

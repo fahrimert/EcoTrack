@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -198,21 +199,6 @@ public class UserController {
         return  sensorService.getPastSensorsOfWorker();
     }
 
-
-    //this endpoint for worker non-task sensor solving page update status select component
-    @GetMapping("/sensors/getSensorStatuses")
-    @CrossOrigin(
-            origins = "http://localhost:9595", // veya frontend URL’in
-            allowedHeaders = "*",
-            methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
-    )
-    public List<SensorStatus> getAllSensorStatuses(){
-
-        return SensorStatus.getAll();
-
-    }
-
-
     //This endpoint for worker page sensor session purposes not the task sensor go to endpoint
     @MessageMapping("/repair")
     @SendTo("topic/repair")
@@ -247,8 +233,15 @@ public class UserController {
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
-    public ResponseEntity<String> updateNonTaskSensorToFinal(@RequestParam String note,@RequestParam SensorStatus statusID, @PathVariable Long sensorId,@RequestParam List<MultipartFile> files){
-        return  sensorService.updateNonTaskSensorFinalState(note,statusID,sensorId,files);
+    public ResponseEntity<String> updateNonTaskSensorToFinal(@RequestParam String note,@RequestParam SensorStatus statusID, @PathVariable Long sensorId,@RequestParam List<MultipartFile> files ,Authentication authentication){
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Long userId = userPrincipal.getUser().getId();
+
+        List<MultipartFile> fileList = (files != null) ? files : new ArrayList<>();
+
+        sensorService.updateNonTaskSensorFinalState( note, statusID,sensorId, userId, fileList);
+
+        return ResponseEntity.ok("Bakım tamamlandı ve kaydedildi.");
     }
 
     //Get the past non task sensor detail endpoint based on given sensor ıd for worker

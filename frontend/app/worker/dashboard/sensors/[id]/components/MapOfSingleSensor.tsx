@@ -5,11 +5,12 @@ import axios from 'axios'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { SourceContext } from '@/context/SourceContext'
 import { Wrapper } from '@googlemaps/react-wrapper'
-import { SensorDataDifferentOne } from '@/app/supervisor/superVizorDataTypes/types'
+import { SensorSolvingSensorDto } from '@/app/worker/types/types'
+import { UserLocationDTO } from '@/app/sharedTypes'
 
 
 
-const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, initialData: SensorDataDifferentOne   }   ) => {
+const MapOfSingleSensor = ({userLocation , initialData } : {userLocation : UserLocationDTO, initialData: SensorSolvingSensorDto   }   ) => {
   const [data, setData] = useState({ latitude: 39.9334, longitude: 32.8597 });
   const { source ,setSource} = useContext(SourceContext);
   
@@ -32,22 +33,11 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
     }
   }, [])
 
-  useEffect(() => {
-     axios.get("http://localhost:8080/user/getUserLocation", {
-      headers: { Authorization: `Bearer ${session.value}` },
-      withCredentials: true,
-    })
-    .then((res) => {setSource({lat:res.data.latitude, lng: res.data.longitude} )  
-  setData(res.data)}
-  )
-    .catch((err) => console.log(err));
-  }, []);
-
 
   const [mapKey, setMapKey] = useState(0);
 
 
-  const [centerData, setCenterData] = useState({ latitude: initialData?.data.latitude, longitude: initialData?.data.longitude });
+  const [centerData, setCenterData] = useState({ latitude: initialData?.latitude, longitude: initialData.longitude });
     
       useEffect(() => {
         if (source) {
@@ -65,7 +55,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
 
 
       const directionRoute = useCallback(() => {
-        if (!isApiLoaded || !window.google || !source || !initialData?.data) return
+        if (!isApiLoaded || !window.google || !source || !initialData) return
     
         try {
           const DirectionService = new window.google.maps.DirectionsService()
@@ -73,8 +63,8 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
           DirectionService.route({
             origin: { lat: source.lat, lng: source.lng },
             destination: { 
-              lat: initialData.data.latitude, 
-              lng: initialData.data.longitude 
+              lat: initialData.latitude, 
+              lng: initialData.longitude 
             },
             travelMode: window.google.maps.TravelMode.DRIVING
           }, (result, status) => {
@@ -90,7 +80,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
       }, [isApiLoaded, source, initialData])
     
       useEffect(() => {
-        if (isApiLoaded &&   source.lat !== null && source.lng !== null && initialData?.data.latitude !== null && initialData?.data.longitude !== null) {
+        if (isApiLoaded &&   source.lat !== null && source.lng !== null && initialData?.latitude !== null && initialData?.longitude !== null) {
           {
             directionRoute()
           }
@@ -143,7 +133,7 @@ const MapOfSingleSensor = ({session , initialData } : {session : RequestCookie, 
          
                  </DirectionsRenderer>
                      <MarkerF 
-                             position={{lat:initialData?.data.latitude, lng:initialData?.data.longitude}}
+                             position={{lat:initialData?.latitude, lng:initialData?.longitude}}
                          
                              
                            />

@@ -58,6 +58,7 @@ const SensorsAndMap = ({userProfile ,sensorListFromtTaskOfSingleUser, workerDash
 workerDashboardSensors :WorkerDashboardSensorDto[],
 userLocation:UserLocationDTO
 }) => {
+  const [sensors, setSensors] = useState<WorkerDashboardSensorDto[]>(workerDashboardSensors);
   
   const [source,setSource] = useState({
     lat:39.9334,
@@ -76,8 +77,9 @@ userLocation:UserLocationDTO
     stompClient.connect({}, (frame) => {
       console.log("Connected: " + frame); 
       stompClient.subscribe('/topic/sensors', (message) => {
-        const updatedSensor = JSON.parse(message.body);
-        setSensorListData(updatedSensor)
+        const updatedSensorsList = JSON.parse(message.body);
+                console.log("WebSocket Update Geldi:", updatedSensorsList);
+      setSensors(updatedSensorsList);
       });
     }, (error) => {
       console.error("WebSocket bağlantı hatası:", error);
@@ -106,8 +108,7 @@ userLocation:UserLocationDTO
                 <GoogleMapComponent 
                   sensorListFromTasksOfSingleUser={sensorListFromtTaskOfSingleUser} 
                   userProfile={userProfile} 
-                  sensorListData={workerDashboardSensors}
-                  userLocation={userLocation} 
+sensorListData={sensors}                  userLocation={userLocation} 
                 />
               </div>
             </div>
@@ -115,7 +116,7 @@ userLocation:UserLocationDTO
             <div className="w-full h-fit xl:h-full xl:col-span-4 order-2 xl:overflow-hidden rounded-2xl">
               <SensorList
                 sensorListFromTasksOfSingleUser={sensorListFromtTaskOfSingleUser}
-                sensorListData={workerDashboardSensors} 
+                sensorListData={sensors} 
                 userProfile={userProfile}
               /> 
             </div>

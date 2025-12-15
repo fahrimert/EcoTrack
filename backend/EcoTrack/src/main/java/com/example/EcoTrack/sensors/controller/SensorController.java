@@ -1,5 +1,7 @@
 package com.example.EcoTrack.sensors.controller;
 
+import com.example.EcoTrack.security.principal.UserPrincipal;
+import com.example.EcoTrack.sensors.dto.sensorSolvingDtos.SensorSolvingSensorDto;
 import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardSensorDto;
 import com.example.EcoTrack.sensors.service.SensorService;
 import com.example.EcoTrack.shared.dto.ApiResponse;
@@ -7,6 +9,7 @@ import com.example.EcoTrack.shared.dto.ImageResponseDTO;
 import com.example.EcoTrack.shared.dto.SensorDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,15 +49,21 @@ public class SensorController {
     }
 
 
-    @GetMapping("/sensors/{sensorId}")
+    @GetMapping("/{sensorId}/nonTaskSolvingDetails")
     @CrossOrigin(
             origins = "http://localhost:9595", // veya frontend URL’in
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
     @Transactional
-    public ResponseEntity<ApiResponse> getInduvualSensorWithProtectionForWorker(@PathVariable Long sensorId){
-        return  sensorService.getInduvualSensor(sensorId);
+    public ResponseEntity<ApiResponse> getInduvualSensorForSensorSolving(@PathVariable Long sensorId,
+                                                                         Authentication authentication){
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        Long userId = userPrincipal.getUser().getId();
+
+        SensorSolvingSensorDto sensorDto = sensorService.getInduvualSensorForSensorSolving(sensorId, userId);
+
+        return ResponseEntity.ok(ApiResponse.success(sensorDto));
     }
 
 

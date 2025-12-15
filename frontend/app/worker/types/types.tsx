@@ -28,7 +28,6 @@ export interface WorkerDashboardTaskWithSensorDto {
   latitude: number;
   longitude: number;
   currentSensorSession: WorkerDashboardTaskWithSensorFixDto | null;
-  
 }
 
 export interface WorkerDashboardTaskSensorWithTaskDto {
@@ -48,4 +47,24 @@ export interface WorkerDashboardTaskSensorWithTaskDto {
   worker_on_road_note: string | null;
   solvingNote: string | null;
   taskCompletedTime: string | null;
+}
+
+
+export interface SensorSolvingSensorDto {
+  id: string;
+  sensorName: string;
+  status: string;    
+  color_code: string; 
+  latitude: number;
+  longitude: number;
+  currentSensorSession: SensorSolvingSensorFixDto | null;
+}
+
+export interface SensorSolvingSensorFixDto {
+  id: number;
+  note: string | null;
+  startTime: string; 
+  completedTime: string | null;
+
+  userId: number | null;
 }

@@ -20,24 +20,24 @@ public class SensorSessionImageService {
     private final SensorSessionImagesRepository sensorSessionImagesRepository;
 
 
-    public  List<SensorSessionImages> uploadImage(List<MultipartFile> files,Long sessionId) throws  IOException{
-        List<SensorSessionImages> savedImageDto = new ArrayList<>();
-        SensorFix sensorSession = sensorSessionRepository.findById(sessionId).orElseThrow();
+    public  void uploadImage(List<MultipartFile> files,Long sessionId) throws  IOException{
+        SensorFix session = sensorSessionRepository.getReferenceById(sessionId);
 
-        for(MultipartFile file:files){
-            SensorSessionImages sensorSessionImagess = new SensorSessionImages();
-            sensorSessionImagess.setName(file.getOriginalFilename());
-            sensorSessionImagess.setType(file.getContentType());
-            sensorSessionImagess.setSensorSessions(sensorSession);
-            sensorSessionImagess.setImage(ImageUtil.compressImage(file.getBytes()));
+        List<SensorSessionImages> imagesToSave = new ArrayList<>();
 
-            sensorSessionImagesRepository.save(sensorSessionImagess);
-            savedImageDto.add(sensorSessionImagess);
+        for (MultipartFile file : files) {
+            SensorSessionImages image = new SensorSessionImages();
+            image.setName(file.getOriginalFilename());
+            image.setType(file.getContentType());
+            image.setSensorSessions(session);
+            image.setImage(ImageUtil.compressImage(file.getBytes()));
 
+            imagesToSave.add(image);
         }
 
+        sensorSessionImagesRepository.saveAll(imagesToSave);
 
-return  savedImageDto;
+
     }
 
 

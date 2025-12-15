@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button"; 
 import { goToSensor } from "@/app/actions/sensorActions/goToSensor";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface SensorCardProps {
   sensor: WorkerDashboardSensorDto;
@@ -18,13 +19,9 @@ interface SensorCardProps {
 }
 const SensorCard = ({ sensor, isMySensor }: SensorCardProps) => {
   const { setDestination } = useContext(DestinationContext);
+    const router = useRouter(); 
   
-  const isDisabled = sensor.status === "IN_REPAIR" && !isMySensor;
 
-  const handleSetDestination = () => {
-    if (isDisabled) return;
-    setDestination({ lat: sensor.latitude, lng: sensor.longitude });
-  };
 
   const handleAction = async (id:number) => {
     setDestination({
@@ -37,8 +34,56 @@ const SensorCard = ({ sensor, isMySensor }: SensorCardProps) => {
         toast.error(response.serverError); 
     } else {
         toast.success("Tamir işlemi başladı!");
-        // response.serverData ile işlem yap...
+        router.push(`/worker/dashboard/sensors/${sensor.id}`)
     }
+  };
+const isSolved = sensor.status === 'SOLVED' ; 
+
+  const hasActiveSession = sensor.currentSensorSession !== null;
+
+  const canInteract = !isSolved && (!hasActiveSession || isMySensor)
+
+  const isDisabled = !canInteract;
+
+
+  const handleNavigateOnly = () => {
+    setDestination({
+      lat: sensor.latitude,
+      lng: sensor.longitude,
+    });
+    router.push(`/worker/dashboard/sensors/${sensor.id}`);
+  };
+
+
+  const handleStartNewSession = async (id: number) => {
+    setDestination({
+      lat: sensor.latitude,
+      lng: sensor.longitude,
+    });
+
+    const response = await goToSensor(id);
+
+    if (response.serverError) {
+      toast.error(response.serverError);
+    } else {
+      toast.success("Tamir işlemi başladı!");
+      router.push(`/worker/dashboard/sensors/${sensor.id}`);
+    }
+  };
+
+
+  const handleButtonClick = () => {
+    if (isMySensor) {
+      handleNavigateOnly();
+    } else {
+      handleStartNewSession(sensor.id);
+    }
+  };
+
+
+    const handleSetDestination = () => {
+    if (isDisabled) return;
+    setDestination({ lat: sensor.latitude, lng: sensor.longitude });
   };
 
   return (
@@ -85,22 +130,19 @@ const SensorCard = ({ sensor, isMySensor }: SensorCardProps) => {
             <span className="truncate">Lat: {sensor.latitude.toFixed(4)}, Lng: {sensor.longitude.toFixed(4)}</span>
         </div>
 
-        {isMySensor ? (
-            <Link href={`/worker/dashboard/sensors/${sensor.id}`} className="w-full">
-                <Button className="w-full h-8 text-xs bg-black hover:bg-gray-800 text-white">
-                    Detayları Gör
-                </Button>
-            </Link>
-        ) : (
-            <Button 
-                onClick={() => handleAction(sensor.id)} 
+{canInteract ? (
+           <Button
+                          onClick={handleButtonClick}
                 disabled={isDisabled}
-                variant="outline"
-                className="w-full h-8 text-xs border-gray-300 hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200"
-            >
-                Konuma Git
-            </Button>
-        )}
+                      className={cn(
+                "w-full transition-colors",
+                isMySensor ? "bg-amber-600 hover:bg-amber-700" : ""
+            )}>
+            
+{isMySensor ? "İşleme Devam Et" : "İncele / Çöz"}           </Button>
+       ) : (
+           <Badge variant="secondary">İşlem Yapılamaz / Tamamlandı</Badge>
+       )}
       </div>
     </div>
   );

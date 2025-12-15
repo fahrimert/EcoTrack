@@ -1,36 +1,39 @@
-import React from 'react'
-import { cookies } from 'next/headers';
-import AssignedSensorAndMap from './components/AssignedSensorAndMap';
-import { SensorDataDifferentOne } from '@/app/supervisor/superVizorDataTypes/types';
+import React from "react";
+import { cookies } from "next/headers";
+import AssignedSensorAndMap from "./components/AssignedSensorAndMap";
+import { sensorService } from "@/app/services/sensorService";
+import { userService } from "@/app/services/userService";
+import { redirect } from "next/navigation";
 
-const page = async ({params} : {params:{id:string} }) => {
-    const session = cookies().get('session');
+const page = async ({ params }: { params: { id: string } }) => {
+  const session = cookies().get("session");
 
+let singleSensor = null;
+  let userLocation = null;
 
-    const response = await fetch(`http://localhost:8080/sensors/${params.id}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${session?.value}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    const statuses = await fetch(`http://localhost:8080/sensors/getSensorStatuses`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${session?.value}`,
-        'Content-Type': 'application/json'
-      }
-    });
-    const initialData = await response.json() as SensorDataDifferentOne
-    
-    const stasusesData = await statuses.json() as [ 'ACTIVE', 'FAULTY', 'IN_REPAIR', 'SOLVED' ]
+  try {
+      [singleSensor, userLocation] = await Promise.all([
+          sensorService.getInduvualSensorForSensorSolving(params.id),
+          userService.getUserLocation()
+      ]);
+  } catch (error) {
+      console.error("Sensör sayfasına erişim hatası:", error);
+      redirect("/worker/dashboard?error=access_denied");
+  }
+
+  if (!singleSensor.currentSensorSession) {
+       redirect("/worker/dashboard?error=session_closed");
+ }
+
 
   return (
     <>
-  <AssignedSensorAndMap initialData = {initialData} session={session}  stasusesData = {stasusesData}/>
-</>  
-)
-}
+    <main className="w-full min-h-screen bg-gray-50/50">
+      <AssignedSensorAndMap initialData={singleSensor} userLocation = {userLocation} session={session} />
+    </main>
 
-export default page 
+    </>
+  );
+};
+
+export default page;

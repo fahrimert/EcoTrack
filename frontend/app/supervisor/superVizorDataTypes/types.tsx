@@ -149,27 +149,9 @@ export interface Task {
   workerArriving: string | null; 
   workerArrived: string | null;  
 }
-export interface SensorDataDifferentOne {
-  data : {
-  id: number;
-  sensorName: string;
-  status: string;
-  color_code: string;
-  latitude: number;
-  longitude: number;
-  currentSensorSession: {  id: number;
-  sensorName: string;
-  displayName: string;
-  color_code: string;
-  note: string | null;
-  startTime: string; // ISO formatta tarih
-  completedTime: string | null;
-  latitude: number;
-  longitude: number;};
-  
-}
 
-}
+//bunu kullanmıyorum
+
 interface SensorData {
   id: number,
         sensorName: string,
