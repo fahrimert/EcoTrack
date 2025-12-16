@@ -12,7 +12,6 @@ const response = await api.put(
             `/notifications/workerUpdateNotificationMarkIsRead/${userId}`,
           );
                const responseJson = await response.data 
-            console.log(responseJson);
              return {
             serverData: responseJson,
           };
@@ -21,8 +20,6 @@ const response = await api.put(
 
 }
  catch (error) {
-    console.log((error as Error).message)
-    console.log(error);
     return {
     
       serverError: "Bir Sorun Oluştu   ",

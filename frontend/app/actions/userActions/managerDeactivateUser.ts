@@ -9,7 +9,6 @@ try {
          await axios.delete(`http://localhost:8080/manager/deactivateUser/${id}`,
             {        headers:{Authorization:`Bearer ${session?.value}`}
             ,  withCredentials: true,}      )
-    console.log(id + "user");
 
             
       

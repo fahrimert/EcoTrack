@@ -13,6 +13,16 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository  extends JpaRepository<User, Long> {
+    @Query("SELECT u FROM User u " +
+            "JOIN FETCH u.userLocation ul " +
+            "JOIN FETCH u.sensorSessions ss " +
+            "JOIN FETCH ss.sensor s " +
+            "JOIN FETCH s.sensorLocation sl " +
+            "WHERE ss.completedTime IS NULL " +
+            "AND u.role = 'WORKER'")
+    List<User> findWorkersWithActiveSessions();
+
+
     @Query(value = """
              select * from users where first_name = :firstName;
             """, nativeQuery = true)

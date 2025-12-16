@@ -36,7 +36,6 @@ const NotificationComponent = ({
     }
   };
 
-  console.log(enrichedNotifications);
 
 
   return (

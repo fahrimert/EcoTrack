@@ -1,88 +1,74 @@
+import { UserProfileDTO } from "@/app/sharedTypes";
+import { CrewJobsUserAndSessionSensorDTO } from "@/app/worker/types/types";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { SourceContext } from "@/context/SourceContext";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useContext} from "react";
+import { MdLocationOn, MdPerson } from "react-icons/md";
 
 const SingleUserAndTheirSensor = ({
-  sensors,
+  userProfile,
+  crew,
 }: {
-  sensors: {
-    id: number;
-    name: string;
-    latitude: number;
-    longitude: number;
-    sensorlatitude: number;
-    sensorlongitude: number;
-    sensor: {
-      id: number;
-      sensorName: string;
-      status: string;
-      installationDate: string;
-    };
-  };
+  userProfile:UserProfileDTO
+  crew: CrewJobsUserAndSessionSensorDTO
 }) => {
 
-  const { source, setSource } = useContext(SourceContext);
+   const { source, setSource } = useContext(SourceContext);
+  console.log("crewss",crew);
+
+  const focusOnWorker = () => {
+    setSource({ lat: crew.workerLatitude, lng: crew.workerLongitude });
+  };
+
+  const focusOnSensor = () => {
+    setSource({ lat: crew.sensorLatitude, lng: crew.sensorLongitude });
+  };
+
   return (
-    <div
-      className={cn(
-        `flex flex-row   w-full h-fit  justify-center items-center rounded-[30px]  p-[10px] gap-[10px] `
-      )}
+   <div className="bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all flex flex-row gap-3 items-center">
       
+      {/* Avatar */}
+      <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-blue-100 shrink-0">
+        <Image
+          src="/indir.jpg" // Varsa user avatarı
+          alt={crew.workerName}
+          fill
+          className="object-cover"
+        />
+      </div>
 
-    >
-      {/* usera image yükleyebilsek buraya userin avatar imagesi gelebilir  */}
-      <Image
-            onMouseEnter={() =>
-    
-              ( setSource({
-                 lat: sensors.latitude,
-                 lng: sensors.longitude,
-               }))
-             }
-        src={"/indir.jpg"}
-        alt="232"
-        className={cn(
-          ` w-[150px] h-[100px]  object-fit  rounded-[30px] cursor-pointer  `
-        )}
-        width={50}
-        height={100}
-      />
-      <div 
-            onMouseEnter={() =>
-    
-              ( setSource({
-                 lat: sensors.sensorlongitude,
-                 lng: sensors.sensorlatitude,
-               }))
-             }
-      className=" bg-[#f1f0ee] rounded-[30px] flex flex-col w-fit h-fit p-[10px]   justify-start items-start  shadow-lg  hover:scale-105 duration-300 cursor-pointer ; ">
-        <div className=" bg-[#c0ccc9]  w-full p-[5px] rounded-[5px] mb-[5px]">
-          <div className=" h-full w-full justify-start items-start flex flex-row p-[5px] gap-[5px]  ">
-            <h2 className="w-full text-[16px] font-normal     text-white ">
-              İşçi İsmi:
-            </h2>
-            <h2 className="w-full text-[16px] font-normal   text-white">
-              {sensors.name}{" "}
-            </h2>
-          </div>
-          <div className=" h-full w-full justify-center items-center flex flex-row p-[5px] gap-[5px]  ">
-            <h2 className="w-full h-fit text-[16px] font-normal     text-white ">
-              Sensor idsi:
-            </h2>
-            <h2 className="w-full h-fit  text-[13px] font-normal   text-white ">
-              {sensors.sensor.id}{" "}
-            </h2>
-          </div>
-
-          <div className=" h-full w-full justify-center items-center flex flex-row p-[5px] gap-[5px]  ">
-            <h2 className="w-full h-fit text-[16px] font-normal     text-white ">
-              Sensor ismi:
-            </h2>
-            <h2 className="w-full h-fit  text-[13px] font-normal   text-white ">
-              {sensors.sensor.sensorName}{" "}
-            </h2>
-          </div>
+      {/* Bilgiler */}
+      <div className="flex-1 min-w-0">
+        <h3 className="text-sm font-bold text-gray-800 truncate flex items-center gap-2">
+            {crew.workerName}
+            <Badge variant="secondary" className="text-[10px] px-1 h-5">{crew.isOnline ? "Aktif" : "Aktif Değil"}</Badge>
+        </h3>
+        
+        <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+            <MdLocationOn className="text-emerald-500" />
+            <span className="truncate">{crew.sensorName}</span>
+        </div>
+        
+        <div className="flex items-center gap-2 mt-2">
+            <Button
+                variant="outline" 
+                size="sm" 
+                className="h-7 text-[10px] px-2"
+                onClick={focusOnWorker}
+            >
+                <MdPerson className="mr-1"/> İşçiye Git
+            </Button>
+            <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-7 text-[10px] px-2 text-gray-500"
+                onClick={focusOnSensor}
+            >
+                Sensöre Git
+            </Button>
         </div>
       </div>
     </div>

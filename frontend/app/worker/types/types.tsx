@@ -1,3 +1,5 @@
+import { ImageResponseDTO } from "@/app/supervisor/superVizorDataTypes/types";
+
 export interface WorkerDashboardSensorDto {
   id:number
   sensorName: string;
@@ -67,4 +69,52 @@ export interface SensorSolvingSensorFixDto {
   completedTime: string | null;
 
   userId: number | null;
+}
+
+export interface PastSensorsDto {
+  sensorId: string;
+  sensorName: string;
+  status: string;    
+  installationDate: string; 
+  sessions: PastSensorsSensorFixDto[] | null;
+}
+
+
+export interface PastSensorsSensorFixDto {
+  id: string;
+  startTime: string;
+  completedTime: string;    
+  note: string; 
+}
+
+export interface PastSensorDetailDto {
+  sensorId: string;
+  sensorName: string;
+  sensorStatus: string;
+  iconImage: ImageResponseDTO;
+  sessionId: string;
+  note: string;
+  finalStatus: string;
+  startTime: string;
+  completedTime: string;
+  latitude: number;
+  longitude: number;
+  evidenceImages: ImageResponseDTO[];
+}
+
+
+export interface CrewJobsUserAndSessionSensorDTO{
+     workerId: string;
+ workerName: string;
+  workerLatitude: number;
+  workerLongitude: number;
+  isOnline:boolean
+   sensorId: string;
+ sensorName: string;
+ sensorStatus: string;
+  sensorLatitude: number;
+  sensorLongitude: number;
+
+   sessionIde: string;
+ startTimee: string;
 }

@@ -60,7 +60,7 @@ const SensorList = ({
   }, [sensorListData]);
 
   
-  console.log(sensorListData);
+  (sensorListData);
 
 
         let stompClient: Client;
@@ -96,7 +96,6 @@ const SensorList = ({
 const hasActiveTasks = tasks.length > 0;
 const showSensors = !hasActiveTasks && sensors.length > 0;
 const isEmpty = !hasActiveTasks && sensors.length === 0;  
-console.log("TASKSSS" ,tasks);
 return (
 <div className="h-full w-full bg-white xl:border-l border-gray-200 xl:shadow-xl flex flex-col rounded-2xl overflow-hidden border xl:border-0 shadow-md xl:shadow-none">      
       <div className="p-6 border-b border-gray-100 bg-gray-50/50 backdrop-blur-sm sticky top-0 z-10">

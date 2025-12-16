@@ -5,6 +5,7 @@ import com.example.EcoTrack.notification.dto.EnrichedNotificationDTO;
 import com.example.EcoTrack.notification.dto.NotificationDTO;
 import com.example.EcoTrack.notification.service.NotificationService;
 import com.example.EcoTrack.security.principal.UserPrincipal;
+import com.example.EcoTrack.sensors.dto.ekipTakibiDtos.CrewJobsUserAndSessionSensorDTO;
 import com.example.EcoTrack.sensors.dto.workerDashboardDtos.WorkerDashboardTaskSensorWithTaskDto;
 import com.example.EcoTrack.sensors.model.SensorFix;
 import com.example.EcoTrack.sensors.model.SensorStatus;
@@ -17,6 +18,8 @@ import com.example.EcoTrack.user.dto.UserAndSessionSensorDTO;
 import com.example.EcoTrack.user.dto.UserDTO;
 import com.example.EcoTrack.user.dto.UserLocationDTO;
 import com.example.EcoTrack.user.dto.UserOnlineStatusDTO;
+import com.example.EcoTrack.user.dto.pastsensors.PastSensorDetailDto;
+import com.example.EcoTrack.user.dto.pastsensors.PastSensorsDto;
 import com.example.EcoTrack.user.model.User;
 import com.example.EcoTrack.user.service.UserLocationService;
 import com.example.EcoTrack.user.model.UserOnlineStatus;
@@ -134,7 +137,7 @@ public class UserController {
     @GetMapping("/workers/getAllWorkersSessionSensorAndTheirLocation")
     @Transactional
 
-    public  List<UserAndSessionSensorDTO> getAllWorkersSessionSensorAndTheirLocation(){
+    public   List<CrewJobsUserAndSessionSensorDTO> getAllWorkersSessionSensorAndTheirLocation(){
         return  userLocationService.getAllWorkersSessionSensorAndTheirLocation();
     }
 
@@ -194,7 +197,7 @@ public class UserController {
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
     @Transactional
-    public List<SensorFix> getWorkerPastSensors(
+    public List<PastSensorsDto> getWorkerPastSensors(
     ){
         return  sensorService.getPastSensorsOfWorker();
     }
@@ -246,17 +249,15 @@ public class UserController {
 
     //Get the past non task sensor detail endpoint based on given sensor ıd for worker
     @GetMapping("/worker/getPastNonTaskSensorDetail/{sensorId}")
-    @Transactional
     @CrossOrigin(
             origins = "http://localhost:9595",
             allowedHeaders = "*",
             methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.OPTIONS}
     )
 
-    public ResponseEntity<ApiResponse> getWorkersPastNonTaskSensorDetail(@PathVariable Long sensorId){
-
-
-        return  sensorService.getWorkersPastNonTaskSensorDetail(sensorId);
+    public ResponseEntity<ApiResponse<PastSensorDetailDto>> getWorkersPastNonTaskSensorDetail(@PathVariable Long sensorId){
+        PastSensorDetailDto detailDto = sensorService.getWorkersPastNonTaskSensorDetail(sensorId);
+        return ResponseEntity.ok(ApiResponse.success(detailDto));
     }
     // worker sensor endpoints finish
 

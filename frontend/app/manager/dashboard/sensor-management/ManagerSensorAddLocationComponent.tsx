@@ -61,10 +61,7 @@ const ManagerSensorAddLocationComponent = ({sensorListData,onSuccess} : {sensorL
         const onSubmit = async (data: AddSensorFormValues) => {
           try {
           
-            console.log(data);
-            console.log(data.lat);
       const returnData =await createSensorManagerLocation(data);
-          console.log(returnData);
       if (returnData.serverData != null) {
                onSuccess()
          toast.success(returnData.serverData);

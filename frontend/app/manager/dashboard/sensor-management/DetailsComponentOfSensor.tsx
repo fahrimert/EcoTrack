@@ -19,7 +19,6 @@ const DetailsComponentOfSensor =  ({sensors,session,open ,setOpen,setOpenMainDia
 
  }) => {
 
-console.log(sensors);
   return (
 
     <div className='flex flex-col h-full w-full justify-start items-center'

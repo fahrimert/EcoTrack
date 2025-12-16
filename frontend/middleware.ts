@@ -7,7 +7,6 @@ export async function middleware(request: NextRequest) {
   const session = request.cookies.get("session")?.value;
   const refreshToken = request.cookies.get("refresh")?.value;
   const pathname = request.nextUrl.pathname;
-  console.log("session",session);
     if (!session && !request.nextUrl.pathname.startsWith("/authentication") ) {
   return Response.redirect(new URL("/authentication", request.url));
 } 

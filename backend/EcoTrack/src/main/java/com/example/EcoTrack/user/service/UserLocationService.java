@@ -1,5 +1,6 @@
 package com.example.EcoTrack.user.service;
 
+import com.example.EcoTrack.sensors.dto.ekipTakibiDtos.CrewJobsUserAndSessionSensorDTO;
 import com.example.EcoTrack.shared.dto.ApiResponse;
 import com.example.EcoTrack.user.dto.UserAndSessionSensorDTO;
 import com.example.EcoTrack.user.dto.UserLocationDTO;
@@ -81,51 +82,40 @@ public class UserLocationService {
     }
 
     //Get all workers session if they has and their own location for worker ekiptakibi page
-    public   List<UserAndSessionSensorDTO> getAllWorkersSessionSensorAndTheirLocation() {
-        List<User> usersLocationList = userRepository.findAll();
-
-        List<UserAndSessionSensorDTO> dtoList = usersLocationList.stream()
+    public   List<CrewJobsUserAndSessionSensorDTO> getAllWorkersSessionSensorAndTheirLocation() {
+        List<User> activeWorkers = userRepository.findWorkersWithActiveSessions();
+        return activeWorkers.stream()
                 .map(user -> {
-                    if (user.getUserLocation() == null || user.getUserLocation().getLocation() == null) {
-                        return null;
-                    }
-                    Point userPoint = user.getUserLocation().getLocation();
-                    if (user.getSensorSessions() == null || user.getSensorSessions().isEmpty()) {
-                        return null;
-                    }
+                    if (user.getUserLocation() == null || user.getUserLocation().getLocation() == null) return null;
 
-                    Optional<SensorFix> optionalSession = user.getSensorSessions().stream()
-                            .filter(a -> a.getCompletedTime() != null)
+                    Optional<SensorFix> activeSession = user.getSensorSessions().stream()
+                            .filter(s -> s.getCompletedTime() == null)
                             .findFirst();
 
-                    if (optionalSession.isEmpty()) {
-                        return null;
+                    if (activeSession.isEmpty()) return null;
 
-                    }
+                    SensorFix session = activeSession.get();
+                    Sensor sensor = session.getSensor();
+                    Point workerLoc = user.getUserLocation().getLocation();
+                    Point sensorLoc = sensor.getSensorLocation().getLocation();
 
-                    Sensor sensor = optionalSession.get().getSensor();
-                    Point sensorPoint = sensor.getSensorLocation().getLocation();
-
-                    return new UserAndSessionSensorDTO(
-                            user.getId(),
-                            user.getFirstName(),
-                            userPoint.getY(),
-                            userPoint.getX(),
-                            sensorPoint.getY(),
-                            sensorPoint.getX(),
-                            sensor
-                    );
+                    return CrewJobsUserAndSessionSensorDTO.builder()
+                            .workerId(user.getId())
+                            .workerName(user.getFirstName() + " " + user.getSurName())
+                            .workerLatitude(workerLoc.getY())
+                            .workerLongitude(workerLoc.getX())
+                            .isOnline(user.getUserOnlineStatus().getIsOnline())
+                            .sensorId(sensor.getId())
+                            .sensorName(sensor.getSensorName())
+                            .sensorStatus(sensor.getStatus().name())
+                            .sensorLatitude(sensorLoc.getY())
+                            .sensorLongitude(sensorLoc.getX())
+                            .sessionId(session.getId())
+                            .startTime(session.getStartTime().toString())
+                            .build();
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-
-
-
-        if (dtoList.isEmpty()){
-            return List.of();
-        }
-
-        return dtoList;
     }
 
 }

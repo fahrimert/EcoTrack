@@ -47,7 +47,6 @@ const Sidebar:React.FC<NewSidebar> = ({children,session} ) => {
   const [open, setOpen] = useState(false);
   const [sidebarw,setSidebarw] = useState(true)
 
-  console.log(userProfile);
 const handleLogout = async () => {
     try {
       await logOut();

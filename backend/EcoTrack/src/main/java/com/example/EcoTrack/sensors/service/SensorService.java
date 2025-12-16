@@ -15,12 +15,16 @@
     import com.example.EcoTrack.sensors.repository.SensorSessionRepository;
     import com.example.EcoTrack.shared.dto.*;
     import com.example.EcoTrack.user.dto.AllSensorSessionDTOForManager;
+    import com.example.EcoTrack.user.dto.pastsensors.PastSensorDetailDto;
+    import com.example.EcoTrack.user.dto.pastsensors.PastSensorsDto;
+    import com.example.EcoTrack.user.dto.pastsensors.PastSensorsSensorFixDto;
     import com.example.EcoTrack.user.model.User;
     import com.example.EcoTrack.user.repository.UserRepository;
     import com.example.EcoTrack.user.service.UserService;
     import com.example.EcoTrack.util.ImageUtil;
     import jakarta.persistence.EntityNotFoundException;
     import jakarta.transaction.Transactional;
+    import lombok.extern.slf4j.Slf4j;
     import org.locationtech.jts.geom.Coordinate;
     import org.locationtech.jts.geom.GeometryFactory;
     import org.locationtech.jts.geom.Point;
@@ -43,6 +47,7 @@
     import static org.springframework.http.HttpStatus.NOT_FOUND;
 
     @Service
+    @Slf4j
     public class SensorService {
             private final SensorRepository sensorRepository;
             private  final SensorImageIconRepository sensorImageIconRepository;
@@ -247,58 +252,48 @@
             messagingTemplate.convertAndSend("/topic/sensors", sensors);
         }
         //Get the past non task sensor detail function based on given sensor ıd for worker
-        public ResponseEntity<ApiResponse>  getWorkersPastNonTaskSensorDetail(Long id) {
+        @Transactional
+        public PastSensorDetailDto  getWorkersPastNonTaskSensorDetail(Long sensorId) {
 
-            if (id == null ){
-                return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false,"Sensor doesnt exists.",null,null,404));
+            if (sensorId == null || sensorId <= 0) {
+                throw new IllegalArgumentException("Geçersiz Session ID: " + sensorId);
             }
-            Optional<SensorFix> sensor = sensorSessionRepository.findById(id);
+            SensorFix session = sensorSessionRepository.findByIdWithDetails(sensorId)
+                    .orElseThrow(() -> new EntityNotFoundException("Kayıt bulunamadı"));
+            return mapToDetailDTO(session);
+        }
 
-            if (sensor == null ){
-                return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(false,"Sensor doesnt exists.",null,null,404));
+        private PastSensorDetailDto mapToDetailDTO(SensorFix session) {
+            Sensor sensor = session.getSensor();
+
+            ImageResponseDTO iconDTO = null;
+            if (sensor.getSensorIconImage() != null) {
+                String base64 = ImageUtil.decompressAndEncode(sensor.getSensorIconImage().getImage());
+                iconDTO = new ImageResponseDTO(sensor.getSensorIconImage().getName(),
+                        sensor.getSensorIconImage().getType(), base64);
             }
 
-            if (sensor.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ApiResponse(false, "Sensor doesnt exists.", null, null, 404));
-            }
-            if (id < 0){
-                return  ResponseEntity.status(NOT_FOUND).body(new ApiResponse(false,"Invalid Sensor id.",null,null,404));
-
-            }
-
-
-            List<SensorSessionImages> images = sensorSessionImagesRepository.findBySensorSessionsId(sensor.get().getId());
-            List<ImageResponseDTO> imageResponseDTOS = images.stream()
+            List<ImageResponseDTO> evidenceImages = session.getSensorSessionImages().stream()
                     .map(img -> {
-                        String base64 = Base64.getEncoder().encodeToString(ImageUtil.decompressImage(img.getImage()));
+                        String base64 = ImageUtil.decompressAndEncode(img.getImage());
                         return new ImageResponseDTO(img.getName(), img.getType(), base64);
                     })
                     .collect(Collectors.toList());
 
-            SensorIconImage sensorIconImage = sensorImageIconRepository.findBySensorId(sensor.orElse(null).getSensor().getId());
-            String base64 = Base64.getEncoder().encodeToString(ImageUtil.decompressImage(sensorIconImage.getImage()));
-            SensorStatus finalStatus = sensor.orElse(null) != null ? sensor.orElse(null).getFinalStatus() : null;
-
-            ImageResponseDTO ıconImageResponse = new ImageResponseDTO(sensorIconImage.getName(), sensorIconImage.getType(), base64);
-            SensorSessionDTO sensorSessionDTO = new SensorSessionDTO(  sensor.orElse(null).getSensor().getId(),
-                    sensor.orElse(null).getSensor().getSensorName(),
-                    finalStatus == null ? null : finalStatus.getDisplayName(),
-                    sensor.orElse(null).getSensor().getStatus().getColorCode(),
-                    imageResponseDTOS,
-                    ıconImageResponse,
-                    sensor.orElse(null).getNote() ,
-                    sensor.orElse(null).getStartTime(),
-                    finalStatus,
-                    sensor.orElse(null).getCompletedTime(),
-                    sensor.orElse(null).getSensor().getSensorLocation().getLocation().getX(),
-                    sensor.orElse(null).getSensor().getSensorLocation().getLocation().getY()
-            );
-
-            return  ResponseEntity.status(HttpStatus.ACCEPTED).body(new ApiResponse(true,"Successfully got sensor",
-
-                    sensorSessionDTO   ,null,200));
-
+            return PastSensorDetailDto.builder()
+                    .sensorId(sensor.getId())
+                    .sensorName(sensor.getSensorName())
+                    .sensorStatus(sensor.getStatus().name())
+                    .iconImage(iconDTO)
+                    .sessionId(session.getId())
+                    .note(session.getNote())
+                    .finalStatus(session.getFinalStatus() != null ? session.getFinalStatus().name() : null)
+                    .startTime(session.getStartTime())
+                    .completedTime(session.getCompletedTime())
+                    .latitude(sensor.getSensorLocation().getLocation().getY())
+                    .longitude(sensor.getSensorLocation().getLocation().getX())
+                    .evidenceImages(evidenceImages)
+                    .build();
         }
         //this function for user session  solving page (not the task solving page)  get the sensor with given id
             public SensorSolvingSensorDto getInduvualSensorForSensorSolving(Long sensorId, Long userId ) {
@@ -418,21 +413,56 @@
 
 
         //Worker past-sensors page get past  sensors of a logged ın worker
-        public List<SensorFix> getPastSensorsOfWorker() {
+        public List<PastSensorsDto> getPastSensorsOfWorker() {
             try{
                 Authentication securityContextHolder = SecurityContextHolder.getContext().getAuthentication();
                 String username = securityContextHolder.getName();
 
                 User user = userService.findByEmail(username);
-                List<SensorFix> pastSensors =   sensorSessionRepository.findAllByUserAndCompletedTimeIsNotNull(user).stream().collect(Collectors.toList());;
 
-                return pastSensors;
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-                return null;
-            }
-        }
+                if (user == null) {
+                    throw new RuntimeException("Kullanıcı bulunamadı");
+                }
+
+
+                List<SensorFix> pastSensorSessions =   sensorSessionRepository.findAllByUserAndCompletedTimeIsNotNull(user).stream().collect(Collectors.toList());;
+
+
+                Map<Sensor, List<SensorFix>> groupedBySensor = pastSensorSessions.stream()
+                        .collect(Collectors.groupingBy(SensorFix::getSensor));
+
+
+                return groupedBySensor.entrySet().stream()
+                        .map(entry -> {
+                            Sensor sensor = entry.getKey();
+                            List<SensorFix> sessions = entry.getValue();
+
+                            // Alt DTO Listesini Oluştur
+                            List<PastSensorsSensorFixDto> sessionDTOs = sessions.stream()
+                                    .map(s -> PastSensorsSensorFixDto.builder()
+                                            .id(s.getId())
+                                            .startTime(s.getStartTime())
+                                            .completedTime(s.getCompletedTime())
+                                            .note(s.getNote()) // Note -> note (küçük harf düzeltmesi sonrası)
+                                            .build())
+                                    .sorted(Comparator.comparing(PastSensorsSensorFixDto::getStartTime).reversed()) // Yeniden eskiye sırala
+                                    .collect(Collectors.toList());
+
+                            // Ana DTO'yu Oluştur
+                            return PastSensorsDto.builder()
+                                    .sensorId(sensor.getId())
+                                    .sensorName(sensor.getSensorName())
+                                    .status(sensor.getStatus().name())
+                                    .installationDate(sensor.getInstallationDate())
+                                    .sessions(sessionDTOs)
+                                    .build();
+                        })
+                        .collect(Collectors.toList());
+
+            } catch (Exception e) {
+                log.error("Geçmiş sensörler çekilemedi: {}", e.getMessage());
+                return Collections.emptyList(); // Null dönmek yerine boş liste dönmek daha güvenlidir
+            }        }
 
 
         //end of worker sensor functions

@@ -9,7 +9,6 @@ try {
          await axios.delete(`/manager/deleteSensorById/${id}`,
             {        headers:{Authorization:`Bearer ${session?.value}`}
             ,  withCredentials: true,}      )
-    console.log(id + "user");
 
             
       

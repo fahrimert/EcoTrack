@@ -2,6 +2,7 @@ package com.example.EcoTrack.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
@@ -25,6 +26,12 @@ public class ImageUtil {
         }
         return  outputStream.toByteArray();
 
+    }
+
+    public static String decompressAndEncode(byte[] data) {
+        if (data == null) return null;
+        byte[] decompressed = decompressImage(data);
+        return Base64.getEncoder().encodeToString(decompressed);
     }
     public  static byte[] decompressImage(byte[] data){
         Inflater inflater = new Inflater();

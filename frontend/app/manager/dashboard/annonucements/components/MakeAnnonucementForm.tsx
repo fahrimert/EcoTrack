@@ -88,7 +88,6 @@ const MakeAnnonucementForm= ({session} : {session: RequestCookie | undefined }) 
 
   const onSubmit = async (data:MakeAnnonucementFormValues) => {
       try {  
-        console.log(data);
 /*         await createTask(data) */
 
         /* const returnData = await updateSensor(formData,initialData) */

@@ -3,30 +3,19 @@ import LeftStack from './LeftStack';
 import { Client } from '@googlemaps/google-maps-services-js';
 import { ImageResponseDTO } from '@/app/supervisor/superVizorDataTypes/types';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import { PastSensorDetailDto } from '@/app/worker/types/types';
+import { UserProfileDTO } from '@/app/sharedTypes';
 
 
-const SingleSensorFromPastSensors = async ({initialData,session} : {initialData :   { data: {
-  id: number,
-  sensorName: string,
-  displayName: string,
-  color_code: string,
-  note: string,
-  startTime: string,
-  completedTime: string,
-      finalStatus: string | undefined,
-  latitude: number,
-  longitude: number
-  sensorİconİmage: ImageResponseDTO;
-
-imageResponseDTO: ImageResponseDTO[];
-
-},
-session:RequestCookie | undefined},
+// en son burada kaldım tipleri yazıp devam edecem
+const SingleSensorFromPastSensors = async ({initialData ,userProfileDto } : {initialData :PastSensorDetailDto, 
+  userProfileDto:UserProfileDTO
 }) => {
+    console.log("INIITALDATAA",initialData);
     const client = new Client({});
   const result = await client.reverseGeocode({
     params: {
-      latlng: { lat: initialData.data.latitude, lng: initialData.data.longitude },
+      latlng: { lat: initialData.latitude, lng: initialData.longitude },
       key: 'AIzaSyBKLifBrIReU58VvfnhLRz0I73c-_laK0E',
     },
   });
@@ -35,7 +24,7 @@ session:RequestCookie | undefined},
   return (
     <div className='w-full h-fit flex flex-col justify-start items-center gap-[10px] bg-[#EEF0F3]'>
     <div className='relative  w-full h-fit flex flex-row justify-center items-start gap-[20px] p-[30px] '>
-         <LeftStack session = {session} addressComponents = {addressComponents}  initialData = {initialData}/>
+         <LeftStack userProfile = {userProfileDto} addressComponents = {addressComponents}  initialData = {initialData}/>
     </div>
 
 </div>

@@ -1,11 +1,12 @@
 "use client"
 import React from 'react'
 
-import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
-
 import { columns } from './columns'
 import { CustomDataTable } from '@/components/ui/CustomDataTable'
+import { PastSensorsDto } from '@/app/worker/types/types'
 
+
+//bunu kullanmıyorum
 export interface SensorData {
   id: number;
   sensor: {
@@ -18,7 +19,7 @@ export interface SensorData {
   completedTime: string;
   note: string;
 }
-
+//bunu kullanmıyorum
 export type SensorTaskDetail = {
   id: number;
   sensorName: string;
@@ -31,39 +32,15 @@ export type SensorTaskDetail = {
     note: string;
   }[];
 };
-const PastSensorList = ({session , sensorListData }: {session:RequestCookie, sensorListData:SensorData[]| undefined}) => {
-const groupedSensors = sensorListData?.reduce((acc, current) => {
-  const existingSensor = acc.find(s => s.id === current.sensor.id);
-
-  const session = {
-    id: current.id,
-    startTime: current.startTime,
-    completedTime: current.completedTime,
-    note: current.note
-  };
-
-  if (existingSensor) {
-    existingSensor.sessions.push(session);
-  } else {
-    acc.push({
-      id: current.sensor.id,
-      sensorName: current.sensor.sensorName,
-      status: current.sensor.status,
-      installationDate: current.sensor.installationDate,
-      sessions: [session]
-    });
-  }
-
-  return acc;
-}, [] as SensorTaskDetail[]);
-
+const PastSensorList = ({ pastSensors }: {pastSensors:PastSensorsDto[]| undefined}) => {
+  console.log("PASTSENSORSSESSIONS",pastSensors[0].sessions);
   return (
     <div className=" w-full h-fit items-start justify-start   p-[10px]   gap-[5px] rounded-[30px]">
           <CustomDataTable
       
       searchKey="sensorName"
       columns={columns}
-      data={groupedSensors || []}
+      data={pastSensors || []}
 
  />
   

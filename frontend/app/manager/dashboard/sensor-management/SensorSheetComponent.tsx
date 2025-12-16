@@ -30,7 +30,6 @@ open:boolean,
 
   const [address, setAddress] = useState("");
     
-   console.log(sensors);
 
     useEffect(() => {
     const fetchAddress = async () => {

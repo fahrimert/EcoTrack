@@ -59,9 +59,8 @@ const MapOfSingleSensor = ({userLocation , initialData } : {userLocation : UserL
     
         try {
           const DirectionService = new window.google.maps.DirectionsService()
-          
           DirectionService.route({
-            origin: { lat: source.lat, lng: source.lng },
+            origin: { lat: source.lng, lng: source.lat },
             destination: { 
               lat: initialData.latitude, 
               lng: initialData.longitude 
@@ -75,6 +74,7 @@ const MapOfSingleSensor = ({userLocation , initialData } : {userLocation : UserL
             }
           })
         } catch (error) {
+          console.log(error.message);
           console.error("DirectionsService oluşturulamadı:", error)
         }
       }, [isApiLoaded, source, initialData])

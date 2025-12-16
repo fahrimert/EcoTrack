@@ -21,7 +21,6 @@ const NotificationComponentWrapper = ({session,enrichedNotifications} : {session
     const socket = new SockJS('http://localhost:8080/ws'); 
     stompClient = over(socket);
     stompClient.connect({}, (frame) => {
-      console.log("Connected: " + frame); 
       stompClient.subscribe(`/topic/notifications/${userProfile?.id}`, (message) => {
         const updatedNotification = JSON.parse(message.body);
          setNotification(prevTasks =>{

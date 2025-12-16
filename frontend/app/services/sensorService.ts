@@ -16,6 +16,8 @@ export const sensorService = {
       return [];
     }
   },
+  
+  
 
     getInduvualSensorForSensorSolving: async (sensorId: string): Promise<SensorSolvingSensorDto> => {
     const api =  getServerApi();

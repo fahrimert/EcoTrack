@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 export async function updateTask(worker_on_road_note: string ,initialData : TaskSensorWithTask) {
  
   try {
-      console.log(worker_on_road_note);
         const session = cookies().get("session")?.value
         const response = await axios.put(
             `http://localhost:8080/worker/updateTaskForOnRoad/${initialData.id}`,
@@ -21,7 +20,6 @@ export async function updateTask(worker_on_road_note: string ,initialData : Task
             }
           );
         const responseJson = await response.data 
-            console.log(responseJson);
              return {
             serverData: responseJson,
           };

@@ -144,7 +144,6 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
     })
     .then((res) => setSensorListData(res.data))
     .catch((err) => {
-  console.log("Sensör verisi alınamadı:", err);
   setSensorListData([]); // fallback
   })
   }, []);
@@ -171,7 +170,6 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
   errors: any; // daha detaylı bir yapı varsa ona göre değiştirebilirsin
   status: number;
 }>()
-  console.log(session);
   useEffect(() => {
     axios.get(`http://localhost:8080/sensors/sensormanagement/${sensorId}`, {
       headers: { Authorization: `Bearer ${session?.value}` },
@@ -184,7 +182,7 @@ const SensorManagementSensorsWrapperComponent = ({session ,stasusesData} : {sess
   }) */
   }, [sensorId]);
 
-  console.log(sensorDataInduvual,sensorId);
+
 
   return (
     <>

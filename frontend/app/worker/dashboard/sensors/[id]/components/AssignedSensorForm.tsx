@@ -48,11 +48,8 @@ const form = useForm<AssignedSensorFormValues>({
 
   
 const onSubmit = async (data: AssignedSensorFormValues) => {
-  console.log(data);
     setLoading(true);
     try {
-      console.log("data",data);
-      console.log(initialData.id);
       const formData = new FormData();
       formData.append("note", data.not);
       formData.append("statusID", data.statusId);

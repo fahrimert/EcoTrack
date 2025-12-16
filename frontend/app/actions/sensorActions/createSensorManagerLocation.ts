@@ -6,7 +6,6 @@ import { cookies} from "next/headers";
 
 export async function createSensorManagerLocation(data: AddSensorFormValues) {
   try {
-    console.log(data);
  const session = cookies().get("session")?.value
         const response = await axios.post(
             `http://localhost:8080/manager/updateSensorLocations`,
@@ -39,7 +38,6 @@ export async function createSensorManagerLocation(data: AddSensorFormValues) {
       serverError: error.response.data || "Bir hata oluştu.",
     };
   } else {
-    console.log("Beklenmeyen Hata:", (error as Error).message);
     return {
       serverError: "Beklenmeyen bir hata oluştu.",
     };

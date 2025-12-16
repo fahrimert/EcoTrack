@@ -8,26 +8,17 @@ import { MdOutlineSensors } from 'react-icons/md'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { SensorList } from '../../components/SensorComponents/SensorList'
+import { CrewJobsUserAndSessionSensorDTO, WorkerDashboardSensorDto } from '@/app/worker/types/types'
 
+interface MapProps {
+  crewJobTrackPageSensorsAndTheirLocations: CrewJobsUserAndSessionSensorDTO[];
+  workerSensors: WorkerDashboardSensorDto[];
+}
 
-
-const GoogleMapComponentOfAllUsers = ({usersAndTheirSensors,sensorListData} : { usersAndTheirSensors: {
-      id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-  sensorlatitude: number;
-  sensorlongitude: number;
-  sensor: {
-    id: number;
-    sensorName: string;
-    status: string;
-    installationDate: string;
-  };
-}[],  session: RequestCookie | undefined , sensorListData : SensorList[]}) => {
+const GoogleMapComponentOfAllUsers = ({crewJobTrackPageSensorsAndTheirLocations,workerSensors} :  MapProps) => {
   const [data, setData] = useState({ latitude: 39.8324, longitude: 32.8577 });
   const { source ,setSource} = useContext(SourceContext);
-
+  console.log("CREWJOBTRACKPAGESENSORSand their locations", crewJobTrackPageSensorsAndTheirLocations);
     const [centerData, setCenterData] = useState({ latitude: data.latitude, longitude: data.longitude });
     useEffect(() => {
       if (source) {
@@ -58,7 +49,7 @@ const GoogleMapComponentOfAllUsers = ({usersAndTheirSensors,sensorListData} : { 
     
 
       const onUnmount = useCallback(() => setMap(null), []);
-      const [map, setMap] = useState<google.maps.Map | null>(null);
+      const [map, setMap] = useState(null);
       
  
       return (
@@ -75,26 +66,38 @@ const GoogleMapComponentOfAllUsers = ({usersAndTheirSensors,sensorListData} : { 
                   onUnmount={onUnmount}
                 >
                  
-                   {usersAndTheirSensors.map((g) => (
+                   {crewJobTrackPageSensorsAndTheirLocations.map((g) => (
                     <>
-     <MarkerF 
-     position={{lat:g.latitude, lng:g.longitude}}
-   icon={{url:'/images.png',scaledSize:{
-     width:source.lng == g.longitude ? 50 :30  ,
-     height:source.lat == g.latitude ? 50 :30 
-   }}}
- 
-/>
+   <MarkerF
+            position={{ lat: g.workerLatitude, lng: g.workerLongitude }}
+            icon={{
+              url: '/images.png',
+              scaledSize: {
+                    width:30,
+                    height:30
+                  }
+            }}
+            zIndex={100} // İşçiler sensörlerin üstünde görünsün
+          />
+          <OverlayViewF
+            position={{ lat: g.workerLatitude, lng: g.workerLongitude }}
+            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+          >
+            <div className="absolute -top-14 -left-10 bg-white px-2 py-1 rounded-lg shadow-md border border-blue-500 whitespace-nowrap z-50">
+              <p className="text-xs font-bold text-blue-800">{g.workerName}</p>
+              <p className="text-[10px] text-gray-500 truncate max-w-[100px]">{g.sensorName} üzerinde</p>
+            </div>
+          </OverlayViewF>
 
 <OverlayView 
-position={{lat:g.latitude, lng:g.longitude}}
+position={{lat:g.workerLatitude, lng:g.workerLongitude}}
 mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
 >
 
 
 <div className=' w-fit h-fit bg-white '>
         
-        <p className=' text-[16px] text-black'> {g.name}</p>
+        <p className=' text-[16px] text-black'> {g.sensorName}</p>
         </div>
 </OverlayView>
 
@@ -106,32 +109,32 @@ mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                    
              
                
-            {sensorListData?.map((a,b) => (
+            {workerSensors?.map((a,b) => (
         
                       <>
-               <MarkerF 
-               key={b}
-               icon={{url:'/smallloc.png',scaledSize:{
-                width:source.lng == a.longitude ? 50 :30  ,
-                height:source.lat == a.latitude ? 50 :30 
-              }}}
-                    position={{lat:a.latitude, lng:a.longitude}}
-                
-                    
-                  />
-                  <OverlayViewF 
-                  position={{lat:a.latitude, lng:a.longitude}}
-                  mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
-                >
-                            <div className={cn(`w-fit h-fit  text-nowrap inline-block p-[5px] rounded-[3px]`)}
-                              style={{ backgroundColor: a.colorCode }}
-        
-                            >
-        
-                             <MdOutlineSensors  color={a.colorCode}/>
-               <h2 className=' w-fit h-fit text-[12px] text-white '> {a.sensorName}</h2>
-               </div>
-              </OverlayViewF>
+<MarkerF
+            position={{ lat: a.latitude, lng: a.longitude }}
+            icon={{
+              url: '/smallloc.png', // Küçük sensör ikonu
+              scaledSize:{
+                    width:25,
+                    height:25
+                  }
+            }}
+            opacity={0.7} // İşçilere odaklanmak için sensörleri biraz soluk yaptık
+          />
+          <OverlayViewF
+            position={{ lat: a.latitude, lng: a.longitude }}
+            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+          >
+            <div 
+                className={cn("px-1 py-0.5 rounded text-[9px] text-white font-medium shadow-sm")}
+                style={{ backgroundColor: a.colorCode || '#999' }}
+            >
+                <MdOutlineSensors className="inline mr-1" />
+                {a.sensorName}
+            </div>
+          </OverlayViewF>
               </>
         
                   ))}

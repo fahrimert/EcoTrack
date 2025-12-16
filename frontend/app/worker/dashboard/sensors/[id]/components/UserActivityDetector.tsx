@@ -35,7 +35,6 @@ fetch("http://localhost:8080/hearthbeat",{
 
         if (now -lastSentTimeRef.current > 10000 ) {
           sendHearthbeat(true)
-              console.log("Kullanıcı aktif");
           lastSentTimeRef.current = now
         }
    

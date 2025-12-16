@@ -1,24 +1,28 @@
 import React from 'react'
-import { cookies } from 'next/headers';
-
-import UserSensorsAndMapOFAllUsers from './components/SensorAndMapOFAllUSers';
+import { userService } from '@/app/services/userService';
+import { sensorService } from '@/app/services/sensorService';
+import CrewJobTrackPageSensorsAndTheirLocations from './components/CrewJobTrackPageSensorsAndTheirLocations';
 
 const page = async ({params} : {params:{id:string} }) => {
-     const session  = cookies().get(  "session")
-     const response = await fetch(`http://localhost:8080/workers/getAllWorkersSessionSensorAndTheirLocation`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${session?.value}`,
-        "Content-Type": "application/json",
-      },
-    });
+  
+       const [ userProfile, workerSensors ,crewJobTrackPageSensorsAndTheirLocations ] = await Promise.all([
+        userService.getDashboardData(),
+        sensorService.getWorkerDashboardSensors(),
+        userService.getCrewJobTrackPageSensorsAndTheirLocations()
+      ]);
 
-    const usersAndTheirSensors = await response.json()
+
 
 
   return (
     <>
-  <UserSensorsAndMapOFAllUsers  session={session} usersAndTheirSensors = {usersAndTheirSensors}  />
+  <div className="w-full min-h-screen bg-gray-50/50">
+      <CrewJobTrackPageSensorsAndTheirLocations 
+        crewJobTrackPageSensorsAndTheirLocations={crewJobTrackPageSensorsAndTheirLocations.data || []} 
+        workerSensors={workerSensors || []} 
+        userProfile={userProfile.userProfile} 
+      />
+    </div>
 </>  
 )
 }

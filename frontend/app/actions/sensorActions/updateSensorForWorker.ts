@@ -13,7 +13,6 @@ export async function updateSensorForWorker(
       serverData: result,
     };
   } catch (error) {
-    console.log((error as Error).message);
     return {
       serverError: (error as Error).message,
     };

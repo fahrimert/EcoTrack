@@ -107,7 +107,6 @@ const AssignedTaskFormForSolving = ({
         formData.append("statusID", data.statusId);
 
         finishTask(formData, initialData);
-        console.log(data);
       } catch (error) {
         console.log(error.message);
       }

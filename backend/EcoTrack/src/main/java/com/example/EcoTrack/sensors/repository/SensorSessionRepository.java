@@ -14,6 +14,13 @@ import java.util.Optional;
 
 @Repository
 public interface SensorSessionRepository extends JpaRepository<SensorFix,Long> {
+    @Query("SELECT sf FROM SensorFix sf " +
+            "JOIN FETCH sf.sensor s " +
+            "JOIN FETCH s.sensorLocation sl " +
+            "LEFT JOIN FETCH s.sensorIconImage sii " +
+            "LEFT JOIN FETCH sf.sensorSessionImages ssi " +
+            "WHERE sf.id = :sensorId")
+    Optional<SensorFix> findByIdWithDetails(@Param("sensorId") Long sensorId);
    Optional<SensorFix> findById(Long id);
    Optional<SensorFix> findByUserAndCompletedTimeIsNull(User user);
 
@@ -47,8 +54,11 @@ public interface SensorSessionRepository extends JpaRepository<SensorFix,Long> {
            nativeQuery = true)
    List<SensorWithUserProjection>  findCompletedSensorsWithUserDetails(@Param("role") String role);
 
-   List<SensorFix> findAllByUserAndCompletedTimeIsNotNull(User user);
-
+    @Query("SELECT sf FROM SensorFix sf " +
+            "JOIN FETCH sf.sensor s " +
+            "WHERE sf.user = :user AND sf.completedTime IS NOT NULL " +
+            "ORDER BY sf.completedTime DESC")
+    List<SensorFix> findAllByUserAndCompletedTimeIsNotNull(@Param("user") User user);
 
 
    @Query(value = "SELECT * FROM sensor_session WHERE user_id = :userId AND start_time >= now() - interval '1 month'  AND completed_time IS NOT NULL ", nativeQuery = true)

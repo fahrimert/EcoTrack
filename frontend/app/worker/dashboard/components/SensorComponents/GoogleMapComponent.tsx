@@ -22,6 +22,7 @@ const mapOptions = {
   streetViewControl: false,
   mapTypeControl: false,
 };
+const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ["places"];
 
 interface MapProps {
   sensorListData: WorkerDashboardSensorDto[] | undefined;
@@ -37,7 +38,6 @@ const GoogleMapComponent = ({sensorListData,userProfile,sensorListFromTasksOfSin
   const { source ,setSource} = useContext(SourceContext);
   const { destination ,setDestination} = useContext(DestinationContext);
   const [directionRoutePoints,setDirectionRoutePoints] = useState([])
-  const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ["places"];
   //useeffect for putting the current user location on map center and setting the source value users location 
   useEffect(() => {
 setSource({lat:userLocation.latitude, lng: userLocation.longitude} )  
@@ -75,8 +75,6 @@ setSource({lat:userLocation.latitude, lng: userLocation.longitude} )
           destination:{lat:destination.lat,lng:destination.lng},
           travelMode:google.maps.TravelMode.DRIVING
         },(result,status) => {
-          console.log(source.lat,source.lng);
-          console.log(destination);
           if (status=== google.maps.DirectionsStatus.OK) {
             {
               setDirectionRoutePoints(result)

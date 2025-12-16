@@ -59,7 +59,6 @@ const AssignedSensorFormForOnRoad = ({
     }
   };
 
-  console.log(initialData.workerArrived);
 
   return (
     <>

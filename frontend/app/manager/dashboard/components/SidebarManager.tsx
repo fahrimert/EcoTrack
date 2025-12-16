@@ -34,15 +34,9 @@ const SidebarManager:React.FC<NewSidebar> = ({children,session} ) => {
     const logout =   await logOut()
     if (logout?.serverError) {
       toast.error(logout.serverError);
-      console.log("Toast Error Triggered:",logout.serverError);
       
     }
      } catch (error) {
-   if (error instanceof Error) {
-  console.log(error.message);
-} else {
-  console.log(error);
-}
       
      }
     }

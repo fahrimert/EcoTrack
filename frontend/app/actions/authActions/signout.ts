@@ -23,7 +23,6 @@ try {
         }
       );
         
-      console.log("Backend logout başarılı.");
     } catch (error: any) {
       console.error("Backend logout hatası (ama işlem devam ediyor):", error.message);
     }

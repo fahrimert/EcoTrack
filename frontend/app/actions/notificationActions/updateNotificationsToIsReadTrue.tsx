@@ -10,7 +10,6 @@ export async function updateNotificationsToIsReadTrue() {
             `http://localhost:8080/notifications/workerUpdateNotificationMarkIsRead`,
           );
         const responseJson = await response.data 
-            console.log(responseJson);
              return {
             serverData: responseJson,
           };
@@ -19,8 +18,6 @@ export async function updateNotificationsToIsReadTrue() {
 
 }
  catch (error) {
-    console.log((error as Error).message)
-    console.log(error);
     return {
     
       serverError: "Bir Sorun Oluştu   ",

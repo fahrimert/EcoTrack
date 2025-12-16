@@ -18,13 +18,10 @@ console.log(formData);
               },
             }
           );
-        const responseJson = await response.data 
-        const responseJsonStatus =  response.status 
 
              return {
             serverData: "Sensor Başarıyla Kuruldu",
           }; 
-  console.log(responseJsonStatus);
   
 
 }

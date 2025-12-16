@@ -106,6 +106,7 @@ export type GroupedSensorDataOnPDFReport = {
     note: string;
   }[];
 }
+//bunu kullanmıoyurm görev geçmişi  sensör detayında
 export interface GroupedSensorData {
   id: number;
   userİd:number

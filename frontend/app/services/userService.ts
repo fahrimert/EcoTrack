@@ -85,7 +85,46 @@ export const userService = {
       return [];
     }
   },
+    getWorkerPastSensors: async () => {
+    const api =  getServerApi();
+      
+    try {
+      const response = await api.get(`/worker/past-sensors`);
+      return { success: true, data: response.data };
+    } catch (error) {
+     console.error("User Get Worker Past Sensors Methodu hatası:", error);
+    const errorMessage = error.response?.data || "Beklenmedik bir hata oluştu.";
+    return { success: false, error: errorMessage };
+    }
+  },
 
+    getWorkerPastSensorDetail: async (sensorId:string) => {
+    const api =  getServerApi();
+      
+    try {
+      const response = await api.get(`/worker/getPastNonTaskSensorDetail/${sensorId}`);
+      console.log("responsedataa",response.data);
+      return { success: true, data: response.data };
+    } catch (error) {
+     console.error("User Get Worker Past Sensor Detail Methodu hatası:", error);
+    const errorMessage = error.response?.data || { message: "Beklenmedik bir hata oluştu." };
+    return { success: false, error: errorMessage };
+    }
+  },
+
+  getCrewJobTrackPageSensorsAndTheirLocations: async () => {
+    const api =  getServerApi();
+      
+    try {
+      const response = await api.get(`/workers/getAllWorkersSessionSensorAndTheirLocation`);
+      console.log("responsedataa",response.data);
+      return { success: true, data: response.data };
+    } catch (error) {
+     console.error("User Get Crew Job Page Sensors And Their Locations  Methodu hatası:", error);
+    const errorMessage = error.response?.data || { message: "Beklenmedik bir hata oluştu." };
+    return { success: false, error: errorMessage };
+    }
+  },
     workerDashboardGoToSensor: async (sensorId: number) => {
     const api =  getServerApi();
       

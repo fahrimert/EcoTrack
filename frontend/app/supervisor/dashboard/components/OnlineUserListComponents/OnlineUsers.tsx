@@ -21,7 +21,6 @@ const OnlineUsers = () => {
     stompClient.connect(
       {},
       (frame) => {
-        console.log("Connected: " + frame);
         stompClient.subscribe("/topic/users", (message) => {
           const user = JSON.parse(message.body) as UserOnlineStatusDTO[];
           setOnlineUsers(user);

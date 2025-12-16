@@ -2,12 +2,14 @@ package com.example.EcoTrack.user.dto;
 
 import com.example.EcoTrack.sensors.model.Sensor;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserAndSessionSensorDTO {
     private  Long id;
     private  String name;

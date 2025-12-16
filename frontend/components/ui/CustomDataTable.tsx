@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -9,7 +10,6 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
 
 import {
   Table,
@@ -19,8 +19,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "./input";
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search, ChevronLeft, ChevronRight } from "lucide-react"; 
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -34,6 +35,7 @@ export function CustomDataTable<TData, TValue>({
   searchKey,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  
   const table = useReactTable({
     data,
     columns,
@@ -47,91 +49,99 @@ export function CustomDataTable<TData, TValue>({
   });
 
   return (
-    <div>
-      <div className="flex items-center p-[10px] w-full" >
+    <div className="w-full space-y-4">
+      <div className="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200 shadow-sm">
+        <Search className="text-slate-400 w-5 h-5 ml-2" />
         <Input
-          placeholder="Ara"
+          placeholder="Sensör adı ile ara..."
           value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(searchKey)?.setFilterValue(event.target.value)
           }
-          className="w-full"
+          className="max-w-sm border-0 focus-visible:ring-0 placeholder:text-slate-400"
         />
       </div>
-      <div className="rounded-md  p-[10px] ">
-        <Table className="gap-[5px]">
-          <TableHeader>
+
+      <div className="rounded-xl border border-slate-200 overflow-hidden bg-white shadow-sm">
+        <Table>
+          <TableHeader className="bg-slate-50">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="hover:bg-slate-50 border-b border-slate-200">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="bg-[#1d1e22] text-white">
-     
-     {header.isPlaceholder
+                    <TableHead key={header.id} className="text-slate-700 font-semibold h-12">
+                      {header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
                             header.getContext()
-                          )}   
-            
-                    
+                          )}
                     </TableHead>
                   );
                 })}
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-[#1d1e22] text-white m-[5px] w-fit h-fit items-start justify-start">
+          
+          <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => {
-                const cells = row.getVisibleCells()
-                const firstCells = cells.slice(0, -1) // Son hücre hariç
-                const lastCell = cells[cells.length - 1] // Son hücre (accordion için)
-                
-                return (
-                  <React.Fragment key={row.id}>
-                    <TableRow data-state={row.getIsSelected() && "selected"} className="w-fit h-fit flex justify start">
-                      {firstCells.map((cell) => (
-                        <TableCell key={cell.id} >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </TableCell>
-                      ))}
-
-                      <TableCell colSpan={1} >
-                        {flexRender(lastCell.column.columnDef.cell, lastCell.getContext())}
-                      </TableCell>
-
-                    </TableRow>
-                  </React.Fragment>
-                )
-              })
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="hover:bg-slate-50/50 transition-colors border-b border-slate-100 last:border-0"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className="p-4 align-middle">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  Sonuç Yok
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-32 text-center text-slate-500"
+                >
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <span className="text-lg">🔍</span>
+                    <span>Sonuç bulunamadı.</span>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Önceki Sayfa
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Sonraki Sayfa
-        </Button>
+
+      <div className="flex items-center justify-between px-2">
+        <div className="text-sm text-slate-500">
+            Toplam {table.getFilteredRowModel().rows.length} kayıt
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className="h-8 w-8 p-0"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className="h-8 w-8 p-0"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );

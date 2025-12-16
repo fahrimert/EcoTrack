@@ -30,7 +30,6 @@ export async function finishTask(formData: FormData,initialData : TaskDetail) {
 
 }
  catch (error) {
-    console.log((error as Error).message)
     return {
       serverError: "Bir Sorun Oluştu   ",
     };
